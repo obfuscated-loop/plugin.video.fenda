@@ -6,36 +6,50 @@ fenda_str = ls(32036).upper()
 on_notification_actions = service_functions.OnNotificationActions()
 on_settings_changed_actions = service_functions.OnSettingsChangedActions()
 
+
 class FendaMonitor(xbmc_monitor):
-	def __init__ (self):
-		xbmc_monitor.__init__(self)
-		self.startUpServices()
+    def __init__(self):
+        xbmc_monitor.__init__(self)
+        self.startUpServices()
 
-	def startUpServices(self):
-		try: service_functions.InitializeDatabases().run()
-		except: pass
-		try: service_functions.CheckSettings().run()
-		except: pass
-		try: service_functions.FirstRunActions().run()
-		except: pass
-		service_functions.FirstRunActions().run()
-		try: service_functions.ReuseLanguageInvokerCheck().run()
-		except: pass
-		Thread(target=service_functions.TraktMonitor().run).start()
-		Thread(target=service_functions.CustomActions().run).start()
-		Thread(target=service_functions.CustomFonts().run).start()
-		Thread(target=service_functions.PremiumExpiryCheck().run).start()
-		try: service_functions.ClearSubs().run()
-		except: pass
-		try: service_functions.AutoRun().run()
-		except: pass
-		Thread(target=service_functions.DatabaseMaintenance().run).start()
+    def startUpServices(self):
+        try:
+            service_functions.InitializeDatabases().run()
+        except:
+            pass
+        try:
+            service_functions.CheckSettings().run()
+        except:
+            pass
+        try:
+            service_functions.FirstRunActions().run()
+        except:
+            pass
+        service_functions.FirstRunActions().run()
+        try:
+            service_functions.ReuseLanguageInvokerCheck().run()
+        except:
+            pass
+        Thread(target=service_functions.TraktMonitor().run).start()
+        Thread(target=service_functions.CustomActions().run).start()
+        Thread(target=service_functions.CustomFonts().run).start()
+        Thread(target=service_functions.PremiumExpiryCheck().run).start()
+        try:
+            service_functions.ClearSubs().run()
+        except:
+            pass
+        try:
+            service_functions.AutoRun().run()
+        except:
+            pass
+        Thread(target=service_functions.DatabaseMaintenance().run).start()
 
-	def onSettingsChanged(self):
-		on_settings_changed_actions.run()
+    def onSettingsChanged(self):
+        on_settings_changed_actions.run()
 
-	def onNotification(self, sender, method, data):
-		on_notification_actions.run(sender, method, data)
+    def onNotification(self, sender, method, data):
+        on_notification_actions.run(sender, method, data)
+
 
 logger(fenda_str, 'Main Monitor Service Starting')
 logger(fenda_str, 'Settings Monitor Service Starting')
