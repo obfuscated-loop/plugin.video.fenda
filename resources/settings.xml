@@ -2529,6 +2529,16 @@
 					</dependencies>
 					<control type="toggle"/>
 				</setting>
+				<setting id="autoplay_next_episode_without_action" type="boolean" label="32789" help="" parent="autoplay_next_episode">
+					<level>0</level>
+					<default>true</default>
+					<control type="toggle"/>
+					<dependencies>
+						<dependency type="visible">
+							<condition operator="is" setting="autoplay_next_episode">true</condition>
+						</dependency>
+					</dependencies>
+				</setting>
 				<setting id="autoplay_alert_method" type="integer" label="33088" help="" parent="autoplay_next_episode">
 					<level>0</level>
 					<default>0</default>
@@ -2543,6 +2553,7 @@
 							<and>
 								<condition operator="is" setting="auto_play_episode">true</condition>
 								<condition operator="is" setting="autoplay_next_episode">true</condition>
+								<condition operator="is" setting="autoplay_next_episode_without_action">false</condition>
 							</and>
 						</dependency>
 					</dependencies>
@@ -2564,6 +2575,7 @@
 								<condition operator="is" setting="auto_play_episode">true</condition>
 								<condition operator="is" setting="autoplay_next_episode">true</condition>
 								<condition operator="is" setting="autoplay_alert_method">0</condition>
+								<condition operator="is" setting="autoplay_next_episode_without_action">false</condition>
 							</and>
 						</dependency>
 					</dependencies>
@@ -2571,7 +2583,7 @@
 				</setting>
 				<setting id="autoplay_next_window_percentage" type="integer" label="32005" help="" parent="autoplay_next_episode">
 					<level>0</level>
-					<default>95</default>
+					<default>97</default>
 					<constraints>
 						<minimum>75</minimum>
 						<step>1</step>

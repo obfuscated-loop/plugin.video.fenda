@@ -23,7 +23,7 @@ msgid "Based On %s"
 msgstr ""
 
 msgctxt "#32005"
-msgid "Show Alert After (%) Playback"
+msgid "Trigger at (%) playback"
 msgstr ""
 
 msgctxt "#32006"
@@ -3910,12 +3910,9 @@ msgctxt "#33187"
 msgid "First Aired (desc)"
 msgstr ""
 
-
-###################################################################################################################################
-
 msgctxt "#32789"
-msgid ""
-msgstr ""
+msgid "Disable action window"
+msgstr "This will autoplay the next episode, without action, when the percentage trigger is reached"
 
 msgctxt "#33176"
 msgid ""

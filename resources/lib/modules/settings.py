@@ -189,6 +189,8 @@ def autoplay_next_episode():
     else:
         return False
 
+def autoplay_next_episode_without_action():
+    return get_setting('fenda.autoplay_next_episode_without_action', 'false') == 'true'
 
 def autoscrape_next_episode():
     if not auto_play('episode') and get_setting('fenda.autoscrape_next_episode', 'false') == 'true':
