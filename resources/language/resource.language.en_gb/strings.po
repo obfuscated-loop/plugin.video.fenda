@@ -71,8 +71,8 @@ msgid "Add to Cloud"
 msgstr ""
 
 msgctxt "#32017"
-msgid "Auto Start FEN when Kodi Starts"
-msgstr "FEN Automatisch Starten Als Kodi Opstart"
+msgid "Auto Start Fenda when Kodi Starts"
+msgstr "Fenda Automatisch Starten Als Kodi Opstart"
 
 msgctxt "#32018"
 msgid "Set"

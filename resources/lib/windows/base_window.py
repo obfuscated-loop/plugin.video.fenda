@@ -286,7 +286,7 @@ class FontUtils:
 		return False
 
 	def match_font(self, size, bold, fallback):
-		font_tag = 'FEN_%s%s' % (size, '_BOLD' if bold else '')
+		font_tag = 'Fenda_%s%s' % (size, '_BOLD' if bold else '')
 		size_range = range(int(size * 0.75), int(size * 1.25))
 		compatibility_range = range(int(size * 0.50), int(size * 1.50))
 		compatibility_fonts = [i['name'] for i in self.skin_font_info if i['name'] == fallback and i['size'] in compatibility_range]

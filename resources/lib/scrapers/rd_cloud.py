@@ -48,12 +48,12 @@ class source:
 			self.sources = list(_process())
 		except Exception as e:
 			from modules.kodi_utils import logger
-			logger('FEN real-debrid scraper Exception', str(e))
+			logger('Fenda real-debrid scraper Exception', str(e))
 		internal_results(self.scrape_provider, self.sources)
 		return self.sources
 
 	def _gather_assigned_content(self):
-		pre_assigned_content = gather_assigned_content("'FEN_RD_%'")
+		pre_assigned_content = gather_assigned_content("'Fenda_RD_%'")
 		return [i for i in pre_assigned_content if i[1].get('media_type') == self.media_type and self.tmdb_id == i[1].get('tmdb_id')]
 
 	def _scrape_cloud(self):
@@ -67,7 +67,7 @@ class source:
 			for item in my_cloud_files:
 				normalized = normalize(item['filename'])
 				folder_name = clean_title(normalized)
-				if test_assigned_content('FEN_RD_%s' % item['id'], self.pre_assigned_content): results_append((item['id'], True))
+				if test_assigned_content('Fenda_RD_%s' % item['id'], self.pre_assigned_content): results_append((item['id'], True))
 				elif not folder_name: results_append((item['id'], False))
 				elif not self.folder_query in folder_name: continue
 				else:

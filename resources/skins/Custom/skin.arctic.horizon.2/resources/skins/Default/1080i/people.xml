@@ -35,7 +35,7 @@
                         <left>1590</left>
                         <width max="300">auto</width>
                         <height>20</height>
-                        <font>font_midi</font> <!-- FEN_38 -->
+                        <font>font_midi</font> <!-- Fenda_38 -->
                         <textcolor>FFCCCCCC</textcolor>
                         <align>right</align>
                         <aligny>center</aligny>
@@ -46,7 +46,7 @@
                         <left>1540</left>
                         <width max="350">auto</width>
                         <height>20</height>
-                        <font>font_tiny</font> <!-- FEN_21 -->
+                        <font>font_tiny</font> <!-- Fenda_21 -->
                         <textcolor>FFCCCCCC</textcolor>
                         <align>right</align>
                         <aligny>center</aligny>
@@ -68,7 +68,7 @@
                     <control type="label">
                         <width max="500">auto</width>
                         <height>20</height>
-                        <font>font_mini</font> <!-- FEN_26 -->
+                        <font>font_mini</font> <!-- Fenda_26 -->
                         <textcolor>FFCCCCCC</textcolor>
                         <align>right</align>
                         <aligny>top</aligny>

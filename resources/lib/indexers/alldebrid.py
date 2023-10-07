@@ -23,7 +23,7 @@ def ad_torrent_cloud(folder_id=None):
 				cm_append = cm.append
 				folder_name, folder_id = item['filename'], item['id']
 				clean_folder_name = clean_file_name(normalize(folder_name)).upper()
-				linked_folder = test_assigned_content('FEN_AD_%s' % folder_id, assigned_content)
+				linked_folder = test_assigned_content('Fenda_AD_%s' % folder_id, assigned_content)
 				if linked_folder: display = '%02d | [B]%s | [COLOR limegreen]%s | %s[/B][/COLOR] | [I]%s[/I]' % (count, folder_str, linked_str, linked_folder, clean_folder_name)
 				else: display = '%02d | [B]%s[/B] | [I]%s [/I]' % (count, folder_str, clean_folder_name)
 				url_params = {'mode': 'alldebrid.browse_ad_cloud', 'id': folder_id, 'folder': json.dumps(item['links'])}
@@ -45,7 +45,7 @@ def ad_torrent_cloud(folder_id=None):
 			except: pass
 	try: cloud_dict = [i for i in AllDebrid.user_cloud()['magnets'] if i['statusCode'] == 4]
 	except: cloud_dict = []
-	if cloud_dict: assigned_content = gather_assigned_content("'FEN_AD_%'")
+	if cloud_dict: assigned_content = gather_assigned_content("'Fenda_AD_%'")
 	handle = int(sys.argv[1])
 	add_items(handle, list(_builder()))
 	set_content(handle, 'files')

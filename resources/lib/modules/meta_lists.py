@@ -280,9 +280,9 @@ media_lists = [
 "'fenda_FURK_T_FILE%'",
 "'fenda_pm_instant_transfer%'",
 "'fenda_rd_check_hash%'",
-"'FEN_AD_%'",
-"'FEN_RD_%'",
-"'FEN_FOLDER_%'",
+"'Fenda_AD_%'",
+"'Fenda_RD_%'",
+"'Fenda_FOLDER_%'",
 "'https%'"
 	]
 

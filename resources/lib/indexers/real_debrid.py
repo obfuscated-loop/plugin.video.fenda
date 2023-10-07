@@ -24,7 +24,7 @@ def rd_torrent_cloud():
 				cm_append = cm.append
 				folder_name, folder_id = item['filename'], item['id']
 				clean_folder_name = clean_file_name(normalize(folder_name)).upper()
-				linked_folder = test_assigned_content('FEN_RD_%s' % folder_id, assigned_content)
+				linked_folder = test_assigned_content('Fenda_RD_%s' % folder_id, assigned_content)
 				if linked_folder: display = '%02d | [B]%s | [COLOR limegreen]%s | %s[/B][/COLOR] | [I]%s[/I]' % (count, folder_str, linked_str, linked_folder, clean_folder_name)
 				else: display = '%02d | [B]%s[/B] | [I]%s [/I]' % (count, folder_str, clean_folder_name)
 				url_params = {'mode': 'real_debrid.browse_rd_cloud', 'id': folder_id}
@@ -46,7 +46,7 @@ def rd_torrent_cloud():
 			except: pass
 	try: cloud_files = [i for i in RealDebrid.user_cloud() if i['status'] == 'downloaded']
 	except: cloud_files = []
-	if cloud_files: assigned_content = gather_assigned_content("'FEN_RD_%'")
+	if cloud_files: assigned_content = gather_assigned_content("'Fenda_RD_%'")
 	handle = int(sys.argv[1])
 	add_items(handle, list(_builder()))
 	set_content(handle, 'files')

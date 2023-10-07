@@ -381,7 +381,7 @@ class Subtitles(xbmc_player):
 		sleep(2500)
 		imdb_id = re.sub(r'[^0-9]', '', imdb_id)
 		subtitle_path = translate_path('special://temp/')
-		sub_filename = 'FENSubs_%s_%s_%s' % (imdb_id, season, episode) if season else 'FENSubs_%s' % imdb_id
+		sub_filename = 'FendaSubs_%s_%s_%s' % (imdb_id, season, episode) if season else 'FendaSubs_%s' % imdb_id
 		search_filename = sub_filename + '_%s.srt' % self.language
 		subtitle = _video_file_subs()
 		if subtitle: return

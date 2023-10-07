@@ -99,7 +99,7 @@ class EasyNewsAPI:
 					yield result
 				except Exception as e:
 					from modules.kodi_utils import logger
-					logger('FEN easynews API Exception', str(e))
+					logger('Fenda easynews API Exception', str(e))
 		down_url = files.get('downURL')
 		streaming_url = 'https://%s:%s@members.easynews.com/dl' % (quote(self.username), quote(self.password))
 		dl_farm, dl_port = self.get_farm_and_port(files)
@@ -138,7 +138,7 @@ class EasyNewsAPI:
 					yield result
 				except Exception as e:
 					from modules.kodi_utils import logger
-					logger('FEN easynews API Exception', str(e))
+					logger('Fenda easynews API Exception', str(e))
 		files, sid = results.get('data', []), results.get('sid')
 		results = list(_process())
 		return results

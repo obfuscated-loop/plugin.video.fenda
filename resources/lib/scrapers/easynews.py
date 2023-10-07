@@ -41,11 +41,11 @@ class source:
 						yield source_item
 					except Exception as e:
 						from modules.kodi_utils import logger
-						logger('FEN easynews scraper yield source error', str(e))
+						logger('Fenda easynews scraper yield source error', str(e))
 			self.sources = list(_process())
 		except Exception as e:
 			from modules.kodi_utils import logger
-			logger('FEN easynews scraper Exception', str(e))
+			logger('Fenda easynews scraper Exception', str(e))
 		internal_results(self.scrape_provider, self.sources)
 		return self.sources
 

@@ -87,7 +87,7 @@
                     <control type="label">
                         <width max="500">auto</width>
                         <height>20</height>
-                        <font>font_mini</font> <!-- FEN_26 -->
+                        <font>font_mini</font> <!-- Fenda_26 -->
                         <textcolor>FFCCCCCC</textcolor>
                         <align>right</align>
                         <aligny>top</aligny>

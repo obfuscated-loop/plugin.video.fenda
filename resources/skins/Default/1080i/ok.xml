@@ -45,7 +45,7 @@
                 <top>10</top>
                 <left>110</left>
                 <height>20</height>
-                <font>font12</font> <!-- FEN_26 -->
+                <font>font12</font> <!-- Fenda_26 -->
                 <textcolor>$INFO[Window(10000).Property(fenda.main_highlight)]</textcolor>
                 <shadowcolor>FF000000</shadowcolor>
                 <align>center</align>
@@ -56,7 +56,7 @@
                 <top>60</top>
                 <width>720</width>
                 <height>280</height>
-                <font>font13</font> <!-- FEN_30 -->
+                <font>font13</font> <!-- Fenda_30 -->
                 <textcolor>FFB7B4BB</textcolor>
                 <align>center</align>
                 <aligny>center</aligny>
@@ -71,7 +71,7 @@
                 <onleft>11</onleft>
                 <onright>11</onright>
                 <label>$INFO[Window.Property(ok_label)]</label>
-                <font>font12</font> <!-- FEN_26 -->
+                <font>font12</font> <!-- Fenda_26 -->
                 <textcolor>FFB7B4BB</textcolor>
                 <focusedcolor>FF302F2F</focusedcolor>
                 <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.png</texturefocus>

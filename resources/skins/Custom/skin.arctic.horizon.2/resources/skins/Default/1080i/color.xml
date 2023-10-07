@@ -220,7 +220,7 @@
                     <align>center</align>
                     <aligny>bottom</aligny>
                     <textcolor>dialog_fg_70</textcolor>
-                    <font>font_mini</font> <!-- FEN_26 -->
+                    <font>font_mini</font> <!-- Fenda_26 -->
                     <label>[B]$ADDON[plugin.video.fenda 33157][/B]</label>
                 </control>
                 <control type="button" id="13">

@@ -134,7 +134,7 @@ class Navigator:
 		self.end_directory()
 
 	def trakt_lists(self):
-		# for FENtastic skin
+		# for Fendatastic skin
 		self.my_content()
 
 	def trakt_collections(self):
@@ -309,7 +309,7 @@ class Navigator:
 					path = info[0]
 					link_id = '%s_%s' % (setting_id, path)
 					clean_title = clean_file_name(normalize(path))
-					linked_folder = test_assigned_content('FEN_FOLDERS_%s' % link_id, assigned_content)
+					linked_folder = test_assigned_content('Fenda_FOLDERS_%s' % link_id, assigned_content)
 					if linked_folder: display = '%s [COLOR limegreen]| %s | %s[/COLOR]' % (clean_title, ls(33074).upper(), linked_folder)
 					else: display = clean_title
 					link_folders_add = {'mode': 'link_folders_choice', 'service': 'FOLDERS', 'folder_id': link_id, 'action': 'add'}
@@ -329,7 +329,7 @@ class Navigator:
 					yield (url, listitem, info[1])
 				except: pass
 		folder_path, setting_id = self.params_get('folder_path'), self.params_get('setting_id')
-		assigned_content = gather_assigned_content("'FEN_FOLDERS_%s" % setting_id + "_%'")
+		assigned_content = gather_assigned_content("'Fenda_FOLDERS_%s" % setting_id + "_%'")
 		dirs, files = list_dirs(folder_path)
 		results = [(i, True) for i in dirs] + [(i, False) for i in files]
 		item_list = list(_process())

@@ -19,7 +19,7 @@ class source:
 		self.scraper_name = scraper_name
 		self.folder_path = folder_path
 		self.sources, self.scrape_results = [], []
-		self.assignment_test_string = 'FEN_FOLDERS_%s_%s' % (self.scrape_provider, '%s')
+		self.assignment_test_string = 'Fenda_FOLDERS_%s_%s' % (self.scrape_provider, '%s')
 
 	def results(self, info):
 		try:
@@ -52,12 +52,12 @@ class source:
 			self.sources = list(_process())
 		except Exception as e:
 			from modules.kodi_utils import logger
-			logger('FEN folders scraper Exception', str(e))
+			logger('Fenda folders scraper Exception', str(e))
 		internal_results(self.scraper_name, self.sources)
 		return self.sources
 
 	def _gather_assigned_content(self):
-		pre_assigned_content = gather_assigned_content("'FEN_FOLDERS_%s" % self.scrape_provider + "_%'")
+		pre_assigned_content = gather_assigned_content("'Fenda_FOLDERS_%s" % self.scrape_provider + "_%'")
 		return [i for i in pre_assigned_content if i[1].get('media_type') == self.media_type and self.tmdb_id == i[1].get('tmdb_id')]
 
 	def _make_dirs(self, folder_info):

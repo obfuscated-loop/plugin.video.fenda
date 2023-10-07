@@ -159,7 +159,7 @@ def link_folders_choice(params):
 		chosen_media_type = select_dialog([i[0] for i in media_type_list], **kwargs)
 		return chosen_media_type
 	service, folder_id, action = params.get('service'), params.get('folder_id'), params.get('action')
-	string = 'FEN_%s_%s' % (service, folder_id)
+	string = 'Fenda_%s_%s' % (service, folder_id)
 	current_link = main_cache.get(string)
 	if action == 'remove':
 		if not current_link: return

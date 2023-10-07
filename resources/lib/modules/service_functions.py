@@ -209,7 +209,7 @@ class ClearSubs:
 		subtitle_path = 'special://temp/%s'
 		files = list_dirs(translate_path('special://temp/'))[1]
 		for i in files:
-			if i.startswith('FENSubs_') or i.endswith(sub_formats): delete_file(translate_path(subtitle_path % i))
+			if i.startswith('FendaSubs_') or i.endswith(sub_formats): delete_file(translate_path(subtitle_path % i))
 		return logger(fenda_str, 'Clear Subtitles Service Finished')
 
 class AutoRun:
