@@ -7,7 +7,7 @@ from modules import kodi_utils
 from modules.utils import copy2clip
 # logger = kodi_utils.logger
 
-requests, sleep, confirm_dialog, ok_dialog, monitor = kodi_utils.requests, kodi_utils.sleep, kodi_utils.confirm_dialog, kodi_utils.ok_dialog, kodi_utils.monitor
+requests, sleep, confirm_dialog, ok_dialog, monitor, make_session = kodi_utils.requests, kodi_utils.sleep, kodi_utils.confirm_dialog, kodi_utils.ok_dialog, kodi_utils.monitor, kodi_utils.make_session
 progress_dialog, dialog, get_icon, notification, ls = kodi_utils.progress_dialog, kodi_utils.dialog, kodi_utils.get_icon, kodi_utils.notification, kodi_utils.local_string
 get_setting, set_setting, Thread, manage_settings_reset = kodi_utils.get_setting, kodi_utils.set_setting, kodi_utils.Thread, kodi_utils.manage_settings_reset
 set_temp_highlight, restore_highlight = kodi_utils.set_temp_highlight, kodi_utils.restore_highlight
@@ -17,7 +17,6 @@ device_url = 'device/code?%s'
 credentials_url = 'device/credentials?%s'
 timeout = 20.0
 icon = get_icon('realdebrid')
-
 
 class RealDebridAPI:
     def __init__(self):
@@ -30,7 +29,7 @@ class RealDebridAPI:
         self.device_code = ''
         self.refresh_retries = 0
         self.break_auth_loop = False
-        self.session = requests.Session()
+        self.session = make_session('https://real-debrid.com/')
 
     def auth(self):
         self.secret = ''
