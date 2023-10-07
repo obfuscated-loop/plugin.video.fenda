@@ -30,13 +30,14 @@ class RealDebridAPI:
         self.device_code = ''
         self.refresh_retries = 0
         self.break_auth_loop = False
+        self.session = requests.Session()
 
     def auth(self):
         self.secret = ''
         self.client_ID = 'X245A4XAIBGVM'
         line = '%s[CR]%s[CR]%s'
         url = auth_url + device_url % 'client_id=%s&new_credentials=yes' % self.client_ID
-        response = requests.get(url, timeout=timeout).json()
+        response = self.session.get(url, timeout=timeout).json()
         user_code = response['user_code']
         try:
             copy2clip(user_code)
@@ -58,7 +59,7 @@ class RealDebridAPI:
         while not progressDialog.iscanceled() and time_passed < expires_in and not self.secret:
             sleep(1000 * sleep_interval)
             try:
-                response = requests.get(poll_url, timeout=timeout).json()
+                response = self.session.get(poll_url, timeout=timeout).json()
             except:
                 continue
             if 'error' in response:
@@ -86,7 +87,7 @@ class RealDebridAPI:
             data = {'client_id': self.client_ID, 'client_secret': self.secret,
                     'code': device_code, 'grant_type': 'http://oauth.net/grant_type/device/1.0'}
             url = '%stoken' % auth_url
-            response = requests.post(url, data=data, timeout=timeout).json()
+            response = self.session.post(url, data=data, timeout=timeout).json()
             self.token = response['access_token']
             self.refresh = response['refresh_token']
             username = self.account_info()['username']
@@ -103,7 +104,7 @@ class RealDebridAPI:
             url = auth_url + 'token'
             data = {'client_id': self.client_ID, 'client_secret': self.secret,
                     'code': self.refresh, 'grant_type': 'http://oauth.net/grant_type/device/1.0'}
-            response = requests.post(url, data=data).json()
+            response = self.session.post(url, data=data).json()
             self.token = response['access_token']
             self.refresh = response['refresh_token']
             manage_settings_reset()
@@ -211,7 +212,7 @@ class RealDebridAPI:
         if self.token == '':
             return None
         url = 'torrents/delete/%s&auth_token=%s' % (folder_id, self.token)
-        response = requests.delete(base_url + url, timeout=timeout)
+        response = self.session.delete(base_url + url, timeout=timeout)
         return response
 
     def get_hosts(self):
@@ -552,7 +553,7 @@ class RealDebridAPI:
             url += '?auth_token=%s' % self.token
         else:
             url += '&auth_token=%s' % self.token
-        response = requests.get(url, timeout=timeout)
+        response = self.session.get(url, timeout=timeout)
         if any(value in response.text for value in ('bad_token', 'Bad Request')):
             if self.refresh_token():
                 response = self._get(original_url)
@@ -572,7 +573,7 @@ class RealDebridAPI:
             url += '?auth_token=%s' % self.token
         else:
             url += '&auth_token=%s' % self.token
-        response = requests.post(url, data=post_data, timeout=timeout)
+        response = self.session.post(url, data=post_data, timeout=timeout)
         if any(value in response.text for value in ('bad_token', 'Bad Request')):
             if self.refresh_token():
                 response = self._post(original_url, post_data)
