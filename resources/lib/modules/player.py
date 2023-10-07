@@ -70,7 +70,7 @@ class FendaPlayer(xbmc_player):
             elif get_visibility('Window.IsTopMost(okdialog)'):
                 execute_builtin('SendClick(okdialog, 11)')
                 self.playback_successful = False
-            elif self.isPlayingVideo():
+            elif self.isPlaying():
                 try:
                     if self.getTotalTime() not in total_time_errors and get_visibility(video_fullscreen_check):
                         self.playback_successful = True
@@ -109,7 +109,7 @@ class FendaPlayer(xbmc_player):
                 total_check_time += 0.25
             hide_busy_dialog()
             sleep(1000)
-            while self.isPlayingVideo():
+            while self.isPlaying():
                 try:
                     try:
                         self.total_time, self.curr_time = self.getTotalTime(), self.getTime()

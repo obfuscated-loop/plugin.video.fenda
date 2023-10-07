@@ -147,10 +147,10 @@ def window_player(obj):
         current_params = obj.current_params
         player.play(window_player_url)
         sleep(2000)
-        while not player.isPlayingVideo():
+        while not player.isPlaying():
             sleep(100)
         obj.close()
-        while player.isPlayingVideo():
+        while player.isPlaying():
             sleep(100)
         show_busy_dialog()
         sleep(1000)

@@ -33,11 +33,11 @@ class VideoPlayer(BaseDialog):
             self.seek_forward_small()
 
     def monitor(self):
-        while not self.player.isPlayingVideo():
+        while not self.player.isPlaying():
             self.sleep(1000)
         self.progress_display_toggle('true', incl_info=True)
         progress = 0
-        while self.player.isPlayingVideo():
+        while self.player.isPlaying():
             self.sleep(1000)
             progress += 1
             if progress == 3:

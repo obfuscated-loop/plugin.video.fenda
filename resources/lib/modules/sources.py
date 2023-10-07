@@ -964,7 +964,7 @@ class Sources():
         notification('%s %s S%02dE%02d' % (ls(32801), self.meta.get('title'), self.meta.get(
             'season'), self.meta.get('episode')), 6500, self.meta.get('poster'))
         player = xbmc_player()
-        while player.isPlayingVideo():
+        while player.isPlaying():
             sleep(100)
         self._make_resolve_dialog()
         return True
@@ -973,13 +973,13 @@ class Sources():
         if not self.nextep_settings:
             return False
         player = xbmc_player()
-        if player.isPlayingVideo():
+        if player.isPlaying():
             total_time = player.getTotalTime()
             use_window, window_time, default_action = self.nextep_settings[
                 'use_window'], self.nextep_settings['window_time'], self.nextep_settings['default_action']
             action = None if use_window else 'close'
             continue_nextep = False
-            while player.isPlayingVideo():
+            while player.isPlaying():
                 try:
                     remaining_time = round(total_time - player.getTime())
                     if remaining_time <= window_time:
@@ -1007,7 +1007,7 @@ class Sources():
                     player.stop()
                     return True
                 else:
-                    while player.isPlayingVideo():
+                    while player.isPlaying():
                         sleep(100)
                     self._make_resolve_dialog()
                     return True
@@ -1019,7 +1019,7 @@ class Sources():
     def autoscrape_nextep_handler(self):
         default_action = 'cancel'
         player = xbmc_player()
-        if player.isPlayingVideo():
+        if player.isPlaying():
             action = self._make_nextep_dialog(
                 play_type=self.play_type, focus_button=12)
             if action == 'cancel':
@@ -1032,7 +1032,7 @@ class Sources():
                     player.stop()
                 else:
                     notification(33091, 3000)
-                    while player.isPlayingVideo():
+                    while player.isPlaying():
                         sleep(100)
                 self.display_results(results)
         else:

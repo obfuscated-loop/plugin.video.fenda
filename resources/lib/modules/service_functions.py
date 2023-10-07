@@ -136,7 +136,7 @@ class TraktMonitor:
     def run(self):
         logger(fenda_str, 'TraktMonitor Service Starting')
         monitor, player = xbmc_monitor(), xbmc_player()
-        wait_for_abort, is_playing = monitor.waitForAbort, player.isPlayingVideo
+        wait_for_abort, is_playing = monitor.waitForAbort, player.isPlaying
         trakt_service_string = 'TraktMonitor Service Update %s - %s'
         update_string = 'Next Update in %s minutes...'
         wait_time = 30 * 60
@@ -184,7 +184,7 @@ class CustomActions:
     def run(self):
         logger(fenda_str, 'CustomActions Service Starting')
         monitor, player = xbmc_monitor(), xbmc_player()
-        self.wait_for_abort, abort_requested, is_playing = monitor.waitForAbort, monitor.abortRequested, player.isPlayingVideo
+        self.wait_for_abort, abort_requested, is_playing = monitor.waitForAbort, monitor.abortRequested, player.isPlaying
         while not abort_requested():
             context_visible, info_visible, run_custom = False, False, False
             while not any([context_visible, info_visible]) and not abort_requested():
@@ -249,7 +249,7 @@ class CustomFonts:
     def run(self):
         logger(fenda_str, 'CustomFonts Service Starting')
         monitor, player = xbmc_monitor(), xbmc_player()
-        wait_for_abort, is_playing = monitor.waitForAbort, player.isPlayingVideo
+        wait_for_abort, is_playing = monitor.waitForAbort, player.isPlaying
         for item in (current_skin_prop, use_skin_fonts_prop):
             clear_property(item)
         font_utils = FontUtils()
