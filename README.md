@@ -6,7 +6,7 @@ So far, there are no *major* new features - I have rebranded and formatted the e
 
 **Additions:**
 - Ability to disable 'Next Episode' window and just automatically skip at whatever playback percentage trigger you have applied (no getting out of bed to click play for the next episode). This setting is called `Disable action window` (inside of Fenda settings) and you must have `Auto Play` and `Autoplay Next Episode` enabled. The default playback percentage trigger has also been upped to `97%`.
-- RealDebrid API requests should be faster as they now use `requests.Session()` rather than making individual sessions per request.
+- API requests should be faster as they now use `requests.Session()` rather than making individual sessions per request.
 
 **Plans:**
 - The codebase is in desperate need of a refactor, I thought a quick formatting would help - and it did a bit but not by much; I will most likely start work on this once I wrap my head around everything else here.
