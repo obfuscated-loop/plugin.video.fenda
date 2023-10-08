@@ -4,6 +4,7 @@ import time
 from caches.main_cache import cache_object
 from modules import kodi_utils
 from modules.utils import copy2clip
+from modules.kodi_utils import make_session
 # logger = kodi_utils.logger
 
 ls, notification, get_setting, set_setting, requests = kodi_utils.local_string, kodi_utils.notification, kodi_utils.get_setting, kodi_utils.set_setting, kodi_utils.requests
@@ -20,6 +21,7 @@ class PremiumizeAPI:
         self.client_id = '663882072'
         self.user_agent = 'Fenda for Kodi'
         self.token = get_setting('fenda.pm.token')
+        self.session = make_session('https://www.premiumize.me/')
 
     def auth(self):
         self.token = ''
@@ -313,7 +315,7 @@ class PremiumizeAPI:
         headers = {'User-Agent': self.user_agent,
                    'Authorization': 'Bearer %s' % self.token}
         url = base_url + url
-        response = requests.get(
+        response = self.session.get(
             url, data=data, headers=headers, timeout=timeout).text
         try:
             return json.loads(response)
@@ -327,7 +329,7 @@ class PremiumizeAPI:
                    'Authorization': 'Bearer %s' % self.token}
         if not 'token' in url:
             url = base_url + url
-        response = requests.post(
+        response = self.session.post(
             url, data=data, headers=headers, timeout=timeout).text
         try:
             return json.loads(response)

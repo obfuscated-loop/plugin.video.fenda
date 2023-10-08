@@ -17,7 +17,6 @@ search_url = 'plugins/metasearch?api_key=%s&q=%s&cached=yes' \
 search_direct_url = 'plugins/metasearch?api_key=%s&q=%s&cached=all' \
     '&sort=cached&type=video&offset=0&limit=700'
 timeout = 20.0
-session = make_session(base_url)
 
 
 class FurkAPI:
@@ -25,6 +24,7 @@ class FurkAPI:
         self.api_key = self.get_api()
         if not self.api_key:
             return
+        self.session = make_session(base_url)
 
     def check_status(self, result):
         return result.get('status', 'not_ok') == 'ok'
@@ -38,7 +38,7 @@ class FurkAPI:
                 if not user_name or not user_pass:
                     return
                 url = base_url + login_url % (user_name, user_pass)
-                result = session.post(url, timeout=timeout)
+                result = self.session.post(url, timeout=timeout)
                 result = result.json()
                 if self.check_status(result):
                     api_key = result['api_key']
@@ -125,7 +125,7 @@ class FurkAPI:
 
     def _get(self, url):
         try:
-            result = session.get(url, timeout=timeout)
+            result = self.session.get(url, timeout=timeout)
             return result.json()
         except:
             return None

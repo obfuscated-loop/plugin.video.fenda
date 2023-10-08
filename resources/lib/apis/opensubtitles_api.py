@@ -3,7 +3,7 @@ import shutil
 from zipfile import ZipFile
 from datetime import timedelta
 from caches.main_cache import main_cache
-from modules.kodi_utils import requests, json, notification, sleep, delete_file, rename_file, quote
+from modules.kodi_utils import json, notification, sleep, delete_file, rename_file, quote, make_session
 # from modules.kodi_utils import logger
 
 user_agent = 'Fenda v1.0'
@@ -12,6 +12,7 @@ user_agent = 'Fenda v1.0'
 class OpenSubtitlesAPI:
     def __init__(self):
         self.headers = {'User-Agent': user_agent}
+        self.session = make_session('https://rest.opensubtitles.org/')
 
     def search(self, query, imdb_id, language, season=None, episode=None):
         cache_name = 'opensubtitles_%s_%s' % (imdb_id, language)
@@ -38,7 +39,7 @@ class OpenSubtitlesAPI:
         return final_path
 
     def _get(self, url, stream=False, retry=False):
-        response = requests.get(url, headers=self.headers, stream=stream)
+        response = self.session.get(url, headers=self.headers, stream=stream)
         if '200' in str(response):
             return response
         elif '429' in str(response) and retry:

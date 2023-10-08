@@ -7,11 +7,11 @@ from modules.utils import get_datetime, get_current_timestamp
 from modules.kodi_utils import make_session
 # from modules.kodi_utils import logger
 
-url = 'http://www.omdbapi.com/?apikey=%s&i=%s&tomatoes=True&r=xml'
-session = make_session('http://www.omdbapi.com/')
-
-
 class OMDbAPI:
+    def __init__(self):
+        self.url = 'http://www.omdbapi.com/?apikey=%s&i=%s&tomatoes=True&r=xml'
+        self.session = make_session('http://www.omdbapi.com/')
+
     def fetch_info(self, meta, api_key):
         imdb_id = meta.get('imdb_id')
         if not imdb_id or not api_key:
@@ -59,7 +59,7 @@ class OMDbAPI:
 
     def get_result(self, imdb_id):
         try:
-            result = session.get(url % (self.api_key, imdb_id)).text
+            result = self.session.get(self.url % (self.api_key, imdb_id)).text
             response_test = dict(mdParse(result).getElementsByTagName('root')[
                                  0].attributes.items())
             if not response_test.get('response', 'False') == 'True':

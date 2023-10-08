@@ -2,7 +2,7 @@
 import re
 from caches.main_cache import cache_object
 from modules.dom_parser import parseDOM
-from modules.kodi_utils import requests, json, get_setting, local_string as ls, sleep
+from modules.kodi_utils import json, get_setting, local_string as ls, sleep, make_session
 from modules.utils import imdb_sort_list, remove_accents, replace_html_codes, string_alphanum_to_num
 # from modules.kodi_utils import logger
 
@@ -32,6 +32,7 @@ most_voted_movies_url = 'search/title/?title_type=feature,tv_movie&num_votes=100
 featured_tvshows_url = 'search/title/?title_type=tv_series,tv_miniseries&num_votes=1000,&production_status=released&sort=moviemeter,asc&count=20&start=%s'
 most_voted_tvshows_url = 'search/title/?title_type=tv_series,tv_miniseries&num_votes=1000,&production_status=released&sort=num_votes,desc&count=20&start=%s'
 timeout = 20.0
+session = make_session('https://www.imdb.com/')
 
 
 def imdb_people_id(actor_name):
@@ -199,12 +200,12 @@ def get_imdb(params):
                 'media_type'] == 'movie' else user_list_tvshows_url
             if action == 'imdb_watchlist':
                 def _get_watchlist_id(dummy):
-                    return parseDOM(remove_accents(requests.get(url, timeout=timeout).text), 'meta', ret='content', attrs={'property': 'pageId'})[0]
+                    return parseDOM(remove_accents(session.get(url, timeout=timeout).text), 'meta', ret='content', attrs={'property': 'pageId'})[0]
                 url = cache_object(_get_watchlist_id, 'imdb_watchlist_id_%s' %
                                    params['imdb_user'], 'dummy', False, 672)
             url = base_url % list_url_type % (
                 url, params['sort'], params['page_no'])
-        result = requests.get(url, timeout=timeout)
+        result = session.get(url, timeout=timeout)
         result = remove_accents(result.text)
         result = result.replace('\n', ' ')
         items = parseDOM(result, 'div', attrs={'class': '.+? lister-item'})
@@ -237,7 +238,7 @@ def get_imdb(params):
                     yield {'title': title, 'list_id': list_id}
                 except:
                     pass
-        result = requests.get(url, timeout=timeout)
+        result = session.get(url, timeout=timeout)
         result = remove_accents(result.text)
         items = parseDOM(result, 'li', attrs={
                          'class': 'ipl-zebra-list__item user-list'})
@@ -259,7 +260,7 @@ def get_imdb(params):
             _str = ls(32984).upper()
         else:
             _str = ls(32986).upper()
-        result = requests.get(url, timeout=timeout, headers=headers)
+        result = session.get(url, timeout=timeout, headers=headers)
         result = remove_accents(result.text)
         result = result.replace('\n', ' ')
         items = parseDOM(result, 'div', attrs={
@@ -280,7 +281,7 @@ def get_imdb(params):
                 except:
                     pass
         trivia_str = ls(32984).upper()
-        result = requests.get(url, timeout=timeout, headers=headers)
+        result = session.get(url, timeout=timeout, headers=headers)
         result = remove_accents(result.text)
         result = result.replace('\n', ' ')
         items = parseDOM(result, 'div', attrs={
@@ -334,11 +335,11 @@ def get_imdb(params):
         non_spoiler_list = []
         spoiler_list = []
         count = 0
-        result = requests.get(url, timeout=timeout)
+        result = session.get(url, timeout=timeout)
         while count < 3:
             if count > 0:
                 url = base_url % reviews_url % (imdb_id, paginationKey)
-                result = requests.get(url, timeout=timeout)
+                result = session.get(url, timeout=timeout)
             result = remove_accents(result.text)
             result = result.replace('\n', ' ')
             non_spoilers = parseDOM(result, 'div', attrs={
@@ -380,7 +381,7 @@ def get_imdb(params):
                 except:
                     pass
         image_results = []
-        result = requests.get(url, timeout=timeout)
+        result = session.get(url, timeout=timeout)
         result = remove_accents(result.text)
         result = result.replace('\n', ' ')
         try:
@@ -417,7 +418,7 @@ def get_imdb(params):
                         {'quality': quality, 'quality_rank': quality_rank, 'url': i['videoUrl']})
                 yield {'title': title, 'poster': poster, 'videos': videos}
         quality_ranks_dict = {'360p': 3, '480p': 2, '720p': 1, '1080p': 0}
-        result = requests.get(url, timeout=timeout)
+        result = session.get(url, timeout=timeout)
         result = result.json()
         playlists = result['playlists'][params['imdb_id']]['listItems']
         videoMetadata = result['videoMetadata']
@@ -425,7 +426,7 @@ def get_imdb(params):
     elif action == 'imdb_people_id':
         try:
             name = params['name']
-            result = requests.get(url, timeout=timeout)
+            result = session.get(url, timeout=timeout)
             results = json.loads(
                 re.sub(r'imdb\$(.+?)\(', '', result.text)[:-1])['d']
             imdb_list = [i['id'] for i in results if i['id'].startswith(
@@ -434,7 +435,7 @@ def get_imdb(params):
             imdb_list = []
         if not imdb_list:
             try:
-                result = requests.get(params['url_backup'], timeout=timeout)
+                result = session.get(params['url_backup'], timeout=timeout)
                 result = remove_accents(result.text)
                 result = result.replace('\n', ' ')
                 result = parseDOM(result, 'div', attrs={
@@ -446,7 +447,7 @@ def get_imdb(params):
     elif action == 'imdb_year_check':
         try:
             imdb_id = params.get('imdb_id')
-            result = requests.get(url, timeout=timeout)
+            result = session.get(url, timeout=timeout)
             result = result.json()
             result = result['d']
             imdb_list = [str(i['y']) for i in result if i['id'] == imdb_id][0]
@@ -456,7 +457,7 @@ def get_imdb(params):
         spoiler_results = None
         spoiler_list, final_list = [], []
         spoiler_append, final_list_append, imdb_append = spoiler_list.append, final_list.append, imdb_list.append
-        result = requests.get(url, timeout=timeout)
+        result = session.get(url, timeout=timeout)
         result = remove_accents(result.text)
         result = result.replace('\n', ' ')
         results = parseDOM(result, 'section', attrs={'id': r'advisory-(.+?)'})
@@ -552,7 +553,7 @@ def get_imdb(params):
                     yield keyword
                 except:
                     pass
-        result = requests.get(url, timeout=timeout, headers=headers)
+        result = session.get(url, timeout=timeout, headers=headers)
         result = remove_accents(result.text)
         result = result.replace('\n', ' ')
         items = parseDOM(result, 'div', attrs={

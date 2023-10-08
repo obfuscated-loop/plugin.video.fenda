@@ -6,7 +6,7 @@ from modules import kodi_utils
 from modules.utils import copy2clip
 # logger = kodi_utils.logger
 
-path_exists, maincache_db, requests, Thread, get_icon = kodi_utils.path_exists, kodi_utils.maincache_db, kodi_utils.requests, kodi_utils.Thread, kodi_utils.get_icon
+path_exists, maincache_db, Thread, get_icon = kodi_utils.path_exists, kodi_utils.maincache_db, kodi_utils.Thread, kodi_utils.get_icon
 show_busy_dialog, confirm_dialog, database, clear_property = kodi_utils.show_busy_dialog, kodi_utils.confirm_dialog, kodi_utils.database, kodi_utils.clear_property
 ls, get_setting, set_setting, sleep, ok_dialog = kodi_utils.local_string, kodi_utils.get_setting, kodi_utils.set_setting, kodi_utils.sleep, kodi_utils.ok_dialog
 progress_dialog, notification, hide_busy_dialog, monitor = kodi_utils.progress_dialog, kodi_utils.notification, kodi_utils.hide_busy_dialog, kodi_utils.monitor
@@ -20,6 +20,7 @@ icon = get_icon('alldebrid')
 class AllDebridAPI:
     def __init__(self):
         self.token = get_setting('fenda.ad.token')
+        self.session = kodi_utils.make_session(base_url)
         self.break_auth_loop = False
 
     def auth(self):
