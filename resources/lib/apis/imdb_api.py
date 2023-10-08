@@ -2,9 +2,8 @@
 import re
 from caches.main_cache import cache_object
 from modules.dom_parser import parseDOM
-from modules.kodi_utils import json, get_setting, local_string as ls, sleep, make_session
+from modules.kodi_utils import json, get_setting, local_string as ls, sleep, make_session, logger
 from modules.utils import imdb_sort_list, remove_accents, replace_html_codes, string_alphanum_to_num
-# from modules.kodi_utils import logger
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36'}
@@ -567,47 +566,70 @@ def get_start_no(page_no):
 
 
 def clear_imdb_cache(silent=False):
-    from modules.kodi_utils import path_exists, clear_property, database, maincache_db
+    from modules.kodi_utils import path_exists, clear_property, maincache_db
+
     try:
         if not path_exists(maincache_db):
             return True
-        dbcon = database.connect(
-            maincache_db, timeout=40.0, isolation_level=None)
-        dbcur = dbcon.cursor()
-        dbcur.execute('''PRAGMA synchronous = OFF''')
-        dbcur.execute('''PRAGMA journal_mode = OFF''')
-        dbcur.execute("SELECT id FROM maincache WHERE id LIKE ?", ('imdb_%',))
-        imdb_results = [str(i[0]) for i in dbcur.fetchall()]
+
+        dbcon = _init_db()
+
+        imdb_results = [str(i[0]) for i in dbcon.execute('SELECT id FROM maincache WHERE id LIKE ?', ('imdb_%',))]
+
         if not imdb_results:
             return True
-        dbcur.execute("DELETE FROM maincache WHERE id LIKE ?", ('imdb_%',))
+
+        dbcon.execute('DELETE FROM maincache WHERE id LIKE ?', ('imdb_%',))
+
         for i in imdb_results:
             clear_property(i)
+
         return True
-    except:
+
+    except Exception as e:
+        logger("imdb_api.py [clear_imdb_cache]: ", str(e))
         return False
 
 
 def refresh_imdb_meta_data(imdb_id):
-    from modules.kodi_utils import path_exists, clear_property, database, maincache_db
+    from modules.kodi_utils import path_exists, clear_property, maincache_db
+   
     try:
         if not path_exists(maincache_db):
             return
+
         imdb_results = []
         insert1, insert2 = '%%_%s' % imdb_id, '%%_%s_%%' % imdb_id
-        dbcon = database.connect(
-            maincache_db, timeout=40.0, isolation_level=None)
-        dbcur = dbcon.cursor()
-        dbcur.execute('''PRAGMA synchronous = OFF''')
-        dbcur.execute('''PRAGMA journal_mode = OFF''')
+
+        dbcon = _init_db()
+        
         for item in (insert1, insert2):
-            dbcur.execute("SELECT id FROM maincache WHERE id LIKE ?", (item,))
-            imdb_results += [str(i[0]) for i in dbcur.fetchall()]
+            imdb_results += [str(i[0]) for i in dbcon.execute('SELECT id FROM maincache WHERE id LIKE ?', (item, ))]
+        
         if not imdb_results:
             return True
-        dbcur.execute("DELETE FROM maincache WHERE id LIKE ?", (insert1,))
-        dbcur.execute("DELETE FROM maincache WHERE id LIKE ?", (insert2,))
+
+        dbcon.executemany('DELETE FROM maincache WHERE id LIKE ?', [
+            (insert1, ),
+            (insert2, )
+        ])
+
         for i in imdb_results:
             clear_property(i)
-    except:
-        pass
+
+    except Exception as e:
+        logger("imdb_api.py [refresh_imdb_meta_data]: ", str(e))
+
+
+def _init_db():
+    from modules.kodi_utils import database, maincache_db
+
+    return _set_PRAGMAS(
+        database.connect(maincache_db, timeout=40.0, isolation_level=None)
+    )
+
+def _set_PRAGMAS(dbcon):
+    dbcon.execute('PRAGMA synchronous = OFF')
+    dbcon.execute('PRAGMA journal_mode = OFF')
+
+    return dbcon
