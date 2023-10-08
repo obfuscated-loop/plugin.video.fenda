@@ -4,10 +4,9 @@ import time
 from caches.main_cache import cache_object
 from modules import kodi_utils
 from modules.utils import copy2clip
-from modules.kodi_utils import make_session
 # logger = kodi_utils.logger
 
-ls, notification, get_setting, set_setting, requests = kodi_utils.local_string, kodi_utils.notification, kodi_utils.get_setting, kodi_utils.set_setting, kodi_utils.requests
+ls, notification, get_setting, set_setting = kodi_utils.local_string, kodi_utils.notification, kodi_utils.get_setting, kodi_utils.set_setting
 monitor, progress_dialog, dialog, urlencode, get_icon = kodi_utils.monitor, kodi_utils.progress_dialog, kodi_utils.dialog, kodi_utils.urlencode, kodi_utils.get_icon
 set_temp_highlight, restore_highlight, manage_settings_reset = kodi_utils.set_temp_highlight, kodi_utils.restore_highlight, kodi_utils.manage_settings_reset
 json, sleep, confirm_dialog, ok_dialog, Thread = kodi_utils.json, kodi_utils.sleep, kodi_utils.confirm_dialog, kodi_utils.ok_dialog, kodi_utils.Thread
@@ -21,7 +20,7 @@ class PremiumizeAPI:
         self.client_id = '663882072'
         self.user_agent = 'Fenda for Kodi'
         self.token = get_setting('fenda.pm.token')
-        self.session = make_session('https://www.premiumize.me/')
+        self.session = kodi_utils.make_session('https://www.premiumize.me/')
 
     def auth(self):
         self.token = ''
