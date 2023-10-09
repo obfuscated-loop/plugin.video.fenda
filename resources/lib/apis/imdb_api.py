@@ -572,7 +572,7 @@ def clear_imdb_cache(silent=False):
         if not path_exists(maincache_db):
             return True
 
-        dbcon = _init_db()
+        dbcon = _init_db(maincache_db)
 
         imdb_results = [str(i[0]) for i in dbcon.execute('SELECT id FROM maincache WHERE id LIKE ?', ('imdb_%',))]
 
