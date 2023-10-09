@@ -601,7 +601,7 @@ def refresh_imdb_meta_data(imdb_id):
         imdb_results = []
         insert1, insert2 = '%%_%s' % imdb_id, '%%_%s_%%' % imdb_id
 
-        dbcon = _init_db()
+        dbcon = _init_db(maincache_db)
         
         for item in (insert1, insert2):
             imdb_results += [str(i[0]) for i in dbcon.execute('SELECT id FROM maincache WHERE id LIKE ?', (item, ))]
