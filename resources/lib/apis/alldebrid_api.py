@@ -1,33 +1,36 @@
 # -*- coding: utf-8 -*-
 import re
 import time
-from caches.main_cache import cache_object
-from modules import kodi_utils
-from modules.utils import copy2clip
-# logger = kodi_utils.logger
 
-path_exists, maincache_db, Thread, get_icon = kodi_utils.path_exists, kodi_utils.maincache_db, kodi_utils.Thread, kodi_utils.get_icon
-show_busy_dialog, confirm_dialog, database, clear_property = kodi_utils.show_busy_dialog, kodi_utils.confirm_dialog, kodi_utils.database, kodi_utils.clear_property
-ls, get_setting, set_setting, sleep, ok_dialog = kodi_utils.local_string, kodi_utils.get_setting, kodi_utils.set_setting, kodi_utils.sleep, kodi_utils.ok_dialog
-progress_dialog, notification, hide_busy_dialog, monitor = kodi_utils.progress_dialog, kodi_utils.notification, kodi_utils.hide_busy_dialog, kodi_utils.monitor
-set_temp_highlight, restore_highlight, manage_settings_reset = kodi_utils.set_temp_highlight, kodi_utils.restore_highlight, kodi_utils.manage_settings_reset
-base_url = 'https://api.alldebrid.com/v4/'
-user_agent = 'fenda_for_kodi'
-timeout = 20.0
-icon = get_icon('alldebrid')
+from modules.utils import copy2clip
+from caches.main_cache import cache_object
+
+# Core
+from modules.kodi_utils import monitor, sleep, Thread
+
+# Helpers
+from modules.kodi_utils import path_exists, clear_property, local_string as ls, get_setting, set_setting, manage_settings_reset, make_session, logger
+
+# UI specific
+from modules.kodi_utils import get_icon, show_busy_dialog, hide_busy_dialog, confirm_dialog, ok_dialog, progress_dialog, notification, set_temp_highlight, restore_highlight
 
 
 class AllDebridAPI:
     def __init__(self):
+        self.base_url = 'https://api.alldebrid.com/v4/'
         self.token = get_setting('fenda.ad.token')
-        self.session = kodi_utils.make_session(base_url)
+        self.session = make_session(self.base_url)
         self.break_auth_loop = False
+        self.icon = get_icon('alldebrid')
+        self.user_agent = 'fenda_for_kodi'
+        self.timeout = 20.0
 
     def auth(self):
         self.token = ''
+        
         line = '%s[CR]%s[CR]%s'
-        url = base_url + 'pin/get?agent=%s' % user_agent
-        response = requests.get(url, timeout=timeout).json()
+        url = self.base_url + 'pin/get?agent=%s' % self.user_agent
+        response = self.session.get(url, timeout=self.timeout).json()
         response = response['data']
         expires_in = int(response['expires_in'])
         poll_url = response['check_url']
@@ -37,7 +40,7 @@ class AllDebridAPI:
         except:
             pass
         sleep_interval = 5
-        content = line % (ls(32517), ls(32700) % response.get('base_url'), ls(
+        content = line % (ls(32517), ls(32700) % response.get('self.base_url'), ls(
             32701) % '[COLOR goldenrod]%s[/COLOR]' % user_code)
         current_highlight = set_temp_highlight('goldenrod')
         progressDialog = progress_dialog('%s %s' % (
@@ -47,7 +50,7 @@ class AllDebridAPI:
         sleep(2000)
         while not progressDialog.iscanceled() and time_passed < expires_in and not self.token:
             sleep(1000 * sleep_interval)
-            response = requests.get(poll_url, timeout=timeout).json()
+            response = self.session.get(poll_url, timeout=self.timeout).json()
             response = response['data']
             activated = response['activated']
             if not activated:
@@ -231,7 +234,7 @@ class AllDebridAPI:
         line2 = transfer_info['filename']
         line3 = transfer_info['status']
         status_code = transfer_info['statusCode']
-        progressDialog = progress_dialog(ls(32733), icon)
+        progressDialog = progress_dialog(ls(32733), self.icon)
         progressDialog.update(line % (line1, line2, line3), 0)
         while not status_code == 4:
             sleep(1000 * interval)
@@ -298,9 +301,9 @@ class AllDebridAPI:
         try:
             if self.token == '':
                 return None
-            url = base_url + url + \
-                '?agent=%s&apikey=%s' % (user_agent, self.token) + url_append
-            result = requests.get(url, timeout=timeout).json()
+            url = self.base_url + url + \
+                '?agent=%s&apikey=%s' % (self.user_agent, self.token) + url_append
+            result = self.session.get(url, timeout=self.timeout).json()
             if result.get('status') == 'success' and 'data' in result:
                 result = result['data']
         except:
@@ -312,9 +315,9 @@ class AllDebridAPI:
         try:
             if self.token == '':
                 return None
-            url = base_url + url + \
-                '?agent=%s&apikey=%s' % (user_agent, self.token)
-            result = requests.post(url, data=data, timeout=timeout).json()
+            url = self.base_url + url + \
+                '?agent=%s&apikey=%s' % (self.user_agent, self.token)
+            result = self.session.post(url, data=data, timeout=self.timeout).json()
             if result.get('status') == 'success' and 'data' in result:
                 result = result['data']
         except:
@@ -323,41 +326,49 @@ class AllDebridAPI:
 
     def clear_cache(self, clear_hashes=True):
         try:
+            from caches.debrid_cache import debrid_cache
+            from modules.kodi_utils import clear_property, _init_db, maincache_db
+
             if not path_exists(maincache_db):
                 return True
-            from caches.debrid_cache import debrid_cache
-            dbcon = database.connect(maincache_db)
-            dbcur = dbcon.cursor()
+
+            dbcon = _init_db(maincache_db)
+
             # USER CLOUD
             try:
-                dbcur.execute("""DELETE FROM maincache WHERE id=?""",
-                              ('fenda_ad_user_cloud',))
+                dbcon.execute('DELETE FROM maincache WHERE id=?', ('fenda_ad_user_cloud', ))
                 clear_property('fenda_ad_user_cloud')
-                dbcon.commit()
+
                 user_cloud_success = True
-            except:
+            except Exception as e:
+                logger('alldebrid_api.py [clear_cache->user cloud]: ', str(e))
                 user_cloud_success = False
+
             # HOSTERS
             try:
-                dbcur.execute("""DELETE FROM maincache WHERE id=?""",
-                              ('fenda_ad_valid_hosts',))
+                dbcon.execute('DELETE FROM maincache WHERE id=?', ('fenda_ad_valid_hosts', ))
                 clear_property('fenda_ad_valid_hosts')
-                dbcon.commit()
-                dbcon.close()
+                
                 hoster_links_success = True
-            except:
+            except Exception as e:
+                logger('alldebrid_api.py [clear_cache->hosters]: ', str(e))
                 hoster_links_success = False
+
             # HASH CACHED STATUS
             if clear_hashes:
                 try:
                     debrid_cache.clear_debrid_results('ad')
                     hash_cache_status_success = True
-                except:
+                except Exception as e:
+                    logger('alldebrid_api.py [clear_cache->clear_hashes]: ', str(e))
                     hash_cache_status_success = False
             else:
                 hash_cache_status_success = True
-        except:
+        except Exception as e:
+            logger('alldebrid_api.py [clear_cache]: ', str(e))
             return False
+
         if False in (user_cloud_success, hoster_links_success, hash_cache_status_success):
             return False
+
         return True
