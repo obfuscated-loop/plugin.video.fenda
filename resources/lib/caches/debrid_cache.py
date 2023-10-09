@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import time
 from datetime import datetime, timedelta
-from modules.kodi_utils import database, debridcache_db, logger
+from modules.kodi_utils import _init_db, debridcache_db, logger
 # from modules.kodi_utils import logger
 
 GET_MANY = 'SELECT * FROM debrid_data WHERE hash in (%s)'
@@ -17,7 +17,7 @@ class DebridCache:
 
         try:
             current_time = self._get_timestamp(datetime.now())
-            dbcon = self._init_db()
+            dbcon = _init_db(debridcache_db)
 
             dbcur = dbcon.execute(GET_MANY %
                           (', '.join('?' for _ in hash_list)), hash_list)
@@ -38,7 +38,7 @@ class DebridCache:
         try:
             expires = self._get_timestamp(datetime.now() + timedelta(days=1))
             insert_list = [(i[0], debrid, i[1], expires) for i in hash_list]
-            dbcon = self._init_db()
+            dbcon = _init_db(debridcache_db)
 
             dbcon.executemany(SET_MANY, insert_list)
         except Exception as e:
@@ -47,7 +47,7 @@ class DebridCache:
     def remove_many(self, old_cached_data):
         try:
             old_cached_data = [(str(i[0]),) for i in old_cached_data]
-            dbcon = self._init_db()
+            dbcon = _init_db(debridcache_db)
 
             dbcon.executemany(REMOVE_MANY, old_cached_data)
         except Exception as e:
@@ -55,7 +55,7 @@ class DebridCache:
 
     def clear_debrid_results(self, debrid):
         try:
-            dbcon = self._init_db()
+            dbcon = _init_db(debridcache_db)
 
             dbcon.execute(CLEAR_DEBRID, (debrid,))
             dbcon.execute('VACUUM')
@@ -66,7 +66,7 @@ class DebridCache:
 
     def clear_database(self):
         try:
-            dbcon = self._init_db()
+            dbcon = _init_db(debridcache_db)
 
             dbcon.execute(CLEAR)
             dbcon.execute('VACUUM')
@@ -74,17 +74,6 @@ class DebridCache:
         except Exception as e:
             logger('debrid_cache.py [clear_database]: ', str(e))
             return 'failure'
-
-    def _init_db(self):
-        return self._set_PRAGMAS(
-            database.connect(debridcache_db, timeout=40.0, isolation_level=None)
-        )
-
-    def _set_PRAGMAS(self, dbcon):
-        dbcon.execute('PRAGMA synchronous = OFF')
-        dbcon.execute('PRAGMA journal_mode = OFF')
-        
-        return dbcon
 
     def _get_timestamp(self, date_time):
         return int(time.mktime(date_time.timetuple()))
