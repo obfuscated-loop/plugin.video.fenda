@@ -566,7 +566,7 @@ def get_start_no(page_no):
 
 
 def clear_imdb_cache(silent=False):
-    from modules.kodi_utils import path_exists, clear_property, maincache_db
+    from modules.kodi_utils import path_exists, clear_property,  _init_db, maincache_db
 
     try:
         if not path_exists(maincache_db):
@@ -592,7 +592,7 @@ def clear_imdb_cache(silent=False):
 
 
 def refresh_imdb_meta_data(imdb_id):
-    from modules.kodi_utils import path_exists, clear_property, maincache_db
+    from modules.kodi_utils import path_exists, clear_property, _init_db, maincache_db
    
     try:
         if not path_exists(maincache_db):
@@ -619,17 +619,3 @@ def refresh_imdb_meta_data(imdb_id):
 
     except Exception as e:
         logger("imdb_api.py [refresh_imdb_meta_data]: ", str(e))
-
-
-def _init_db():
-    from modules.kodi_utils import database, maincache_db
-
-    return _set_PRAGMAS(
-        database.connect(maincache_db, timeout=40.0, isolation_level=None)
-    )
-
-def _set_PRAGMAS(dbcon):
-    dbcon.execute('PRAGMA synchronous = OFF')
-    dbcon.execute('PRAGMA journal_mode = OFF')
-
-    return dbcon
