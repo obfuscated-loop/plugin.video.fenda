@@ -3,15 +3,13 @@ import re
 import base64
 from caches.main_cache import cache_object
 from modules.dom_parser import parseDOM
-from modules.kodi_utils import make_session, json, urlencode, quote, get_setting
-# from modules.kodi_utils import logger
+from modules.kodi_utils import make_session, json, urlencode, quote, get_setting, logger
 
 video_extensions = 'm4v,3g2,3gp,nsv,tp,ts,ty,pls,rm,rmvb,mpd,ifo,mov,qt,divx,xvid,bivx,vob,nrg,img,iso,udf,pva,wmv,asf,asx,ogm,m2v,avi,bin,dat,mpg,mpeg,mp4,mkv,mk3d,avc,vp3,svq3,' \
     'nuv,viv,dv,fli,flv,wpl,xspf,vdr,dvr-ms,xsp,mts,m2t,m2ts,evo,ogv,sdp,avs,rec,url,pxml,vc1,h264,rcv,rss,mpls,mpl,webm,bdmv,bdm,wtv,trp,f4v,pvr,disc'
+
 SEARCH_PARAMS = {'st': 'adv', 'sb': 1, 'fex': video_extensions, 'fty[]': 'VIDEO', 'spamf': 1, 'u': '1', 'gx': 1,
                  'pno': 1, 'sS': 3, 's1': 'relevance', 's1d': '-', 's2d': '-', 's3d': '-', 'pby': 1000}
-timeout = 20.0
-session = make_session()
 
 farms = ({'name': 'US EAST', 'server_name': 'iad'}, {'name': 'US WEST', 'server_name': 'lax'}, {
          'name': 'EUROPE', 'server_name': 'fra'}, {'name': 'AUTO', 'server_name': 'auto'})
@@ -38,6 +36,8 @@ class EasyNewsAPI:
         self.base_get = self._get
         self.base_process = self._process_files
         self.base_resolver = self.resolver
+        self.session = make_session(self.base_url)
+        self.timeout = 20.0
 
     def _get_auth(self):
         user_info = '%s:%s' % (self.username, self.password)
@@ -114,7 +114,6 @@ class EasyNewsAPI:
                               'thumbnail': thumbnail}
                     yield result
                 except Exception as e:
-                    from modules.kodi_utils import logger
                     logger('Fenda easynews API Exception', str(e))
         down_url = files.get('downURL')
         streaming_url = 'https://%s:%s@members.easynews.com/dl' % (
@@ -164,8 +163,7 @@ class EasyNewsAPI:
                               'language': language,
                               'thumbnail': thumbnail}
                     yield result
-                except Exception as e:
-                    from modules.kodi_utils import logger
+                except Exception as e:       
                     logger('Fenda easynews API Exception', str(e))
         files, sid = results.get('data', []), results.get('sid')
         results = list(_process())
@@ -186,10 +184,10 @@ class EasyNewsAPI:
     def _get(self, url, params={}):
         headers = {'Authorization': self.auth}
         try:
-            response = session.get(
+            response = self.session.get(
                 url, params=params, headers=headers, timeout=timeout).text
         except:
-            response = session.get(
+            response = self.session.get(
                 url, params=params, headers=headers, verify=False, timeout=timeout).text
         try:
             return json.loads(response)
@@ -199,10 +197,10 @@ class EasyNewsAPI:
     def _get_v3(self, url, params={}):
         headers = {'Authorization': self.auth}
         try:
-            response = session.get(
+            response = self.session.get(
                 url, params=params, headers=headers, timeout=timeout).content
         except:
-            response = session.get(
+            response = self.session.get(
                 url, params=params, headers=headers, verify=False, timeout=timeout).content
         response = re.compile(self.regex, re.DOTALL).findall(response)
         response = response + '}'
@@ -217,7 +215,7 @@ class EasyNewsAPI:
     def resolver(self, url_dl):
         try:
             headers = {'Authorization': self.auth}
-            resolved_link = session.get(
+            resolved_link = self.session.get(
                 url_dl, headers=headers, stream=True, timeout=timeout).url
         except:
             resolved_link = url_dl
@@ -225,7 +223,7 @@ class EasyNewsAPI:
 
     def resolver_v3(self, url_dl):
         headers = {'Authorization': self.auth}
-        response = session.get(url_dl, headers=headers,
+        response = self.session.get(url_dl, headers=headers,
                                stream=True, timeout=timeout)
         stream_url = response.url
         resolved_link = stream_url + '|Authorization=%s' % self.auth_quoted
@@ -245,21 +243,20 @@ class EasyNewsAPIv3(EasyNewsAPI):
 
 
 def clear_media_results_database():
-    from modules.kodi_utils import clear_property, database, maincache_db
-    dbcon = database.connect(maincache_db, timeout=40.0, isolation_level=None)
-    dbcur = dbcon.cursor()
-    dbcur.execute('''PRAGMA synchronous = OFF''')
-    dbcur.execute('''PRAGMA journal_mode = OFF''')
-    dbcur.execute(
-        "SELECT id FROM maincache WHERE id LIKE 'fenda_EASYNEWS_SEARCH_%'")
-    easynews_results = [str(i[0]) for i in dbcur.fetchall()]
+    from modules.kodi_utils import clear_property, _init_db, maincache_db
+
+    dbcon = _init_db(maincache_db)
+
+    easynews_results = [str(i[0]) for i in dbcon.execute("SELECT id FROM maincache WHERE id LIKE 'fenda_EASYNEWS_SEARCH_%'")]
+
     if not easynews_results:
         return 'success'
     try:
-        dbcur.execute(
-            "DELETE FROM maincache WHERE id LIKE 'fenda_EASYNEWS_SEARCH_%'")
+        dbcon.execute("DELETE FROM maincache WHERE id LIKE 'fenda_EASYNEWS_SEARCH_%'")
+
         for i in easynews_results:
             clear_property(i)
+
         return 'success'
     except:
         return 'failed'
