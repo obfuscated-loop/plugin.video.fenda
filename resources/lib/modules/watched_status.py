@@ -49,13 +49,6 @@ def make_database_connection(database_file):
     return _init_db(database_file)
 
 
-def set_PRAGMAS(dbcon):
-    dbcur = dbcon.cursor()
-    dbcur.execute('PRAGMA synchronous = OFF')
-    dbcur.execute('PRAGMA journal_mode = OFF')
-    return dbcur
-
-
 def get_next_episodes(watched_info):
     seen = set()
     watched_info = [i for i in watched_info if not i[0] is None]
@@ -100,8 +93,7 @@ def detect_bookmark(bookmarks, tmdb_id, season='', episode=''):
 def get_bookmarks(watched_indicators, media_type):
     try:
         dbcon = make_database_connection(get_database(watched_indicators))
-        dbcur = set_PRAGMAS(dbcon)
-        result = dbcur.execute(
+        result = dbcon.execute(
             "SELECT media_id, resume_point, curr_time, season, episode, resume_id FROM progress WHERE db_type = ?", (media_type,))
         return result.fetchall()
     except:
@@ -123,8 +115,7 @@ def erase_bookmark(media_type, tmdb_id, season='', episode='', refresh='false'):
             trakt_progress('clear_progress', media_type,
                            tmdb_id, 0, season, episode, resume_id)
         dbcon = make_database_connection(get_database())
-        dbcur = set_PRAGMAS(dbcon)
-        dbcur.execute("DELETE FROM progress where db_type = ? and media_id = ? and season = ? and episode = ?",
+        dbcon.execute("DELETE FROM progress where db_type = ? and media_id = ? and season = ? and episode = ?",
                       (media_type, tmdb_id, season, episode))
         refresh_container(refresh == 'true')
     except:
@@ -155,8 +146,7 @@ def batch_erase_bookmark(watched_indicators, insert_list, action):
                         pass
             Thread(target=_process).start()
         dbcon = make_database_connection(get_database(watched_indicators))
-        dbcur = set_PRAGMAS(dbcon)
-        dbcur.executemany(
+        dbcon.executemany(
             "DELETE FROM progress where db_type = ? and media_id = ? and season = ? and episode = ?", modified_list)
     except:
         pass
@@ -184,8 +174,7 @@ def set_bookmark(params):
             data_base = get_database(watched_indicators)
             last_played = get_last_played_value(data_base)
             dbcon = make_database_connection(data_base)
-            dbcur = set_PRAGMAS(dbcon)
-            dbcur.execute("INSERT OR REPLACE INTO progress VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            dbcon.execute("INSERT OR REPLACE INTO progress VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
                           (media_type, tmdb_id, season, episode, str(resume_point), str(curr_time), last_played, 0, title))
         refresh_container(refresh)
     except:
@@ -196,10 +185,7 @@ def get_watched_info_movie(watched_indicators):
     info = []
     try:
         dbcon = make_database_connection(get_database(watched_indicators))
-        dbcur = set_PRAGMAS(dbcon)
-        dbcur.execute(
-            "SELECT media_id, title, last_played FROM watched_status WHERE db_type = ?", ('movie',))
-        info = dbcur.fetchall()
+        info =  dbcon.execute("SELECT media_id, title, last_played FROM watched_status WHERE db_type = ?", ('movie', )).fetchall()
     except:
         pass
     return info
@@ -209,10 +195,7 @@ def get_watched_info_tv(watched_indicators):
     info = []
     try:
         dbcon = make_database_connection(get_database(watched_indicators))
-        dbcur = set_PRAGMAS(dbcon)
-        dbcur.execute(
-            "SELECT media_id, season, episode, title, last_played FROM watched_status WHERE db_type = ?", ('episode',))
-        info = dbcur.fetchall()
+        info = dbcon.execute("SELECT media_id, season, episode, title, last_played FROM watched_status WHERE db_type = ?", ('episode', )).fetchall()
     except:
         pass
     return info
@@ -220,12 +203,11 @@ def get_watched_info_tv(watched_indicators):
 
 def get_in_progress_movies(dummy_arg, page_no):
     dbcon = make_database_connection(get_database())
-    dbcur = set_PRAGMAS(dbcon)
-    dbcur.execute(
-        "SELECT media_id, title, last_played FROM progress WHERE db_type = ?", ('movie',))
-    data = dbcur.fetchall()
-    data = [{'media_id': i[0], 'title': i[1], 'last_played': i[2]}
-            for i in data if not i[0] == '']
+    data = [
+        {'media_id': i[0], 'title': i[1], 'last_played': i[2]}
+        for i in dbcon.execute("SELECT media_id, title, last_played FROM progress WHERE db_type = ?", ('movie', )) if not i[0] == ''
+    ]
+
     if lists_sort_order('progress') == 0:
         data = sort_for_article(data, 'title', ignore_articles())
     else:
@@ -268,10 +250,7 @@ def get_in_progress_tvshows(dummy_arg, page_no):
 
 def get_in_progress_episodes():
     dbcon = make_database_connection(get_database())
-    dbcur = set_PRAGMAS(dbcon)
-    dbcur.execute(
-        'SELECT media_id, season, episode, resume_point, last_played, title FROM progress WHERE db_type = ?', ('episode',))
-    data = dbcur.fetchall()
+    data = dbcon.execute('SELECT media_id, season, episode, resume_point, last_played, title FROM progress WHERE db_type = ?', ('episode', )).fetchall()
     if lists_sort_order('progress') == 0:
         data = sort_for_article(data, 5, ignore_articles())
     else:
@@ -513,12 +492,11 @@ def watched_status_mark(watched_indicators, media_type='', tmdb_id='', action=''
         data_base = get_database(watched_indicators)
         last_played = get_last_played_value(data_base)
         dbcon = make_database_connection(data_base)
-        dbcur = set_PRAGMAS(dbcon)
         if action == 'mark_as_watched':
-            dbcur.execute("INSERT OR REPLACE INTO watched_status VALUES (?, ?, ?, ?, ?, ?)",
+            dbcon.execute("INSERT OR REPLACE INTO watched_status VALUES (?, ?, ?, ?, ?, ?)",
                           (media_type, tmdb_id, season, episode, last_played, title))
         elif action == 'mark_as_unwatched':
-            dbcur.execute("DELETE FROM watched_status WHERE (db_type = ? and media_id = ? and season = ? and episode = ?)",
+            dbcon.execute("DELETE FROM watched_status WHERE (db_type = ? and media_id = ? and season = ? and episode = ?)",
                           (media_type, tmdb_id, season, episode))
         erase_bookmark(media_type, tmdb_id, season, episode)
     except:
@@ -528,12 +506,11 @@ def watched_status_mark(watched_indicators, media_type='', tmdb_id='', action=''
 def batch_watched_status_mark(watched_indicators, insert_list, action):
     try:
         dbcon = make_database_connection(get_database(watched_indicators))
-        dbcur = set_PRAGMAS(dbcon)
         if action == 'mark_as_watched':
-            dbcur.executemany(
+            dbcon.executemany(
                 "INSERT OR IGNORE INTO watched_status VALUES (?, ?, ?, ?, ?, ?)", insert_list)
         elif action == 'mark_as_unwatched':
-            dbcur.executemany(
+            dbcon.executemany(
                 "DELETE FROM watched_status WHERE (db_type = ? and media_id = ? and season = ? and episode = ?)", insert_list)
         batch_erase_bookmark(watched_indicators, insert_list, action)
     except:
@@ -557,11 +534,10 @@ def make_batch_insert(action, media_type, tmdb_id, season, episode, last_played,
 def clear_local_bookmarks():
     try:
         dbcon = make_database_connection(get_video_database_path())
-        dbcur = set_PRAGMAS(dbcon)
-        file_ids = dbcur.execute(
+        file_ids = dbcon.execute(
             "SELECT idFile FROM files WHERE strFilename LIKE 'plugin.video.fenda%'").fetchall()
         for i in ('bookmark', 'streamdetails', 'files'):
-            dbcur.executemany("DELETE FROM %s WHERE idFile=?" % i, file_ids)
+            dbcon.executemany("DELETE FROM %s WHERE idFile=?" % i, file_ids)
     except:
         pass
 
