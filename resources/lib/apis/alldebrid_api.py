@@ -40,7 +40,7 @@ class AllDebridAPI:
         except:
             pass
         sleep_interval = 5
-        content = line % (ls(32517), ls(32700) % response.get('self.base_url'), ls(
+        content = line % (ls(32517), ls(32700) % self.base_url, ls(
             32701) % '[COLOR goldenrod]%s[/COLOR]' % user_code)
         current_highlight = set_temp_highlight('goldenrod')
         progressDialog = progress_dialog('%s %s' % (
