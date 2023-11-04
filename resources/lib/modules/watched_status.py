@@ -5,9 +5,10 @@ from caches.main_cache import main_cache, timedelta
 from caches.trakt_cache import clear_trakt_collection_watchlist_data
 from modules import kodi_utils, settings, metadata
 from modules.utils import get_datetime, adjust_premiered_date, sort_for_article, make_thread_list
+from modules.kodi_utils import _init_db
 # logger = kodi_utils.logger
 
-ls, database, notification, kodi_refresh = kodi_utils.local_string, kodi_utils.database, kodi_utils.notification, kodi_utils.kodi_refresh
+ls, notification, kodi_refresh = kodi_utils.local_string, kodi_utils.notification, kodi_utils.kodi_refresh
 sleep, progress_dialog, Thread, get_video_database_path = kodi_utils.sleep, kodi_utils.progress_dialog, kodi_utils.Thread, kodi_utils.get_video_database_path
 watched_indicators_function, lists_sort_order, ignore_articles = settings.watched_indicators, settings.lists_sort_order, settings.ignore_articles
 date_offset, metadata_user_info, tv_progress_location = settings.date_offset, settings.metadata_user_info, settings.tv_progress_location
@@ -45,7 +46,7 @@ def get_database(watched_indicators=None):
 
 
 def make_database_connection(database_file):
-    return database.connect(database_file, timeout=40.0, isolation_level=None)
+    return _init_db(database_file)
 
 
 def set_PRAGMAS(dbcon):

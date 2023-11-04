@@ -603,23 +603,22 @@ def focus_index(index, sleep_time=1000):
 
 def fetch_kodi_imagecache(image):
     result = None
+    
     try:
-        dbcon = database.connect(translate_path(
-            'special://database/Textures13.db'), timeout=40.0)
-        dbcur = dbcon.cursor()
-        dbcur.execute("SELECT cachedurl FROM texture WHERE url = ?", (image,))
-        result = dbcur.fetchone()[0]
+        dbcon = _init_db(translate_path('special://database/Textures13.db'))
+        result = dbcon.execute("SELECT cachedurl FROM texture WHERE url = ? LIMIT 1", (image, ))[0]
     except:
         pass
+
     return result
 
-
+"""
 def get_all_icon_vars(include_values=False):
     if include_values:
         return [(k, v) for k, v in vars(icons).items() if not k.startswith('__')]
     else:
         return [k for k, v in vars(icons).items() if not k.startswith('__')]
-
+"""
 
 def toggle_language_invoker():
     close_all_dialog()

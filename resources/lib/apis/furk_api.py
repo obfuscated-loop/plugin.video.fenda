@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from caches.main_cache import cache_object
 from modules.utils import remove_accents
-from modules.kodi_utils import make_session, clear_property, maincache_db, database, get_setting, set_setting
+from modules.kodi_utils import make_session, clear_property, maincache_db, _init_db, get_setting, set_setting
 # from modules.kodi_utils import logger
 
 base_url = 'http://www.furk.net/api/'
@@ -133,34 +133,35 @@ class FurkAPI:
 
 def clear_media_results_database():
     results = []
-    dbcon = database.connect(maincache_db, timeout=40.0, isolation_level=None)
-    dbcur = dbcon.cursor()
-    dbcur.execute('''PRAGMA synchronous = OFF''')
-    dbcur.execute('''PRAGMA journal_mode = OFF''')
-    dbcur.execute(
-        "SELECT id FROM maincache WHERE id LIKE 'fenda_FURK_SEARCH_%'")
+
+    dbcon = _init_db(maincache_db)
+
     try:
-        furk_results = [str(i[0]) for i in dbcur.fetchall()]
+        furk_results = [str(i[0]) for i in dbcon.execute("SELECT id FROM maincache WHERE id LIKE 'fenda_FURK_SEARCH_%'")]
+
         if not furk_results:
             results.append('success')
-        dbcur.execute(
-            "DELETE FROM maincache WHERE id LIKE 'fenda_FURK_SEARCH_%'")
-        for i in furk_results:
-            clear_property(i)
+
+        dbcon.execute("DELETE FROM maincache WHERE id LIKE 'fenda_FURK_SEARCH_%'")
+
+        map(clear_property, furk_results)
+
         results.append('success')
     except:
         results.append('failed')
-    dbcur.execute(
-        "SELECT id FROM maincache WHERE id LIKE 'fenda_FURK_SEARCH_DIRECT_%'")
+
     try:
-        furk_results = [str(i[0]) for i in dbcur.fetchall()]
+        furk_results = [str(i[0]) for i in dbcon.execute( "SELECT id FROM maincache WHERE id LIKE 'fenda_FURK_SEARCH_DIRECT_%'")]
+
         if not furk_results:
             results.append('success')
-        dbcur.execute(
-            "DELETE FROM maincache WHERE id LIKE 'fenda_FURK_SEARCH_DIRECT_%'")
-        for i in furk_results:
-            clear_property(i)
+
+        dbcon.execute("DELETE FROM maincache WHERE id LIKE 'fenda_FURK_SEARCH_DIRECT_%'")
+
+        map(clear_property, furk_results)
+
         results.append('success')
     except:
         results.append('failed')
+        
     return 'failed' if 'failed' in results else 'success'

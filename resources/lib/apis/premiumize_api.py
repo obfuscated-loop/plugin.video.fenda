@@ -337,47 +337,43 @@ class PremiumizeAPI:
 
     def clear_cache(self, clear_hashes=True):
         try:
-            from modules.kodi_utils import clear_property, path_exists, database, maincache_db
+            from modules.kodi_utils import clear_property, path_exists, _init_db, maincache_db
+
             if not path_exists(maincache_db):
                 return True
+                
             from caches.debrid_cache import debrid_cache
             user_cloud_success = False
-            dbcon = database.connect(maincache_db)
-            dbcur = dbcon.cursor()
-            # USER CLOUD
+
+            dbcon = _init_db(maincache_db)
+
             try:
-                dbcur.execute(
-                    """SELECT id FROM maincache WHERE id LIKE ?""", ('fenda_pm_user_cloud%',))
                 try:
-                    user_cloud_cache = dbcur.fetchall()
-                    user_cloud_cache = [i[0] for i in user_cloud_cache]
+                    user_cloud_cache = [i[0] for i in dbcon.execute('SELECT id FROM maincache WHERE id LIKE ?', ('fenda_pm_user_cloud%', ))]
                 except:
                     user_cloud_success = True
+
                 if not user_cloud_success:
                     for i in user_cloud_cache:
-                        dbcur.execute(
-                            """DELETE FROM maincache WHERE id=?""", (i,))
+                        dbcon.execute('DELETE FROM maincache WHERE id=?', (i,))
                         clear_property(str(i))
-                    dbcon.commit()
+                        
                     user_cloud_success = True
             except:
                 user_cloud_success = False
             # DOWNLOAD LINKS
             try:
-                dbcur.execute("""DELETE FROM maincache WHERE id=?""",
-                              ('fenda_pm_transfers_list',))
+                dbcon.execute('DELETE FROM maincache WHERE id=?', ('fenda_pm_transfers_list', ))
                 clear_property("fenda_pm_transfers_list")
-                dbcon.commit()
+
                 download_links_success = True
             except:
                 download_links_success = False
             # HOSTERS
             try:
-                dbcur.execute("""DELETE FROM maincache WHERE id=?""",
-                              ('fenda_pm_valid_hosts',))
+                dbcon.execute('DELETE FROM maincache WHERE id=?', ('fenda_pm_valid_hosts', ))
                 clear_property('fenda_pm_valid_hosts')
-                dbcon.commit()
-                dbcon.close()
+
                 hoster_links_success = True
             except:
                 hoster_links_success = False

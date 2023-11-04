@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import time
 from datetime import datetime, timedelta
-from modules.kodi_utils import get_property, set_property, clear_property, database
+from modules.kodi_utils import get_property, set_property, clear_property, _init_db
 from modules import kodi_utils
 from modules.utils import make_thread_list
 logger = kodi_utils.logger
@@ -23,12 +23,12 @@ def check_databases():
         make_directory(databases_path)
     remove_old_caches()
     # Navigator
-    dbcon = database.connect(navigator_db)
+    dbcon = _init_db(navigator_db)
     dbcon.execute("""CREATE TABLE IF NOT EXISTS navigator
 				(list_name text, list_type text, list_contents text, unique(list_name, list_type))""")
     dbcon.close()
     # Watched Status
-    dbcon = database.connect(watched_db)
+    dbcon = _init_db(watched_db)
     dbcon.execute("""CREATE TABLE IF NOT EXISTS watched_status
 					(db_type text, media_id text, season integer, episode integer, last_played text, title text, unique(db_type, media_id, season, episode))""")
     dbcon.execute("""CREATE TABLE IF NOT EXISTS progress
@@ -36,12 +36,12 @@ def check_databases():
 					last_played text, resume_id integer, title text, unique(db_type, media_id, season, episode))""")
     dbcon.close()
     # Favorites
-    dbcon = database.connect(favorites_db)
+    dbcon = _init_db(favorites_db)
     dbcon.execute(
         """CREATE TABLE IF NOT EXISTS favourites (db_type text, tmdb_id text, title text, unique (db_type, tmdb_id))""")
     dbcon.close()
     # Trakt
-    dbcon = database.connect(trakt_db)
+    dbcon = _init_db(trakt_db)
     dbcon.execute(
         """CREATE TABLE IF NOT EXISTS trakt_data (id text unique, data text)""")
     dbcon.execute("""CREATE TABLE IF NOT EXISTS watched_status
@@ -51,12 +51,12 @@ def check_databases():
 					last_played text, resume_id integer, title text, unique(db_type, media_id, season, episode))""")
     dbcon.close()
     # Main Cache
-    dbcon = database.connect(maincache_db)
+    dbcon = _init_db(maincache_db)
     dbcon.execute(
         """CREATE TABLE IF NOT EXISTS maincache (id text unique, data text, expires integer)""")
     dbcon.close()
     # Meta Cache
-    dbcon = database.connect(metacache_db)
+    dbcon = _init_db(metacache_db)
     dbcon.execute("""CREATE TABLE IF NOT EXISTS metadata
 					  (db_type text not null, tmdb_id text not null, imdb_id text, tvdb_id text, meta text, expires integer, unique (db_type, tmdb_id))""")
     dbcon.execute(
@@ -65,11 +65,11 @@ def check_databases():
         """CREATE TABLE IF NOT EXISTS function_cache (string_id text not null, data text, expires integer)""")
     dbcon.close()
     # Debrid Cache
-    dbcon = database.connect(debridcache_db)
+    dbcon = _init_db(debridcache_db)
     dbcon.execute("""CREATE TABLE IF NOT EXISTS debrid_data (hash text not null, debrid text not null, cached text, expires integer, unique (hash, debrid))""")
     dbcon.close()
     # External Providers Cache
-    dbcon = database.connect(external_db)
+    dbcon = _init_db(external_db)
     dbcon.execute("""CREATE TABLE IF NOT EXISTS results_data
 					(provider text, db_type text, tmdb_id text, title text, year integer, season text, episode text, results text,
 					expires integer, unique (provider, db_type, tmdb_id, title, year, season, episode))""")
@@ -92,13 +92,9 @@ def remove_old_caches():
 def clean_databases(current_time=None, database_check=True, silent=False):
     def _process(args):
         try:
-            dbcon = database.connect(args[0], timeout=60.0)
-            dbcur = dbcon.cursor()
-            dbcur.execute('''PRAGMA synchronous = OFF''')
-            dbcur.execute('''PRAGMA journal_mode = OFF''')
-            dbcur.execute(args[1], (current_time,))
-            dbcon.commit()
-            dbcur.execute('VACUUM')
+            dbcon = _init_db(args[0])
+            dbcon.execute(args[1], (current_time,))
+            dbcon.execute('VACUUM')
         except:
             pass
     if database_check:
@@ -124,7 +120,7 @@ def clean_databases(current_time=None, database_check=True, silent=False):
 def check_corrupt_databases():
     def _process(args):
         try:
-            dbcon = database.connect(args[0])
+            dbcon = _init_db(args[0])
             for db_table in args[1]:
                 dbcon.execute(command_base % db_table)
         except:
@@ -165,17 +161,13 @@ def limit_metacache_database(max_size=60):
     size = round(float(s)/1048576, 1)
     if size < max_size:
         return
-    dbcon = database.connect(metacache_db, timeout=60.0)
-    dbcur = dbcon.cursor()
-    dbcur.execute('''PRAGMA synchronous = OFF''')
-    dbcur.execute('''PRAGMA journal_mode = OFF''')
-    dbcur.execute(
+    dbcon = _init_db(metacache_db)
+    dbcon.execute(
         'DELETE FROM metadata WHERE ROWID IN (SELECT ROWID FROM metadata ORDER BY ROWID DESC LIMIT -1 OFFSET 4000)')
-    dbcur.execute(
+    dbcon.execute(
         'DELETE FROM function_cache WHERE ROWID IN (SELECT ROWID FROM function_cache ORDER BY ROWID DESC LIMIT -1 OFFSET 100)')
-    dbcur.execute(
+    dbcon.execute(
         'DELETE FROM season_metadata WHERE ROWID IN (SELECT ROWID FROM season_metadata ORDER BY ROWID DESC LIMIT -1 OFFSET 100)')
-    dbcon.commit()
     dbcon.execute('VACUUM')
 
 
@@ -289,9 +281,8 @@ class BaseCache(object):
             result = self.get_memory_cache(string, current_time)
             if result is None:
                 dbcon = self.connect_database()
-                dbcur = self.set_PRAGMAS(dbcon)
-                dbcur.execute(BASE_GET % self.table, (string,))
-                cache_data = dbcur.fetchone()
+                cache_data = dbcon.execute(BASE_GET % self.table, (string, ))
+                
                 if cache_data:
                     if cache_data[0] > current_time:
                         result = eval(cache_data[1])
@@ -306,7 +297,6 @@ class BaseCache(object):
         try:
             expires = self._get_timestamp(self.time + expiration)
             dbcon = self.connect_database()
-            dbcur = self.set_PRAGMAS(dbcon)
             dbcur.execute(BASE_SET % self.table,
                           (string, repr(data), int(expires)))
             self.set_memory_cache(data, string, int(expires))
@@ -347,13 +337,7 @@ class BaseCache(object):
         clear_property(string)
 
     def connect_database(self):
-        return database.connect(self.dbfile, timeout=self.timeout, isolation_level=None)
-
-    def set_PRAGMAS(self, dbcon):
-        dbcur = dbcon.cursor()
-        dbcur.execute('''PRAGMA synchronous = OFF''')
-        dbcur.execute('''PRAGMA journal_mode = OFF''')
-        return dbcur
+        return _init_db(self.dbfile)
 
     def _get_timestamp(self, date_time):
         return int(time.mktime(date_time.timetuple()))

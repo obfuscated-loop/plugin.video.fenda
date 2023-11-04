@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from modules.kodi_utils import sleep, confirm_dialog, close_all_dialog, trakt_db, database, Thread
+from modules.kodi_utils import sleep, confirm_dialog, close_all_dialog, trakt_db, _init_db, Thread
 # from modules.kodi_utils import logger
 
 SELECT = 'SELECT id FROM trakt_data'
@@ -18,81 +18,56 @@ timeout = 60
 
 class TraktWatched:
     def __init__(self):
-        self._connect_database()
-        self._set_PRAGMAS()
+        self.dbcon = _init_db(trakt_db)
 
     def set_bulk_movie_watched(self, insert_list):
         self._delete(WATCHED_DELETE, ('movie',))
-        self._executemany(WATCHED_INSERT, insert_list)
+        self.dbcon.executemany(WATCHED_INSERT, insert_list)
 
     def set_bulk_tvshow_watched(self, insert_list):
         self._delete(WATCHED_DELETE, ('episode',))
-        self._executemany(WATCHED_INSERT, insert_list)
+        self.dbcon.executemany(WATCHED_INSERT, insert_list)
 
     def set_bulk_movie_progress(self, insert_list):
         self._delete(PROGRESS_DELETE, ('movie',))
-        self._executemany(PROGRESS_INSERT, insert_list)
+        self.dbcon.executemany(PROGRESS_INSERT, insert_list)
 
     def set_bulk_tvshow_progress(self, insert_list):
         self._delete(PROGRESS_DELETE, ('episode',))
-        self._executemany(PROGRESS_INSERT, insert_list)
-
-    def _executemany(self, command, insert_list):
-        self.dbcur.executemany(command, insert_list)
+        self.dbcon.executemany(PROGRESS_INSERT, insert_list)
 
     def _delete(self, command, args):
-        self.dbcur.execute(command, args)
-        self.dbcur.execute('VACUUM')
-
-    def _connect_database(self):
-        self.dbcon = database.connect(
-            trakt_db, timeout=timeout, isolation_level=None)
-
-    def _set_PRAGMAS(self):
-        self.dbcur = self.dbcon.cursor()
-        self.dbcur.execute('''PRAGMA synchronous = OFF''')
-        self.dbcur.execute('''PRAGMA journal_mode = OFF''')
+        self.dbcon.execute(command, args)
+        self.dbcon.execute('VACUUM')
 
 
 class TraktCache:
+    def __init__(self):
+        self.dbcon = _init_db(trakt_db)
+
     def get(self, string):
         result = None
+
         try:
-            dbcon = self.connect_database()
-            dbcur = self.set_PRAGMAS(dbcon)
-            dbcur.execute(TC_BASE_GET, (string,))
-            cache_data = dbcur.fetchone()
+            self.dbcon.execute(TC_BASE_GET, (string, ))[0]
             if cache_data:
                 result = eval(cache_data[0])
         except:
             pass
+
         return result
 
     def set(self, string, data):
         try:
-            dbcon = self.connect_database()
-            dbcur = self.set_PRAGMAS(dbcon)
-            dbcur.execute(TC_BASE_SET, (string, repr(data)))
+            self.dbcon.execute(TC_BASE_SET, (string, repr(data), ))
         except:
             return None
 
     def delete(self, string, dbcon=None):
         try:
-            if not dbcon:
-                self.connect_database()
-            dbcur = self.set_PRAGMAS(dbcon)
-            dbcur.execute(TC_BASE_DELETE, (string,))
+            self.dbcon.execute(TC_BASE_DELETE, (string, ))
         except:
             pass
-
-    def connect_database(self):
-        return database.connect(trakt_db, timeout=timeout, isolation_level=None)
-
-    def set_PRAGMAS(self, dbcon):
-        dbcur = dbcon.cursor()
-        dbcur.execute('''PRAGMA synchronous = OFF''')
-        dbcur.execute('''PRAGMA journal_mode = OFF''')
-        return dbcur
 
 
 _cache = TraktCache()
@@ -111,15 +86,14 @@ def reset_activity(latest_activities):
     string = 'trakt_get_activity'
     cached_data = None
     try:
-        dbcon = _cache.connect_database()
-        dbcur = _cache.set_PRAGMAS(dbcon)
-        dbcur.execute(TC_BASE_GET, (string,))
-        cached_data = dbcur.fetchone()
+        cached_data = _cache.dbcon.execute(TC_BASE_GET, (string, ))[0]
+
         if cached_data:
             cached_data = eval(cached_data[0])
         else:
             cached_data = default_activities()
-        dbcur.execute(DELETE, (string,))
+            
+        _cache.dbcon.execute(DELETE, (string, ))
         _cache.set(string, latest_activities)
     except:
         pass
@@ -129,9 +103,7 @@ def reset_activity(latest_activities):
 def clear_trakt_hidden_data(list_type):
     string = 'trakt_hidden_items_%s' % list_type
     try:
-        dbcon = _cache.connect_database()
-        dbcur = _cache.set_PRAGMAS(dbcon)
-        dbcur.execute(DELETE, (string,))
+        _cache.dbcon.execute(DELETE, (string, ))
     except:
         pass
 
@@ -145,9 +117,7 @@ def clear_trakt_collection_watchlist_data(list_type, media_type):
     if media_type == 'movie':
         clear_trakt_movie_sets()
     try:
-        dbcon = _cache.connect_database()
-        dbcur = _cache.set_PRAGMAS(dbcon)
-        dbcur.execute(DELETE, (string,))
+        _cache.dbcon.execute(DELETE, (string, ))
     except:
         pass
 
@@ -155,48 +125,40 @@ def clear_trakt_collection_watchlist_data(list_type, media_type):
 def clear_trakt_list_contents_data(list_type):
     string = 'trakt_list_contents_' + list_type + '_%'
     try:
-        dbcon = _cache.connect_database()
-        dbcur = _cache.set_PRAGMAS(dbcon)
-        dbcur.execute(DELETE_LIKE % string)
+        _cache.dbcon.execute(DELETE_LIKE % string)
     except:
         pass
 
 
 def clear_trakt_list_data(list_type):
     string = 'trakt_%s' % list_type
+
     try:
-        dbcon = _cache.connect_database()
-        dbcur = _cache.set_PRAGMAS(dbcon)
-        dbcur.execute(DELETE, (string,))
+        _cache.dbcon.execute(DELETE, (string,))
     except:
         pass
 
 
 def clear_trakt_calendar():
-    try:
-        dbcon = _cache.connect_database()
-        dbcur = _cache.set_PRAGMAS(dbcon)
-        dbcur.execute(DELETE_LIKE % 'trakt_get_my_calendar_%')
+    try:_cache.dbcon.execute(DELETE_LIKE % 'trakt_get_my_calendar_%')
     except:
         return
 
 
 def clear_trakt_recommendations(media_type):
     string = 'trakt_recommendations_%s' % (media_type)
+
     try:
-        dbcon = _cache.connect_database()
-        dbcur = _cache.set_PRAGMAS(dbcon)
-        dbcur.execute(DELETE, (string,))
+        _cache.dbcon.execute(DELETE, (string, ))
     except:
         pass
 
 
 def clear_trakt_movie_sets():
     string = 'trakt_movie_sets'
+
     try:
-        dbcon = _cache.connect_database()
-        dbcur = _cache.set_PRAGMAS(dbcon)
-        dbcur.execute(DELETE, (string,))
+        _cache.dbcon.execute(DELETE, (string, ))
     except:
         pass
 
@@ -204,13 +166,15 @@ def clear_trakt_movie_sets():
 def clear_all_trakt_cache_data(silent=False, refresh=True):
     try:
         start = silent or confirm_dialog()
+
         if not start:
             return False
-        dbcon = _cache.connect_database()
-        dbcur = _cache.set_PRAGMAS(dbcon)
+
         for table in ('trakt_data', 'progress', 'watched_status'):
-            dbcur.execute(BASE_DELETE % table)
-        dbcur.execute('VACUUM')
+            _cache.dbcon.execute(BASE_DELETE % table)
+
+        _cache.execute('VACUUM')
+
         if refresh:
             from apis.trakt_api import trakt_sync_activities
             Thread(target=trakt_sync_activities).start()

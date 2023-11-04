@@ -18,20 +18,18 @@ class MainCache(BaseCache):
         from modules.meta_lists import media_lists
         media_list = media_lists
         dbcon = self.connect_database()
-        dbcur = self.set_PRAGMAS(dbcon)
         len_media_list = len(media_list)
         for count, item in enumerate(media_list, 1):
             if count == 1:
                 command = like_select % item
             else:
                 command += '%s%s' % (all_list_add, item)
-        dbcur.execute(command)
-        results = dbcur.fetchall()
+
         try:
-            for item in results:
+            for item in dbcon.execute(command):
                 try:
                     remove_id = str(item[0])
-                    dbcur.execute(delete, (remove_id,))
+                    dbcon.execute(delete, (remove_id, ))
                     self.delete_memory_cache(remove_id)
                 except:
                     pass
@@ -41,14 +39,15 @@ class MainCache(BaseCache):
 
     def delete_all_folderscrapers(self):
         dbcon = self.connect_database()
-        dbcur = self.set_PRAGMAS(dbcon)
-        dbcur.execute(like_select % "'fenda_FOLDERSCRAPER_%'")
-        remove_list = [str(i[0]) for i in dbcur.fetchall()]
+        remove_list = [str(i[0]) for i in dbcon.execute(like_select % "'fenda_FOLDERSCRAPER_%'")]
+
         if not remove_list:
             return
+
         try:
-            dbcur.execute(like_delete % "'fenda_FOLDERSCRAPER_%'")
+            dbcon.execute(like_delete % "'fenda_FOLDERSCRAPER_%'")
             dbcon.execute('VACUUM')
+
             for item in remove_list:
                 self.delete_memory_cache(str(item))
         except:

@@ -4,6 +4,7 @@ from windows.base_window import open_window, create_window
 from caches.base_cache import refresh_cached_data
 from indexers.people import person_data_dialog
 from modules import kodi_utils, source_utils, settings, metadata
+from kodi_utils import _init_db
 from modules.source_utils import clear_scrapers_cache, get_aliases_titles, make_alias_dict, audio_filter_choices
 from modules.utils import get_datetime, title_key, adjust_premiered_date, append_module_to_syspath, manual_module_import
 # logger = kodi_utils.logger
@@ -17,7 +18,7 @@ json, ls, build_url, select_dialog = kodi_utils.json, kodi_utils.local_string, k
 run_plugin, metadata_user_info, autoplay_next_episode, quality_filter = kodi_utils.run_plugin, settings.metadata_user_info, settings.autoplay_next_episode, settings.quality_filter
 numeric_input, container_update, activate_window = kodi_utils.numeric_input, kodi_utils.container_update, kodi_utils.activate_window
 poster_empty, fanart_empty, clear_property, highlight_prop = kodi_utils.empty_poster, kodi_utils.addon_fanart, kodi_utils.clear_property, kodi_utils.highlight_prop
-addon_icon, database, maincache_db, custom_context_prop = kodi_utils.addon_icon, kodi_utils.database, kodi_utils.maincache_db, kodi_utils.custom_context_prop
+addon_icon, maincache_db, custom_context_prop = kodi_utils.addon_icon, kodi_utils.maincache_db, kodi_utils.custom_context_prop
 movie_extras_buttons_defaults, tvshow_extras_buttons_defaults = kodi_utils.movie_extras_buttons_defaults, kodi_utils.tvshow_extras_buttons_defaults
 extras_button_label_values, jsonrpc_get_addons = kodi_utils.extras_button_label_values, kodi_utils.jsonrpc_get_addons
 get_language, extras_enabled_menus, active_internal_scrapers, auto_play = settings.get_language, settings.extras_enabled_menus, settings.active_internal_scrapers, settings.auto_play
@@ -220,28 +221,37 @@ def link_folders_choice(params):
     def _get_media_type():
         media_type_list = [('movie', ls(32028).replace('s', ''), get_icon(
             'movies')), ('tvshow', ls(32029).replace('s', ''), get_icon('tv'))]
+
         list_items = [{'line1': item[1], 'line2': ls(
             33077) % item[1], 'icon': item[2]} for item in media_type_list]
+
         kwargs = {'items': json.dumps(list_items), 'multi_line': 'true'}
+
         chosen_media_type = select_dialog(
             [i[0] for i in media_type_list], **kwargs)
+
         return chosen_media_type
+
     service, folder_id, action = params.get(
         'service'), params.get('folder_id'), params.get('action')
+
     string = 'Fenda_%s_%s' % (service, folder_id)
+
     current_link = main_cache.get(string)
+
     if action == 'remove':
         if not current_link:
             return
+
         if not confirm_dialog(text=ls(33075) % current_link['rootname']):
             return
-        dbcon = database.connect(maincache_db)
-        dbcur = dbcon.cursor()
-        dbcur.execute("DELETE FROM maincache WHERE id=?", (string,))
-        dbcon.commit()
-        dbcon.close()
+
+        dbcon = _init_db(maincache_db)
+        dbcon.execute("DELETE FROM maincache WHERE id=?", (string,))
+
         clear_property(string)
         ok_dialog(text=32576)
+        
         return kodi_refresh()
     if current_link and not confirm_dialog(text=ls(33076) % (current_link['media_type'].upper(), current_link['rootname'])):
         return

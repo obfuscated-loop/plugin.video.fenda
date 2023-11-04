@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from modules.kodi_utils import get_property, set_property, clear_property, database, navigator_db
+from modules.kodi_utils import get_property, set_property, clear_property, _init_db, navigator_db
 # from modules.kodi_utils import logger
 
 GET_LIST = 'SELECT list_contents FROM navigator WHERE list_name = ? AND list_type = ?'
@@ -248,40 +248,44 @@ main_menu_items = {'RootList': {'name': 32457, 'iconImage': 'fenda', 'mode': 'na
 
 class NavigatorCache:
     def __init__(self):
-        self._connect_database()
-        self._set_PRAGMAS()
+        self.dbcon = _init_db(navigator_db)
 
     def get_main_lists(self, list_name):
         default_contents = self.get_memory_cache(list_name, 'default')
+
         if not default_contents:
             default_contents = self.get_list(list_name, 'default')
+
             if default_contents == None:
                 self.rebuild_database()
                 return self.get_main_lists(list_name)
+            
             try:
                 edited_contents = self.get_list(list_name, 'edited')
             except:
                 edited_contents = None
         else:
             edited_contents = self.get_memory_cache(list_name, 'edited')
+        
         return default_contents, edited_contents
 
     def get_list(self, list_name, list_type):
         contents = None
+
         try:
-            contents = eval(self.dbcur.execute(
+            contents = eval(self.dbcon.execute(
                 GET_LIST, (list_name, list_type)).fetchone()[0])
         except:
             pass
+
         return contents
 
     def set_list(self, list_name, list_type, list_contents):
-        self.dbcur.execute(
-            SET_LIST, (list_name, list_type, repr(list_contents)))
+        self.dbcon.execute(SET_LIST, (list_name, list_type, repr(list_contents), ))
         self.set_memory_cache(list_name, list_type, list_contents)
 
     def delete_list(self, list_name, list_type):
-        self.dbcur.execute(DELETE_LIST, (list_name, list_type))
+        self.dbcon.execute(DELETE_LIST, (list_name, list_type))
         self.delete_memory_cache(list_name, list_type)
         self.dbcon.execute('VACUUM')
 
@@ -300,43 +304,37 @@ class NavigatorCache:
 
     def get_shortcut_folders(self):
         try:
-            folders = self.dbcur.execute(
+            folders = self.dbcon.execute(
                 GET_FOLDERS, ('shortcut_folder',)).fetchall()
             folders = sorted([(str(i[0]), eval(i[1]))
                              for i in folders], key=lambda s: s[0].lower())
         except:
             folders = []
+
         return folders
 
     def get_shortcut_folder_contents(self, list_name):
         contents = []
+
         try:
-            contents = eval(self.dbcur.execute(
+            contents = eval(self.dbcon.execute(
                 GET_FOLDER_CONTENTS, (list_name, 'shortcut_folder')).fetchone()[0])
         except:
             pass
+
         return contents
 
     def currently_used_list(self, list_name):
         default_contents, edited_contents = self.get_main_lists(list_name)
         list_items = edited_contents or default_contents
+
         return list_items
 
     def rebuild_database(self):
-        for list_name in default_menu_items:
-            self.set_list(list_name, 'default', main_menus[list_name])
+        map(lambda menu_item: self.set_list(menu_item, 'default', main_menus[menu_item]), default_menu_items)
 
     def _get_list_prop(self, list_type):
         return prop_dict[list_type]
-
-    def _connect_database(self):
-        self.dbcon = database.connect(
-            navigator_db, timeout=timeout, isolation_level=None)
-
-    def _set_PRAGMAS(self):
-        self.dbcur = self.dbcon.cursor()
-        self.dbcur.execute('''PRAGMA synchronous = OFF''')
-        self.dbcur.execute('''PRAGMA journal_mode = OFF''')
 
 
 navigator_cache = NavigatorCache()

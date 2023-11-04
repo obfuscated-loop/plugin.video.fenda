@@ -529,11 +529,10 @@ def get_cache_expiry(media_type, meta, season):
 def gather_assigned_content(string):
     from caches.main_cache import main_cache
     command = 'SELECT id, data from maincache where id LIKE %s'
+
     dbcon = main_cache.connect_database()
-    dbcur = main_cache.set_PRAGMAS(dbcon)
-    dbcur.execute(command % string)
-    results = dbcur.fetchall()
-    dbcon.close()
+    results = dbcon.execute(command % string).fetchall()
+
     if results:
         results = [(i[0], eval(i[1])) for i in results]
         results = [i for i in results if isinstance(i[1], dict)]

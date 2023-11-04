@@ -585,51 +585,47 @@ class RealDebridAPI:
 
     def clear_cache(self, clear_hashes=False):
         try:
-            from modules.kodi_utils import clear_property, path_exists, database, maincache_db
+            from modules.kodi_utils import clear_property, path_exists, _init_db, maincache_db
+
             if not path_exists(maincache_db):
                 return True
+
             from caches.debrid_cache import debrid_cache
             user_cloud_success = False
-            dbcon = database.connect(maincache_db)
-            dbcur = dbcon.cursor()
+            
+            dbcon = _init_db.connect(maincache_db)
             # USER CLOUD
             try:
-                dbcur.execute(
-                    """SELECT data FROM maincache WHERE id=?""", ('fenda_rd_user_cloud',))
                 try:
-                    user_cloud_cache = eval(dbcur.fetchone()[0])
-                    user_cloud_info_caches = [i['id']
-                                              for i in user_cloud_cache]
+                    user_cloud_cache = eval(dbcon.execute('SELECT data FROM maincache WHERE id=? LIMIT 1', ('fenda_rd_user_cloud', ))[0])
+                    user_cloud_info_caches = [i['id'] for i in user_cloud_cache]
                 except:
                     user_cloud_success = True
+
                 if not user_cloud_success:
-                    dbcur.execute(
-                        """DELETE FROM maincache WHERE id=?""", ('fenda_rd_user_cloud',))
+                    dbcon.execute('DELETE FROM maincache WHERE id=?', ('fenda_rd_user_cloud', ))
                     clear_property("fenda_rd_user_cloud")
+
                     for i in user_cloud_info_caches:
-                        dbcur.execute(
-                            """DELETE FROM maincache WHERE id=?""", ('fenda_rd_user_cloud_info_%s' % i,))
+                        dbcon.execute('DELETE FROM maincache WHERE id=?', ('fenda_rd_user_cloud_info_%s' % i, ))
                         clear_property("fenda_rd_user_cloud_info_%s" % i)
-                    dbcon.commit()
+
                     user_cloud_success = True
             except:
                 user_cloud_success = False
             # DOWNLOAD LINKS
             try:
-                dbcur.execute("""DELETE FROM maincache WHERE id=?""",
-                              ('fenda_rd_downloads',))
+                dbcon.execute('DELETE FROM maincache WHERE id=?', ('fenda_rd_downloads', ))
                 clear_property("fenda_rd_downloads")
-                dbcon.commit()
+
                 download_links_success = True
             except:
                 download_links_success = False
             # HOSTERS
             try:
-                dbcur.execute("""DELETE FROM maincache WHERE id=?""",
-                              ('fenda_rd_valid_hosts',))
+                dbcon.execute('DELETE FROM maincache WHERE id=?', ('fenda_rd_valid_hosts', ))
                 clear_property('fenda_rd_valid_hosts')
-                dbcon.commit()
-                dbcon.close()
+
                 hoster_links_success = True
             except:
                 hoster_links_success = False

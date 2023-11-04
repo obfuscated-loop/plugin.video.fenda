@@ -3,11 +3,12 @@ from datetime import timedelta
 from apis import tmdb_api
 from caches.main_cache import main_cache, cache_object
 from modules import kodi_utils, meta_lists
+from kodi_utils import _init_db
 from modules.settings import tmdb_api_key
 from modules.utils import safe_string, remove_accents
 # logger = kodi_utils.logger
 
-sys, json, translate_path, database, get_icon = kodi_utils.sys, kodi_utils.json, kodi_utils.translate_path, kodi_utils.database, kodi_utils.get_icon
+sys, json, translate_path, get_icon = kodi_utils.sys, kodi_utils.json, kodi_utils.translate_path, kodi_utils.get_icon
 get_property, dialog, notification, select_dialog, run_plugin = kodi_utils.get_property, kodi_utils.dialog, kodi_utils.notification, kodi_utils.select_dialog, kodi_utils.run_plugin
 add_items, show_text, container_refresh, focus_index, add_item = kodi_utils.add_items, kodi_utils.show_text, kodi_utils.container_refresh, kodi_utils.focus_index, kodi_utils.add_item
 ls, build_url, make_listitem, set_property, set_content = kodi_utils.local_string, kodi_utils.build_url, kodi_utils.make_listitem, kodi_utils.set_property, kodi_utils.set_content
@@ -490,20 +491,15 @@ class Discover:
                     yield (url, listitem, True)
                 except:
                     pass
+
         handle = int(sys.argv[1])
         media_type = media_type if media_type else self.media_type
         string = 'fenda_discover_%s_%%' % media_type
-        dbcon = database.connect(
-            maincache_db, timeout=40.0, isolation_level=None)
-        dbcur = dbcon.cursor()
-        dbcur.execute('''PRAGMA synchronous = OFF''')
-        dbcur.execute('''PRAGMA journal_mode = OFF''')
-        dbcur.execute(
-            "SELECT id, data FROM maincache WHERE id LIKE ? ORDER BY rowid DESC", (string,))
-        history = dbcur.fetchall()
-        if not display:
-            return [i[0] for i in history]
-        data = [eval(i[1]) for i in history]
+        
+        dbcon = _init_db(maincache_db)
+        # if not display:
+            # return [i[0] for i in history]
+        data = [eval(i[1]) for i in dbcon.execute('SELECT id, data FROM maincache WHERE id LIKE ? ORDER BY rowid DESC', (string, ))]
         item_list = list(_builder())
         add_items(handle, item_list)
         self._end_directory()
@@ -725,12 +721,13 @@ class Discover:
     def remove_from_history(self, params=None):
         if params is None:
             params = self.params
-        dbcon = database.connect(maincache_db)
-        dbcur = dbcon.cursor()
-        dbcur.execute("DELETE FROM maincache WHERE id=?", (params['data_id'],))
-        dbcon.commit()
+
+        dbcon = _init_db(maincache_db)
+        dbcon.execute("DELETE FROM maincache WHERE id=?", (params['data_id'], ))
+
         clear_property(params['data_id'])
         container_refresh()
+
         if not params['silent'] == 'true':
             notification(32576)
 
