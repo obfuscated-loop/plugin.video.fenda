@@ -18,6 +18,7 @@ from modules.kodi_utils import get_icon, show_busy_dialog, hide_busy_dialog, con
 class AllDebridAPI:
     def __init__(self):
         self.base_url = 'https://api.alldebrid.com/v4/'
+        self.pin_url = 'https://alldebrid.com/pin'
         self.token = get_setting('fenda.ad.token')
         self.session = make_session(self.base_url)
         self.break_auth_loop = False
@@ -40,7 +41,7 @@ class AllDebridAPI:
         except:
             pass
         sleep_interval = 5
-        content = line % (ls(32517), ls(32700) % self.base_url, ls(
+        content = line % (ls(32517), ls(32700) % self.pin_url, ls(
             32701) % '[COLOR goldenrod]%s[/COLOR]' % user_code)
         current_highlight = set_temp_highlight('goldenrod')
         progressDialog = progress_dialog('%s %s' % (
