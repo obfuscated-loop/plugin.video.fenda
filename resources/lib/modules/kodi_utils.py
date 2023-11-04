@@ -114,7 +114,7 @@ def translate_path(path):
     return translatePath(path)
 
 def get_icon(image_name):
-    return translate_path(f'special://home/addons/plugin.video.fenda/resources/skins/Default/media/fenda_icons/{image_name}.png')
+    return translate_path(f'special://home/addons/plugin.video.fenda/resources/skins/Default/media/fenda_icons/{image_name}.WEBP')
 
 empty_poster, item_jump, item_next = get_icon('box_office'), get_icon('item_jump'), get_icon('item_next')
 
