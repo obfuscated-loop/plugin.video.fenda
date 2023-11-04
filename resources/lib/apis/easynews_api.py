@@ -254,8 +254,7 @@ def clear_media_results_database():
     try:
         dbcon.execute("DELETE FROM maincache WHERE id LIKE 'fenda_EASYNEWS_SEARCH_%'")
 
-        for i in easynews_results:
-            clear_property(i)
+        map(clear_property, easynews_results)
 
         return 'success'
     except:

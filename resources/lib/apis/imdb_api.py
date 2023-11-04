@@ -581,8 +581,7 @@ def clear_imdb_cache(silent=False):
 
         dbcon.execute('DELETE FROM maincache WHERE id LIKE ?', ('imdb_%',))
 
-        for i in imdb_results:
-            clear_property(i)
+        map(clear_property, imdb_results)
 
         return True
 
@@ -614,8 +613,7 @@ def refresh_imdb_meta_data(imdb_id):
             (insert2, )
         ])
 
-        for i in imdb_results:
-            clear_property(i)
+        map(clear_property, imdb_results)
 
     except Exception as e:
         logger("imdb_api.py [refresh_imdb_meta_data]: ", str(e))
