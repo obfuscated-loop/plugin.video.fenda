@@ -12,7 +12,7 @@ from modules.utils import get_datetime, title_key, adjust_premiered_date, append
 ok_dialog, container_content, close_all_dialog, external = kodi_utils.ok_dialog, kodi_utils.container_content, kodi_utils.close_all_dialog, kodi_utils.external
 get_property, open_settings, set_property, get_icon, dialog = kodi_utils.get_property, kodi_utils.open_settings, kodi_utils.set_property, kodi_utils.get_icon, kodi_utils.dialog
 show_busy_dialog, hide_busy_dialog, notification, confirm_dialog = kodi_utils.show_busy_dialog, kodi_utils.hide_busy_dialog, kodi_utils.notification, kodi_utils.confirm_dialog
-img_url, sleep, manage_settings_reset, default_highlights = kodi_utils.img_url, kodi_utils.sleep, kodi_utils.manage_settings_reset, kodi_utils.default_highlights
+sleep, manage_settings_reset, default_highlights = kodi_utils.sleep, kodi_utils.manage_settings_reset, kodi_utils.default_highlights
 get_setting, set_setting, kodi_refresh, container_refresh_input = kodi_utils.get_setting, kodi_utils.set_setting, kodi_utils.kodi_refresh, kodi_utils.container_refresh_input
 json, ls, build_url, select_dialog = kodi_utils.json, kodi_utils.local_string, kodi_utils.build_url, kodi_utils.select_dialog
 run_plugin, metadata_user_info, autoplay_next_episode, quality_filter = kodi_utils.run_plugin, settings.metadata_user_info, settings.autoplay_next_episode, settings.quality_filter
@@ -943,13 +943,15 @@ def results_sorting_choice(params={}):
 
 
 def results_format_choice(params={}):
+    img_url = 'https://i.imgur.com/%s'
+
     xml_choices = [
-        ('List',                 img_url % '5qdaSAr'),
-        ('InfoList',             img_url % 'wePo8Vv'),
-        ('MediaList',            img_url % 'xXWixYv'),
-        ('Rows',                 img_url % '44OzIVW'),
+        ('List',                 img_url % '5qdaSAr.png'),
+        ('InfoList',             img_url % 'wePo8Vv.png'),
+        ('MediaList',            img_url % 'xXWixYv.png'),
+        ('Rows',                 img_url % '44OzIVW.png'),
         ('WideList',                 img_url %
-         '9oIDKtL')
+         '9oIDKtL.png')
     ]
     choice = open_window(('windows.sources', 'SourcesChoice'),
                          'sources_choice.xml', xml_choices=xml_choices)
