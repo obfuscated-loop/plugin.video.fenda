@@ -1,4 +1,2 @@
-[COLOR dodgerblue][B]Version 1.0.0[/B][/COLOR]
-- Rebranded Fen to Fenda as development for Fen has been stopped
-
-++
+[COLOR dodgerblue][B] Fenda - Version 1.0.1[/B][/COLOR]
+- Fenda has had a speed-up applied, you should notice this when browsing menus on low-end machines...
