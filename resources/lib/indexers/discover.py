@@ -3,7 +3,7 @@ from datetime import timedelta
 from apis import tmdb_api
 from caches.main_cache import main_cache, cache_object
 from modules import kodi_utils, meta_lists
-from kodi_utils import _init_db
+from modules.kodi_utils import _init_db
 from modules.settings import tmdb_api_key
 from modules.utils import safe_string, remove_accents
 # logger = kodi_utils.logger

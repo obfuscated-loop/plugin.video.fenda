@@ -4,7 +4,7 @@ from windows.base_window import open_window, create_window
 from caches.base_cache import refresh_cached_data
 from indexers.people import person_data_dialog
 from modules import kodi_utils, source_utils, settings, metadata
-from kodi_utils import _init_db
+from modules.kodi_utils import _init_db
 from modules.source_utils import clear_scrapers_cache, get_aliases_titles, make_alias_dict, audio_filter_choices
 from modules.utils import get_datetime, title_key, adjust_premiered_date, append_module_to_syspath, manual_module_import
 # logger = kodi_utils.logger
