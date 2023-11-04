@@ -14,7 +14,6 @@ from os import path as osPath
 from xml.dom.minidom import parse as mdParse
 from threading import Thread, activeCount
 from urllib.parse import unquote, unquote_plus, urlencode, quote, parse_qsl, urlparse
-from modules import icons
 
 addon_object = xbmcaddon.Addon('plugin.video.fenda')
 getLocalizedString = addon_object.getLocalizedString
@@ -56,9 +55,7 @@ maincache_db = translatePath(path_join(database_path_raw, 'maincache.db'))
 metacache_db = translatePath(path_join(database_path_raw, 'metacache2.db'))
 debridcache_db = translatePath(path_join(database_path_raw, 'debridcache.db'))
 external_db = translatePath(path_join(database_path_raw, 'providerscache2.db'))
-img_url = 'https://i.imgur.com/%s.png'
 invoker_switch_dict = {'true': 'false', 'false': 'true'}
-empty_poster, item_jump, item_next = img_url % icons.box_office, img_url % icons.item_jump, img_url % icons.item_next
 tmdb_default_api, fanarttv_default_api = 'b370b60447737762ca38457bd77579b3', 'fa836e1c874ba95ab08a14ee88e05565'
 current_dbs = ('navigator.db', 'watched.db', 'favourites.db', 'traktcache4.db',
                'maincache.db', 'metacache2.db', 'debridcache.db', 'providerscache2.db', 'settings.db')
@@ -112,9 +109,14 @@ default_highlights = (('hoster.identify', 'FF0166FF'), ('torrent.identify', 'FFF
                       ('highlight', 'FFC0C0C0'), ('scraper_flag_identify_colour', 'FF7C7C7C'), ('scraper_result_identify_colour', 'FFFFFFFF'))
 
 
-def get_icon(image_name):
-    return img_url % getattr(icons, image_name, 'I1JJhji')
 
+def translate_path(path):
+    return translatePath(path)
+
+def get_icon(image_name):
+    return translate_path(f'special://home/addons/plugin.video.fenda/resources/skins/Default/media/fenda_icons/{image_name}.png')
+
+empty_poster, item_jump, item_next = get_icon('box_office'), get_icon('item_jump'), get_icon('item_next')
 
 def local_string(string):
     if isinstance(string, str):
@@ -288,10 +290,6 @@ def make_directory(path):
 
 def make_directories(path):
     mkdirs(path)
-
-
-def translate_path(path):
-    return translatePath(path)
 
 
 def sleep(time):
