@@ -60,9 +60,13 @@ class Images():
                 url_params = {'mode': 'person_data_dialog',
                               'actor_name': item['name'], 'actor_id': item['id'], 'actor_image': actor_image}
                 listitem = make_listitem()
-                listitem.setProperty('thumb', actor_poster)
-                listitem.setProperty('name', item['name'])
-                listitem.setProperty('action', json.dumps(url_params))
+
+                listitem.setProperties({
+                    'thumb': actor_poster,
+                    'name': item['name'],
+                    'action': json.dumps(url_params),
+                })
+
                 yield listitem
         page_no = self.params['page_no']
         image_info = tmdb_popular_people(page_no)
@@ -82,10 +86,14 @@ class Images():
                     rolling_count += 1
                     name = '%s_%s_%03d' % (
                         media_title, item['title'], rolling_count)
-                    listitem.setProperty('thumb', item['thumb'])
-                    listitem.setProperty('path', item['image'])
-                    listitem.setProperty('name', name)
-                    listitem.setProperty('action', image_action)
+      
+                    listitem.setProperties({
+                        'thumb': item['thumb'],
+                        'path': item['image'],
+                        'name': name,
+                        'action': image_action,
+                    })
+
                     yield listitem
                 except:
                     pass
@@ -127,10 +135,14 @@ class Images():
             for item in all_images:
                 try:
                     listitem = make_listitem()
-                    listitem.setProperty('path', item[0])
-                    listitem.setProperty('name', item[1])
-                    listitem.setProperty('thumb', item[2])
-                    listitem.setProperty('action', image_action)
+                    
+                    listitem.setProperties({
+                        'thumb': item[2],
+                        'path': item[0],
+                        'name': item[1],
+                        'action': image_action,
+                    })
+
                     yield listitem
                 except:
                     pass
@@ -190,10 +202,14 @@ class Images():
                         'original', item['file_path'])
                     name = '%s_%s_%03d' % (actor_name, media[name_key], count)
                     listitem = make_listitem()
-                    listitem.setProperty('thumb', thumb_url)
-                    listitem.setProperty('path', image_url)
-                    listitem.setProperty('name', name)
-                    listitem.setProperty('action', image_action)
+
+                    listitem.setProperties({
+                        'thumb': thumb_url,
+                        'path': image_url,
+                        'name': item,
+                        'action': image_action,
+                    })
+
                     yield listitem
                 except:
                     pass
@@ -222,11 +238,15 @@ class Images():
                         thumb_url = os.path.join(thumbs_path, item)
                     except:
                         thumb_url = image_url
-                    listitem.setProperty('thumb', thumb_url)
-                    listitem.setProperty('path', image_url)
-                    listitem.setProperty('name', item)
-                    listitem.setProperty('action', image_action)
-                    listitem.setProperty('delete', 'true')
+
+                    listitem.setProperties({
+                        'thumb': thumb_url,
+                        'path': image_url,
+                        'name': item,
+                        'action': image_action,
+                        'delete': 'true'
+                    })
+
                     yield listitem
                 except:
                     pass
