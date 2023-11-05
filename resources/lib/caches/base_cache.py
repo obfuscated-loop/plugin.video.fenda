@@ -21,12 +21,14 @@ BASE_DELETE = 'DELETE FROM %s WHERE id = ?'
 def check_databases():
     if not path_exists(databases_path):
         make_directory(databases_path)
+
     remove_old_caches()
+    
     # Navigator
     dbcon = _init_db(navigator_db)
     dbcon.execute("""CREATE TABLE IF NOT EXISTS navigator
 				(list_name text, list_type text, list_contents text, unique(list_name, list_type))""")
-    dbcon.close()
+
     # Watched Status
     dbcon = _init_db(watched_db)
     dbcon.execute("""CREATE TABLE IF NOT EXISTS watched_status
@@ -34,12 +36,12 @@ def check_databases():
     dbcon.execute("""CREATE TABLE IF NOT EXISTS progress
 					(db_type text, media_id text, season integer, episode integer, resume_point text, curr_time text,
 					last_played text, resume_id integer, title text, unique(db_type, media_id, season, episode))""")
-    dbcon.close()
+
     # Favorites
     dbcon = _init_db(favorites_db)
     dbcon.execute(
         """CREATE TABLE IF NOT EXISTS favourites (db_type text, tmdb_id text, title text, unique (db_type, tmdb_id))""")
-    dbcon.close()
+
     # Trakt
     dbcon = _init_db(trakt_db)
     dbcon.execute(
@@ -49,12 +51,12 @@ def check_databases():
     dbcon.execute("""CREATE TABLE IF NOT EXISTS progress
 					(db_type text, media_id text, season integer, episode integer, resume_point text, curr_time text,
 					last_played text, resume_id integer, title text, unique(db_type, media_id, season, episode))""")
-    dbcon.close()
+
     # Main Cache
     dbcon = _init_db(maincache_db)
     dbcon.execute(
         """CREATE TABLE IF NOT EXISTS maincache (id text unique, data text, expires integer)""")
-    dbcon.close()
+
     # Meta Cache
     dbcon = _init_db(metacache_db)
     dbcon.execute("""CREATE TABLE IF NOT EXISTS metadata
@@ -63,17 +65,16 @@ def check_databases():
         """CREATE TABLE IF NOT EXISTS season_metadata (tmdb_id text not null unique, meta text, expires integer)""")
     dbcon.execute(
         """CREATE TABLE IF NOT EXISTS function_cache (string_id text not null, data text, expires integer)""")
-    dbcon.close()
+
     # Debrid Cache
     dbcon = _init_db(debridcache_db)
     dbcon.execute("""CREATE TABLE IF NOT EXISTS debrid_data (hash text not null, debrid text not null, cached text, expires integer, unique (hash, debrid))""")
-    dbcon.close()
+
     # External Providers Cache
     dbcon = _init_db(external_db)
     dbcon.execute("""CREATE TABLE IF NOT EXISTS results_data
 					(provider text, db_type text, tmdb_id text, title text, year integer, season text, episode text, results text,
 					expires integer, unique (provider, db_type, tmdb_id, title, year, season, episode))""")
-    dbcon.close()
 
 
 def remove_old_caches():
@@ -273,22 +274,23 @@ class BaseCache(object):
         self.table = table
         self.time = datetime.now()
         self.timeout = 240
+        self.dbcon = _init_db(self.dbfile)
 
     def get(self, string):
         result = None
         try:
             current_time = self._get_timestamp(self.time)
             result = self.get_memory_cache(string, current_time)
+
             if result is None:
-                dbcon = self.connect_database()
-                cache_data = dbcon.execute(BASE_GET % self.table, (string, ))
+                cache_data = self.dbcon.execute(BASE_GET % self.table, (string, ))
                 
                 if cache_data:
                     if cache_data[0] > current_time:
                         result = eval(cache_data[1])
                         self.set_memory_cache(result, string, cache_data[1])
                     else:
-                        self.delete(string, dbcon)
+                        self.delete(string)
         except:
             pass
         return result
@@ -296,9 +298,8 @@ class BaseCache(object):
     def set(self, string, data, expiration=timedelta(days=30)):
         try:
             expires = self._get_timestamp(self.time + expiration)
-            dbcon = self.connect_database()
-            dbcur.execute(BASE_SET % self.table,
-                          (string, repr(data), int(expires)))
+            
+            self.dbcon.execute(BASE_SET % self.table, (string, repr(data), int(expires), ))
             self.set_memory_cache(data, string, int(expires))
         except:
             return None
@@ -307,37 +308,35 @@ class BaseCache(object):
         result = None
         try:
             cachedata = get_property(string)
+
             if cachedata:
                 cachedata = eval(cachedata)
+
                 if cachedata[0] > current_time:
                     result = cachedata[1]
         except:
             pass
+
         return result
 
     def set_memory_cache(self, data, string, expires):
         try:
             cachedata = (expires, data)
             cachedata_repr = repr(cachedata)
+
             set_property(string, cachedata_repr)
         except:
             pass
 
-    def delete(self, string, dbcon=None):
+    def delete(self, string):
         try:
-            if not dbcon:
-                self.connect_database()
-            dbcur = dbcon.cursor()
-            dbcur.execute(BASE_DELETE % self.table, (string,))
+            self.dbcon.execute(BASE_DELETE % self.table, (string, ))
             self.delete_memory_cache(string)
         except:
             pass
 
     def delete_memory_cache(self, string):
         clear_property(string)
-
-    def connect_database(self):
-        return _init_db(self.dbfile)
 
     def _get_timestamp(self, date_time):
         return int(time.mktime(date_time.timetuple()))
