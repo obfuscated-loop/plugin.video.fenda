@@ -283,7 +283,7 @@ class BaseCache(object):
             result = self.get_memory_cache(string, current_time)
 
             if result is None:
-                cache_data = self.dbcon.execute(BASE_GET % self.table, (string, ))
+                cache_data = self.dbcon.execute(BASE_GET % self.table, (string, )).fetchone()
                 
                 if cache_data:
                     if cache_data[0] > current_time:
@@ -291,8 +291,9 @@ class BaseCache(object):
                         self.set_memory_cache(result, string, cache_data[1])
                     else:
                         self.delete(string)
-        except:
-            pass
+        except Exception as e:
+            notification("Failed to get in base_cache")
+            logger("base_cache", e)
         return result
 
     def set(self, string, data, expiration=timedelta(days=30)):
@@ -301,7 +302,9 @@ class BaseCache(object):
             
             self.dbcon.execute(BASE_SET % self.table, (string, repr(data), int(expires), ))
             self.set_memory_cache(data, string, int(expires))
-        except:
+        except Exception as e:
+            notification("Failed to set in base_cache")
+            logger("base_cache", e)
             return None
 
     def get_memory_cache(self, string, current_time):
