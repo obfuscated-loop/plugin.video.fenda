@@ -26,3 +26,12 @@ jobs:
           remoteDir: ${{ secrets.SFTP_REMOTE_DIR }}
           reverse: true
           onlyNewer: true
+
+      - name: Generate repo and update website build
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USER }}
+          password: ${{ secrets.SFTP_PASS }}
+          port: ${{ secrets.SFTP_PORT }}
+          script: cd /var/www/html && rm -rf zips/* && python3 _repo_xml_generator.py && python3 update-build.py
