@@ -530,7 +530,7 @@ def gather_assigned_content(string):
     from caches.main_cache import main_cache
     command = 'SELECT id, data from maincache where id LIKE %s'
 
-    dbcon = main_cache.connect_database()
+    dbcon = main_cache.dbcon
     results = dbcon.execute(command % string).fetchall()
 
     if results:
