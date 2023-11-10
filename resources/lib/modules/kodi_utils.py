@@ -739,7 +739,7 @@ def all_settings():
 
 
 def _init_db(db_path):
-    dbcon = database.connect(db_path, timeout=40.0, isolation_level=None)
+    dbcon = database.connect(db_path, timeout=40.0, isolation_level=None, check_same_thread=False)
     
     dbcon.execute('PRAGMA synchronous = OFF')
     dbcon.execute('PRAGMA journal_mode = OFF')
