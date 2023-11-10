@@ -32,4 +32,4 @@ So far, there are no *major* new features - I have rebranded and formatted the e
 ### 
 
 ## Contributing
-I will be accepting PRs and will strongly consider suggestions if they are to come my way, so feel free to open Issues/PRs (no stupid ones please). 
+I will be accepting PRs and will strongly consider suggestions if they are to come my way, so feel free to open Issues/PRs (no stupid ones please).
