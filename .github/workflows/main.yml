@@ -25,3 +25,4 @@ jobs:
           localDir: '.'
           remoteDir: ${{ secrets.SFTP_REMOTE_DIR }}
           reverse: true
+          onlyNewer: true
