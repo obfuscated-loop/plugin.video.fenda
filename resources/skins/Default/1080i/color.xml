@@ -7,7 +7,7 @@
             <top>0</top>
             <width>1920</width>
             <height>1080</height>
-            <texture colordiffuse="FF000000">fenda_common/white.png</texture>
+            <texture colordiffuse="FF000000">fenda_common/white.WEBP</texture>
             <animation type="WindowOpen" reversible="false">
                 <effect type="fade" start="0" end="80" time="120" />
             </animation>
@@ -25,12 +25,12 @@
                     <top>-2</top>
                     <width>1662</width>
                     <height>942</height>
-                    <texture border="16" colordiffuse="Window(10000).Property(fenda.main_highlight)">fenda_common/dialog.png</texture>
+                    <texture border="16" colordiffuse="Window(10000).Property(fenda.main_highlight)">fenda_common/dialog.WEBP</texture>
                 </control>
                 <control type="image">
                     <width>1658</width>
                     <height>938</height>
-                    <texture border="16" colordiffuse="FF302F2F">fenda_common/dialog.png</texture>
+                    <texture border="16" colordiffuse="FF302F2F">fenda_common/dialog.WEBP</texture>
                 </control>
                 <control type="image">
                     <left>10</left>
@@ -40,7 +40,7 @@
                     <align>left</align>
                     <aligny>top</aligny>
                     <aspectratio aligny="top">keep</aspectratio>
-                    <texture colordiffuse="FFCCCCCC">fenda_common/fenda.png</texture>
+                    <texture colordiffuse="FFCCCCCC">fenda_common/fenda.WEBP</texture>
                 </control>
                 <control type="label">
                     <top>20</top>
@@ -80,7 +80,7 @@
                             <top>0</top>
                             <width>97</width>
                             <height>75</height>
-                            <texture colordiffuse="FF302F2F">fenda_common/white.png</texture>
+                            <texture colordiffuse="FF302F2F">fenda_common/white.WEBP</texture>
                         </control>
                         <control type="image">
                             <left>2</left>
@@ -108,7 +108,7 @@
                             <top>0</top>
                             <width>97</width>
                             <height>44</height>
-                            <texture colordiffuse="FF302F2F">fenda_common/white.png</texture>
+                            <texture colordiffuse="FF302F2F">fenda_common/white.WEBP</texture>
                         </control>
                         <control type="image">
                             <left>2</left>
@@ -136,7 +136,7 @@
                             <top>0</top>
                             <width>44</width>
                             <height>44</height>
-                            <texture colordiffuse="FF302F2F">fenda_common/white.png</texture>
+                            <texture colordiffuse="FF302F2F">fenda_common/white.WEBP</texture>
                         </control>
                         <control type="image">
                             <left>2</left>
@@ -164,8 +164,8 @@
                     <font>font12</font> <!-- Fenda_26 -->
                     <textcolor>FFB7B4BB</textcolor>
                     <focusedcolor>FF302F2F</focusedcolor>
-                    <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.png</texturefocus>
-                    <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.png</texturenofocus>
+                    <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.WEBP</texturefocus>
+                    <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.WEBP</texturenofocus>
                     <align>center</align>
                 </control>
                 <control type="button" id="11">
@@ -181,8 +181,8 @@
                     <font>font12</font> <!-- Fenda_26 -->
                     <textcolor>FFB7B4BB</textcolor>
                     <focusedcolor>FF302F2F</focusedcolor>
-                    <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.png</texturefocus>
-                    <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.png</texturenofocus>
+                    <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.WEBP</texturefocus>
+                    <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.WEBP</texturenofocus>
                     <align>center</align>
                 </control>
                 <control type="label">
@@ -207,8 +207,8 @@
                     <onright>2000</onright>
                     <label>[COLOR=$INFO[Container(2000).ListItem.Property(label)]]$INFO[Container(2000).ListItem.Property(label)][/COLOR]</label>
                     <font>font12</font> <!-- Fenda_26 -->
-                    <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.png</texturefocus>
-                    <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.png</texturenofocus>
+                    <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.WEBP</texturefocus>
+                    <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.WEBP</texturenofocus>
                     <align>center</align>
                 </control>
                 <control type="image">
@@ -217,7 +217,7 @@
                     <width>240</width>
                     <height>100</height>
                     <aspectratio>stretch</aspectratio>
-                    <texture diffuse="fenda_diffuse/landscape_w284_h160.png">$INFO[Container(2000).ListItem.Property(image)]</texture>
+                    <texture diffuse="fenda_diffuse/landscape_w284_h160.WEBP">$INFO[Container(2000).ListItem.Property(image)]</texture>
                 </control>
                 <control type="label">
                     <top>480</top>
@@ -243,8 +243,8 @@
                     <font>font12</font> <!-- Fenda_26 -->
                     <textcolor>FFB7B4BB</textcolor>
                     <focusedcolor>FF302F2F</focusedcolor>
-                    <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.png</texturefocus>
-                    <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.png</texturenofocus>
+                    <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.WEBP</texturefocus>
+                    <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.WEBP</texturenofocus>
                     <align>center</align>
                 </control>
             </control>
@@ -261,7 +261,7 @@
             <control type="image">
                 <width max="70">auto</width>
                 <height max="70">auto</height>
-                <texture flipx="true" colordiffuse="FFFAFAFA">fenda_common/spinner.png</texture>
+                <texture flipx="true" colordiffuse="FFFAFAFA">fenda_common/spinner.WEBP</texture>
                 <animation effect="fade" time="320" delay="400">Visible</animation>
                 <animation effect="rotate" end="360" center="auto" time="1200" loop="true" reversible="false" condition="true">Conditional</animation>
                 <animation effect="fade" start="70" time="1200" condition="true" pulse="true">Conditional</animation>

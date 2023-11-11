@@ -8,7 +8,7 @@
     <controls>
         <control type="image">
             <height>550</height>
-            <texture>fenda_common/dim-top.png</texture>
+            <texture>fenda_common/dim-top.WEBP</texture>
         </control>
         <control type="group">
             <left>20</left>
@@ -19,16 +19,16 @@
                 <top>-1</top>
                 <width>286</width>
                 <height>162</height>
-                <texture border="16" colordiffuse="Window(10000).Property(fenda.main_highlight)">fenda_common/dialog.png</texture>
+                <texture border="16" colordiffuse="Window(10000).Property(fenda.main_highlight)">fenda_common/dialog.WEBP</texture>
             </control>
             <control type="image">
                 <width>284</width>
-                <texture colordiffuse="FF000000" diffuse="fenda_diffuse/landscape_w284_h160.png">fenda_common/white.png</texture>
+                <texture colordiffuse="FF000000" diffuse="fenda_diffuse/landscape_w284_h160.WEBP">fenda_common/white.WEBP</texture>
             </control>
             <control type="image">
                 <width>284</width>
                 <aspectratio>scale</aspectratio>
-                <texture diffuse="fenda_diffuse/landscape_w284_h160.png">$INFO[Window.Property(thumb)]</texture>
+                <texture diffuse="fenda_diffuse/landscape_w284_h160.WEBP">$INFO[Window.Property(thumb)]</texture>
                 <animation effect="fade" start="100" end="65" time="0">WindowOpen</animation>
             </control>
             <control type="image">
@@ -47,7 +47,7 @@
                 <align>left</align>
                 <aligny>top</aligny>
                 <aspectratio aligny="top">keep</aspectratio>
-                <texture colordiffuse="B3CCCCCC">fenda_common/fenda.png</texture>
+                <texture colordiffuse="B3CCCCCC">fenda_common/fenda.WEBP</texture>
                 <animation effect="fade" start="100" end="70" time="0">WindowOpen</animation>
             </control>
             <control type="group">
@@ -118,8 +118,8 @@
                         <font>font10</font> <!-- Fenda_21 -->
                         <textcolor>FFB7B4BB</textcolor>
                         <focusedcolor>FF302F2F</focusedcolor>
-                        <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.png</texturefocus>
-                        <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.png</texturenofocus>
+                        <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.WEBP</texturefocus>
+                        <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.WEBP</texturenofocus>
                         <align>center</align>
                     </control>
                     <control type="button" id="11">
@@ -132,8 +132,8 @@
                         <font>font10</font> <!-- Fenda_21 -->
                         <textcolor>FFB7B4BB</textcolor>
                         <focusedcolor>FF302F2F</focusedcolor>
-                        <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.png</texturefocus>
-                        <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.png</texturenofocus>
+                        <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.WEBP</texturefocus>
+                        <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.WEBP</texturenofocus>
                         <align>center</align>
                     </control>
                     <control type="button" id="12">
@@ -146,8 +146,8 @@
                         <font>font10</font> <!-- Fenda_21 -->
                         <textcolor>FFB7B4BB</textcolor>
                         <focusedcolor>FF302F2F</focusedcolor>
-                        <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.png</texturefocus>
-                        <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.png</texturenofocus>
+                        <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.WEBP</texturefocus>
+                        <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.WEBP</texturenofocus>
                         <align>center</align>
                     </control>
                 </control>
@@ -170,8 +170,8 @@
                         <font>font10</font> <!-- Fenda_21 -->
                         <textcolor>FFB7B4BB</textcolor>
                         <focusedcolor>FF302F2F</focusedcolor>
-                        <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.png</texturefocus>
-                        <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.png</texturenofocus>
+                        <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.WEBP</texturefocus>
+                        <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.WEBP</texturenofocus>
                         <align>center</align>
                     </control>
                     <control type="button" id="11">
@@ -184,8 +184,8 @@
                         <font>font10</font> <!-- Fenda_21 -->
                         <textcolor>FFB7B4BB</textcolor>
                         <focusedcolor>FF302F2F</focusedcolor>
-                        <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.png</texturefocus>
-                        <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.png</texturenofocus>
+                        <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.WEBP</texturefocus>
+                        <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.WEBP</texturenofocus>
                         <align>center</align>
                     </control>
                     <control type="button" id="12">
@@ -198,8 +198,8 @@
                         <font>font10</font> <!-- Fenda_21 -->
                         <textcolor>FFB7B4BB</textcolor>
                         <focusedcolor>FF302F2F</focusedcolor>
-                        <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.png</texturefocus>
-                        <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.png</texturenofocus>
+                        <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.WEBP</texturefocus>
+                        <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.WEBP</texturenofocus>
                         <align>center</align>
                     </control>
                 </control>

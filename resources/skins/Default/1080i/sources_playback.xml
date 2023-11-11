@@ -6,7 +6,7 @@
             <width>1920</width>
             <height>1080</height>
             <control type="image">
-                <texture colordiffuse="FF000000">fenda_common/white.png</texture>
+                <texture colordiffuse="FF000000">fenda_common/white.WEBP</texture>
             </control>
             <control type="image">
                 <texture>$INFO[Window.Property(fanart)]</texture>
@@ -26,7 +26,7 @@
                     <width>60</width>
                     <height>60</height>
                     <aspectratio aligny="top">keep</aspectratio>
-                    <texture>fenda_common/fenda.png</texture>
+                    <texture>fenda_common/fenda.WEBP</texture>
                 </control>
                 <control type="label">
                     <left>70</left>
@@ -96,7 +96,7 @@
                 <top>552</top>
                 <width>30</width>
                 <height>30</height>
-                <texture flipx="true" colordiffuse="FFFAFAFA">fenda_common/spinner.png</texture>
+                <texture flipx="true" colordiffuse="FFFAFAFA">fenda_common/spinner.WEBP</texture>
                 <animation effect="fade" time="320" delay="400">Visible</animation>
                 <animation effect="rotate" end="360" center="auto" time="1200" loop="true" reversible="false" condition="true">Conditional</animation>
                 <animation effect="fade" start="70" time="1200" condition="true" pulse="true">Conditional</animation>
@@ -110,147 +110,147 @@
                         <left>0</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="FF434343">fenda_common/white.png</texture>
+                        <texture colordiffuse="FF434343">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsLess(Window().Property(percent),1)</visible>
                     </control>
                     <control type="image">
                         <left>20</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="FF434343">fenda_common/white.png</texture>
+                        <texture colordiffuse="FF434343">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsLess(Window().Property(percent),5)</visible>
                     </control>
                     <control type="image">
                         <left>40</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="FF434343">fenda_common/white.png</texture>
+                        <texture colordiffuse="FF434343">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsLess(Window().Property(percent),10)</visible>
                     </control>
                     <control type="image">
                         <left>60</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="FF434343">fenda_common/white.png</texture>
+                        <texture colordiffuse="FF434343">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsLess(Window().Property(percent),15)</visible>
                     </control>
                     <control type="image">
                         <left>80</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="FF434343">fenda_common/white.png</texture>
+                        <texture colordiffuse="FF434343">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsLess(Window().Property(percent),20)</visible>
                     </control>
                     <control type="image">
                         <left>100</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="FF434343">fenda_common/white.png</texture>
+                        <texture colordiffuse="FF434343">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsLess(Window().Property(percent),25)</visible>
                     </control>
                     <control type="image">
                         <left>120</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="FF434343">fenda_common/white.png</texture>
+                        <texture colordiffuse="FF434343">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsLess(Window().Property(percent),30)</visible>
                     </control>
                     <control type="image">
                         <left>140</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="FF434343">fenda_common/white.png</texture>
+                        <texture colordiffuse="FF434343">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsLess(Window().Property(percent),35)</visible>
                     </control>
                     <control type="image">
                         <left>160</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="FF434343">fenda_common/white.png</texture>
+                        <texture colordiffuse="FF434343">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsLess(Window().Property(percent),40)</visible>
                     </control>
                     <control type="image">
                         <left>180</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="FF434343">fenda_common/white.png</texture>
+                        <texture colordiffuse="FF434343">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsLess(Window().Property(percent),45)</visible>
                     </control>
                     <control type="image">
                         <left>200</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="FF434343">fenda_common/white.png</texture>
+                        <texture colordiffuse="FF434343">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsLess(Window().Property(percent),50)</visible>
                     </control>
                     <control type="image">
                         <left>220</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="FF434343">fenda_common/white.png</texture>
+                        <texture colordiffuse="FF434343">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsLess(Window().Property(percent),55)</visible>
                     </control>
                     <control type="image">
                         <left>240</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="FF434343">fenda_common/white.png</texture>
+                        <texture colordiffuse="FF434343">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsLess(Window().Property(percent),60)</visible>
                     </control>
                     <control type="image">
                         <left>260</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="FF434343">fenda_common/white.png</texture>
+                        <texture colordiffuse="FF434343">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsLess(Window().Property(percent),65)</visible>
                     </control>
                     <control type="image">
                         <left>280</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="FF434343">fenda_common/white.png</texture>
+                        <texture colordiffuse="FF434343">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsLess(Window().Property(percent),70)</visible>
                     </control>
                     <control type="image">
                         <left>300</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="FF434343">fenda_common/white.png</texture>
+                        <texture colordiffuse="FF434343">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsLess(Window().Property(percent),75)</visible>
                     </control>
                     <control type="image">
                         <left>320</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="FF434343">fenda_common/white.png</texture>
+                        <texture colordiffuse="FF434343">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsLess(Window().Property(percent),80)</visible>
                     </control>
                     <control type="image">
                         <left>340</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="FF434343">fenda_common/white.png</texture>
+                        <texture colordiffuse="FF434343">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsLess(Window().Property(percent),85)</visible>
                     </control>
                     <control type="image">
                         <left>360</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="FF434343">fenda_common/white.png</texture>
+                        <texture colordiffuse="FF434343">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsLess(Window().Property(percent),90)</visible>
                     </control>
                     <control type="image">
                         <left>380</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="FF434343">fenda_common/white.png</texture>
+                        <texture colordiffuse="FF434343">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsLess(Window().Property(percent),95)</visible>
                     </control>
                     <control type="image">
                         <left>400</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="FF434343">fenda_common/white.png</texture>
+                        <texture colordiffuse="FF434343">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsLess(Window().Property(percent),99)</visible>
                     </control>
                 </control>
@@ -259,147 +259,147 @@
                         <left>0</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.png</texture>
+                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsGreaterOrEqual(Window().Property(percent),1)</visible>
                     </control>
                     <control type="image">
                         <left>20</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.png</texture>
+                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsGreaterOrEqual(Window().Property(percent),5)</visible>
                     </control>
                     <control type="image">
                         <left>40</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.png</texture>
+                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsGreaterOrEqual(Window().Property(percent),10)</visible>
                     </control>
                     <control type="image">
                         <left>60</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.png</texture>
+                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsGreaterOrEqual(Window().Property(percent),15)</visible>
                     </control>
                     <control type="image">
                         <left>80</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.png</texture>
+                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsGreaterOrEqual(Window().Property(percent),20)</visible>
                     </control>
                     <control type="image">
                         <left>100</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.png</texture>
+                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsGreaterOrEqual(Window().Property(percent),25)</visible>
                     </control>
                     <control type="image">
                         <left>120</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.png</texture>
+                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsGreaterOrEqual(Window().Property(percent),30)</visible>
                     </control>
                     <control type="image">
                         <left>140</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.png</texture>
+                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsGreaterOrEqual(Window().Property(percent),35)</visible>
                     </control>
                     <control type="image">
                         <left>160</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.png</texture>
+                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsGreaterOrEqual(Window().Property(percent),40)</visible>
                     </control>
                     <control type="image">
                         <left>180</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.png</texture>
+                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsGreaterOrEqual(Window().Property(percent),45)</visible>
                     </control>
                     <control type="image">
                         <left>200</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.png</texture>
+                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsGreaterOrEqual(Window().Property(percent),50)</visible>
                     </control>
                     <control type="image">
                         <left>220</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.png</texture>
+                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsGreaterOrEqual(Window().Property(percent),55)</visible>
                     </control>
                     <control type="image">
                         <left>240</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.png</texture>
+                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsGreaterOrEqual(Window().Property(percent),60)</visible>
                     </control>
                     <control type="image">
                         <left>260</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.png</texture>
+                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsGreaterOrEqual(Window().Property(percent),65)</visible>
                     </control>
                     <control type="image">
                         <left>280</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.png</texture>
+                        <texture colordiffuse="Window.Property(flag_highlight)">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsGreaterOrEqual(Window().Property(percent),70)</visible>
                     </control>
                     <control type="image">
                         <left>300</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="Window().Property(highlight_var)">fenda_common/white.png</texture>
+                        <texture colordiffuse="Window().Property(highlight_var)">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsGreaterOrEqual(Window().Property(percent),75)</visible>
                     </control>
                     <control type="image">
                         <left>320</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="Window().Property(highlight_var)">fenda_common/white.png</texture>
+                        <texture colordiffuse="Window().Property(highlight_var)">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsGreaterOrEqual(Window().Property(percent),80)</visible>
                     </control>
                     <control type="image">
                         <left>340</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="Window().Property(highlight_var)">fenda_common/white.png</texture>
+                        <texture colordiffuse="Window().Property(highlight_var)">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsGreaterOrEqual(Window().Property(percent),85)</visible>
                     </control>
                     <control type="image">
                         <left>360</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="Window().Property(highlight_var)">fenda_common/white.png</texture>
+                        <texture colordiffuse="Window().Property(highlight_var)">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsGreaterOrEqual(Window().Property(percent),90)</visible>
                     </control>
                     <control type="image">
                         <left>380</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="Window().Property(highlight_var)">fenda_common/white.png</texture>
+                        <texture colordiffuse="Window().Property(highlight_var)">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsGreaterOrEqual(Window().Property(percent),95)</visible>
                     </control>
                     <control type="image">
                         <left>400</left>
                         <width>15</width>
                         <height>15</height>
-                        <texture colordiffuse="Window().Property(highlight_var)">fenda_common/white.png</texture>
+                        <texture colordiffuse="Window().Property(highlight_var)">fenda_common/white.WEBP</texture>
                         <visible>Integer.IsGreaterOrEqual(Window().Property(percent),99)</visible>
                     </control>
                 
@@ -581,8 +581,8 @@
                     <font>font12</font> <!-- Fenda_26 -->
                     <textcolor>FFB7B4BB</textcolor>
                     <focusedcolor>FF302F2F</focusedcolor>
-                    <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.png</texturefocus>
-                    <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.png</texturenofocus>
+                    <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.WEBP</texturefocus>
+                    <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.WEBP</texturenofocus>
                     <align>center</align>
                 </control>
                 <control type="button" id="11">
@@ -595,8 +595,8 @@
                     <font>font12</font> <!-- Fenda_26 -->
                     <textcolor>FFB7B4BB</textcolor>
                     <focusedcolor>FF302F2F</focusedcolor>
-                    <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.png</texturefocus>
-                    <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.png</texturenofocus>
+                    <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.WEBP</texturefocus>
+                    <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.WEBP</texturenofocus>
                     <align>center</align>
                 </control>
                 <control type="button" id="12">
@@ -609,8 +609,8 @@
                     <font>font12</font> <!-- Fenda_26 -->
                     <textcolor>FFB7B4BB</textcolor>
                     <focusedcolor>FF302F2F</focusedcolor>
-                    <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.png</texturefocus>
-                    <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.png</texturenofocus>
+                    <texturefocus colordiffuse="FFB7B4BB" border="30">fenda_common/circle.WEBP</texturefocus>
+                    <texturenofocus colordiffuse="FF4a4347" border="30">fenda_common/circle.WEBP</texturenofocus>
                     <align>center</align>
                 </control>
             </control>

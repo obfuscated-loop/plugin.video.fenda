@@ -30,19 +30,19 @@ class OMDbAPI:
             'metascore'), self.process_rating('tomatoMeter'), self.process_rating('tomatoUserMeter')
         imdb_rating, tomato_image = self.process_rating(
             'imdbRating'), self.process_rating('tomatoImage')
-        metascore_icon, imdb_icon, tmdb_icon = 'metacritic.png', 'imdb.png', 'tmdb.png'
+        metascore_icon, imdb_icon, tmdb_icon = 'metacritic.WEBP', 'imdb.WEBP', 'tmdb.WEBP'
         if tomato_image:
-            tomatometer_icon = 'rtcertified.png' if tomato_image == 'certified' else 'rtfresh.png' if tomato_image == 'fresh' else 'rtrotten.png'
+            tomatometer_icon = 'rtcertified.WEBP' if tomato_image == 'certified' else 'rtfresh.WEBP' if tomato_image == 'fresh' else 'rtrotten.WEBP'
         elif tomatometer_rating:
-            tomatometer_icon = 'rtfresh.png' if int(
-                tomatometer_rating) > 59 else 'rtrotten.png'
+            tomatometer_icon = 'rtfresh.WEBP' if int(
+                tomatometer_rating) > 59 else 'rtrotten.WEBP'
         else:
-            tomatometer_icon = 'rtrotten.png'
+            tomatometer_icon = 'rtrotten.WEBP'
         if tomatousermeter_rating:
-            tomatousermeter_icon = 'popcorn.png' if int(
-                tomatousermeter_rating) > 59 else 'popcorn_spilt.png'
+            tomatousermeter_icon = 'popcorn.WEBP' if int(
+                tomatousermeter_rating) > 59 else 'popcorn_spilt.WEBP'
         else:
-            tomatousermeter_icon = 'popcorn_spilt.png'
+            tomatousermeter_icon = 'popcorn_spilt.WEBP'
         data = {
             'metascore': {'rating': f'{metascore_rating}%', 'icon': metascore_icon},
             'tomatometer': {'rating': f'{tomatometer_rating}%', 'icon': tomatometer_icon},

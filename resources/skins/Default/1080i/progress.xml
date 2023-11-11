@@ -6,7 +6,7 @@
             <top>0</top>
             <width>1920</width>
             <height>1080</height>
-            <texture colordiffuse="FF000000">fenda_common/white.png</texture>
+            <texture colordiffuse="FF000000">fenda_common/white.WEBP</texture>
             <animation type="WindowOpen" reversible="false">
                 <effect type="fade" start="0" end="80" time="120" />
             </animation>
@@ -22,12 +22,12 @@
                 <top>-2</top>
                 <width>922</width>
                 <height>432</height>
-                <texture border="16" colordiffuse="Window(10000).Property(fenda.main_highlight)">fenda_common/dialog.png</texture>
+                <texture border="16" colordiffuse="Window(10000).Property(fenda.main_highlight)">fenda_common/dialog.WEBP</texture>
             </control>
             <control type="image">
                 <width>918</width>
                 <height>428</height>
-                <texture border="16" colordiffuse="FF302F2F">fenda_common/dialog.png</texture>
+                <texture border="16" colordiffuse="FF302F2F">fenda_common/dialog.WEBP</texture>
             </control>
             <control type="image">
                 <left>2</left>
@@ -37,7 +37,7 @@
                 <align>right</align>
                 <aligny>top</aligny>
                 <aspectratio aligny="top">keep</aspectratio>
-                <texture colordiffuse="B3CCCCCC">fenda_common/fenda.png</texture>
+                <texture colordiffuse="B3CCCCCC">fenda_common/fenda.WEBP</texture>
             </control>
             <control type="group">
                 <left>5</left>

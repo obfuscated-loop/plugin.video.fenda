@@ -6,7 +6,7 @@
             <top>0</top>
             <width>1920</width>
             <height>1080</height>
-            <texture colordiffuse="FF000000">fenda_common/white.png</texture>
+            <texture colordiffuse="FF000000">fenda_common/white.WEBP</texture>
         </control>
         <control type="image">
             <left>0</left>
@@ -29,7 +29,7 @@
                     <width>60</width>
                     <height>60</height>
                     <aspectratio aligny="top">keep</aspectratio>
-                    <texture>fenda_common/fenda.png</texture>
+                    <texture>fenda_common/fenda.WEBP</texture>
                 </control>
                 <control type="label">
                     <top>20</top>
@@ -96,7 +96,7 @@
                             <top>0</top>
                             <width>320</width>
                             <height>320</height>
-                            <texture colordiffuse="FFB7B4BB" border="12">fenda_common/panel-256-box.png</texture>
+                            <texture colordiffuse="FFB7B4BB" border="12">fenda_common/panel-256-box.WEBP</texture>
                         </control>
                         <control type="image">
                             <left>10</left>
@@ -116,9 +116,9 @@
                 <height>940</height>
                 <onleft>2000</onleft>
                 <onright>2000</onright>
-                <texturesliderbackground colordiffuse="FF302F2F">fenda_common/white.png</texturesliderbackground>
-                <texturesliderbar colordiffuse="FF555556">fenda_common/white.png</texturesliderbar>
-                <texturesliderbarfocus colordiffuse="$INFO[Window(10000).Property(fenda.main_highlight)]">fenda_common/white.png</texturesliderbarfocus>
+                <texturesliderbackground colordiffuse="FF302F2F">fenda_common/white.WEBP</texturesliderbackground>
+                <texturesliderbar colordiffuse="FF555556">fenda_common/white.WEBP</texturesliderbar>
+                <texturesliderbarfocus colordiffuse="$INFO[Window(10000).Property(fenda.main_highlight)]">fenda_common/white.WEBP</texturesliderbarfocus>
                 <showonepage>false</showonepage>
                 <orientation>vertical</orientation>
                 <visible>Control.IsVisible(2000)</visible>

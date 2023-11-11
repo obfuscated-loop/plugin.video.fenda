@@ -7,7 +7,7 @@
             <top>0</top>
             <width>1920</width>
             <height>1080</height>
-            <texture colordiffuse="FF000000">fenda_common/white.png</texture>
+            <texture colordiffuse="FF000000">fenda_common/white.WEBP</texture>
             <animation type="WindowOpen" reversible="false">
                 <effect type="fade" start="0" end="80" time="120" />
             </animation>
@@ -25,12 +25,12 @@
                     <top>-2</top>
                     <width>1722</width>
                     <height>912</height>
-                    <texture border="16" colordiffuse="Window(10000).Property(fenda.main_highlight)">fenda_common/dialog.png</texture>
+                    <texture border="16" colordiffuse="Window(10000).Property(fenda.main_highlight)">fenda_common/dialog.WEBP</texture>
                 </control>
                 <control type="image">
                     <width>1718</width>
                     <height>908</height>
-                    <texture border="16" colordiffuse="FF302F2F">fenda_common/dialog.png</texture>
+                    <texture border="16" colordiffuse="FF302F2F">fenda_common/dialog.WEBP</texture>
                 </control>
                 <control type="image">
                     <left>12</left>
@@ -40,7 +40,7 @@
                     <align>left</align>
                     <aligny>top</aligny>
                     <aspectratio aligny="top">keep</aspectratio>
-                    <texture colordiffuse="FFCCCCCC">fenda_common/fenda.png</texture>
+                    <texture colordiffuse="FFCCCCCC">fenda_common/fenda.WEBP</texture>
                 </control>
                 <control type="label">
                     <width max="1700">auto</width>
@@ -111,7 +111,7 @@
                                         <height max="318">auto</height>
                                         <width max="228">auto</width>
                                         <aspectratio>scale</aspectratio>
-                                        <texture diffuse="fenda_diffuse/poster_w217_h320.png">$INFO[ListItem.Property(thumbnail)]</texture>
+                                        <texture diffuse="fenda_diffuse/poster_w217_h320.WEBP">$INFO[ListItem.Property(thumbnail)]</texture>
                                     </control>
                                     <control type="image">
                                         <left>175</left>
@@ -120,7 +120,7 @@
                                         <aligny>bottom</aligny>
                                         <align>right</align>
                                         <aspectratio>keep</aspectratio>
-                                        <texture>fenda_common/overlay_selected.png</texture>
+                                        <texture>fenda_common/overlay_selected.WEBP</texture>
                                         <visible>!String.IsEmpty(ListItem.Property(check_status))</visible>
                                     </control>
                                 </itemlayout>
@@ -135,7 +135,7 @@
                                             <top>0</top>
                                             <height>330</height>
                                             <width>240</width>
-                                            <texture colordiffuse="FFB7B4BB" border="12">fenda_common/panel-256-box.png</texture>
+                                            <texture colordiffuse="FFB7B4BB" border="12">fenda_common/panel-256-box.WEBP</texture>
                                             <visible>Control.HasFocus(2020) | Control.HasFocus(4020)</visible>
                                         </control>
                                         <control type="image">
@@ -144,7 +144,7 @@
                                             <height max="318">auto</height>
                                             <width max="228">auto</width>
                                             <aspectratio>scale</aspectratio>
-                                            <texture diffuse="fenda_diffuse/poster_w217_h320.png">$INFO[ListItem.Property(thumbnail)]</texture>
+                                            <texture diffuse="fenda_diffuse/poster_w217_h320.WEBP">$INFO[ListItem.Property(thumbnail)]</texture>
                                         </control>
                                         <control type="image">
                                             <left>175</left>
@@ -153,7 +153,7 @@
                                             <aligny>bottom</aligny>
                                             <align>right</align>
                                             <aspectratio>keep</aspectratio>
-                                            <texture>fenda_common/overlay_selected.png</texture>
+                                            <texture>fenda_common/overlay_selected.WEBP</texture>
                                             <visible>!String.IsEmpty(ListItem.Property(check_status))</visible>
                                         </control>
                                     </control>
@@ -166,9 +166,9 @@
                                 <height>15</height>
                                 <onup>2020</onup>
                                 <ondown>2021</ondown>
-                                <texturesliderbackground colordiffuse="FF302F2F">fenda_common/white.png</texturesliderbackground>
-                                <texturesliderbar colordiffuse="FF555556">fenda_common/white.png</texturesliderbar>
-                                <texturesliderbarfocus colordiffuse="FFB7B4BB">fenda_common/white.png</texturesliderbarfocus>
+                                <texturesliderbackground colordiffuse="FF302F2F">fenda_common/white.WEBP</texturesliderbackground>
+                                <texturesliderbar colordiffuse="FF555556">fenda_common/white.WEBP</texturesliderbar>
+                                <texturesliderbarfocus colordiffuse="FFB7B4BB">fenda_common/white.WEBP</texturesliderbarfocus>
                                 <showonepage>false</showonepage>
                                 <orientation>Horizontal</orientation>
                                 <visible>Control.IsVisible(2020)</visible>
@@ -219,7 +219,7 @@
                                         <height max="318">auto</height>
                                         <width max="548">auto</width>
                                         <aspectratio>scale</aspectratio>
-                                        <texture diffuse="fenda_diffuse/poster_w217_h320.png">$INFO[ListItem.Property(thumbnail)]</texture>
+                                        <texture diffuse="fenda_diffuse/poster_w217_h320.WEBP">$INFO[ListItem.Property(thumbnail)]</texture>
                                     </control>
                                     <control type="image">
                                         <left>495</left>
@@ -228,7 +228,7 @@
                                         <aligny>bottom</aligny>
                                         <align>right</align>
                                         <aspectratio>keep</aspectratio>
-                                        <texture>fenda_common/overlay_selected.png</texture>
+                                        <texture>fenda_common/overlay_selected.WEBP</texture>
                                         <visible>!String.IsEmpty(ListItem.Property(check_status))</visible>
                                     </control>
                                 </itemlayout>
@@ -241,7 +241,7 @@
                                             <animation effect="fade" start="100" end="0" time="0">UnFocus</animation>
                                             <width>560</width>
                                             <height>330</height>
-                                            <texture colordiffuse="FFB7B4BB" border="12">fenda_common/panel-256-box.png</texture>
+                                            <texture colordiffuse="FFB7B4BB" border="12">fenda_common/panel-256-box.WEBP</texture>
                                             <visible>Control.HasFocus(2021) | Control.HasFocus(4021)</visible>
                                         </control>
                                         <control type="image">
@@ -250,7 +250,7 @@
                                             <height max="318">auto</height>
                                             <width max="548">auto</width>
                                             <aspectratio>scale</aspectratio>
-                                            <texture diffuse="fenda_diffuse/poster_w217_h320.png">$INFO[ListItem.Property(thumbnail)]</texture>
+                                            <texture diffuse="fenda_diffuse/poster_w217_h320.WEBP">$INFO[ListItem.Property(thumbnail)]</texture>
                                         </control>
                                         <control type="image">
                                             <left>495</left>
@@ -259,7 +259,7 @@
                                             <aligny>bottom</aligny>
                                             <align>right</align>
                                             <aspectratio>keep</aspectratio>
-                                            <texture>fenda_common/overlay_selected.png</texture>
+                                            <texture>fenda_common/overlay_selected.WEBP</texture>
                                             <visible>!String.IsEmpty(ListItem.Property(check_status))</visible>
                                         </control>
                                     </control>
@@ -272,9 +272,9 @@
                                 <height>15</height>
                                 <onup>2021</onup>
                                 <ondown>2022</ondown>
-                                <texturesliderbackground colordiffuse="FF302F2F">fenda_common/white.png</texturesliderbackground>
-                                <texturesliderbar colordiffuse="FF555556">fenda_common/white.png</texturesliderbar>
-                                <texturesliderbarfocus colordiffuse="FFB7B4BB">fenda_common/white.png</texturesliderbarfocus>
+                                <texturesliderbackground colordiffuse="FF302F2F">fenda_common/white.WEBP</texturesliderbackground>
+                                <texturesliderbar colordiffuse="FF555556">fenda_common/white.WEBP</texturesliderbar>
+                                <texturesliderbarfocus colordiffuse="FFB7B4BB">fenda_common/white.WEBP</texturesliderbarfocus>
                                 <showonepage>false</showonepage>
                                 <orientation>Horizontal</orientation>
                                 <visible>Control.IsVisible(2021)</visible>
@@ -333,7 +333,7 @@
                                         <aligny>bottom</aligny>
                                         <align>right</align>
                                         <aspectratio>keep</aspectratio>
-                                        <texture>fenda_common/overlay_selected.png</texture>
+                                        <texture>fenda_common/overlay_selected.WEBP</texture>
                                         <visible>!String.IsEmpty(ListItem.Property(check_status))</visible>
                                     </control>
                                 </itemlayout>
@@ -346,7 +346,7 @@
                                             <animation effect="fade" start="100" end="0" time="0">UnFocus</animation>
                                             <width>560</width>
                                             <height>330</height>
-                                            <texture colordiffuse="FFB7B4BB" border="12">fenda_common/panel-256-box.png</texture>
+                                            <texture colordiffuse="FFB7B4BB" border="12">fenda_common/panel-256-box.WEBP</texture>
                                             <visible>Control.HasFocus(2022) | Control.HasFocus(4022)</visible>
                                         </control>
                                         <control type="image">
@@ -354,7 +354,7 @@
                                             <top>6</top>
                                             <width>548</width>
                                             <height>318</height>
-                                            <texture colordiffuse="FF302F2F">fenda_common/white.png</texture>
+                                            <texture colordiffuse="FF302F2F">fenda_common/white.WEBP</texture>
                                             <visible>Control.HasFocus(2022) | Control.HasFocus(4022)</visible>
                                         </control>
                                         <control type="image">
@@ -371,7 +371,7 @@
                                             <aligny>bottom</aligny>
                                             <align>right</align>
                                             <aspectratio>keep</aspectratio>
-                                            <texture>fenda_common/overlay_selected.png</texture>
+                                            <texture>fenda_common/overlay_selected.WEBP</texture>
                                             <visible>!String.IsEmpty(ListItem.Property(check_status))</visible>
                                         </control>
                                     </control>
@@ -384,9 +384,9 @@
                                 <height>15</height>
                                 <onup>2022</onup>
                                 <ondown>2023</ondown>
-                                <texturesliderbackground colordiffuse="FF302F2F">fenda_common/white.png</texturesliderbackground>
-                                <texturesliderbar colordiffuse="FF555556">fenda_common/white.png</texturesliderbar>
-                                <texturesliderbarfocus colordiffuse="FFB7B4BB">fenda_common/white.png</texturesliderbarfocus>
+                                <texturesliderbackground colordiffuse="FF302F2F">fenda_common/white.WEBP</texturesliderbackground>
+                                <texturesliderbar colordiffuse="FF555556">fenda_common/white.WEBP</texturesliderbar>
+                                <texturesliderbarfocus colordiffuse="FFB7B4BB">fenda_common/white.WEBP</texturesliderbarfocus>
                                 <showonepage>false</showonepage>
                                 <orientation>Horizontal</orientation>
                                 <visible>Control.IsVisible(2022)</visible>
@@ -445,7 +445,7 @@
                                         <aligny>bottom</aligny>
                                         <align>right</align>
                                         <aspectratio>keep</aspectratio>
-                                        <texture>fenda_common/overlay_selected.png</texture>
+                                        <texture>fenda_common/overlay_selected.WEBP</texture>
                                         <visible>!String.IsEmpty(ListItem.Property(check_status))</visible>
                                     </control>
                                 </itemlayout>
@@ -459,7 +459,7 @@
                                             <top>80</top>
                                             <width>840</width>
                                             <height>155</height>
-                                            <texture colordiffuse="FFB7B4BB" border="12">fenda_common/panel-256-box.png</texture>
+                                            <texture colordiffuse="FFB7B4BB" border="12">fenda_common/panel-256-box.WEBP</texture>
                                             <visible>Control.HasFocus(2023) | Control.HasFocus(4023)</visible>
                                         </control>
                                         <control type="image">
@@ -477,7 +477,7 @@
                                             <aligny>bottom</aligny>
                                             <align>right</align>
                                             <aspectratio>keep</aspectratio>
-                                            <texture>fenda_common/overlay_selected.png</texture>
+                                            <texture>fenda_common/overlay_selected.WEBP</texture>
                                             <visible>!String.IsEmpty(ListItem.Property(check_status))</visible>
                                         </control>
                                     </control>
@@ -490,9 +490,9 @@
                                 <height>15</height>
                                 <onup>2023</onup>
                                 <ondown>2024</ondown>
-                                <texturesliderbackground colordiffuse="FF302F2F">fenda_common/white.png</texturesliderbackground>
-                                <texturesliderbar colordiffuse="FF555556">fenda_common/white.png</texturesliderbar>
-                                <texturesliderbarfocus colordiffuse="FFB7B4BB">fenda_common/white.png</texturesliderbarfocus>
+                                <texturesliderbackground colordiffuse="FF302F2F">fenda_common/white.WEBP</texturesliderbackground>
+                                <texturesliderbar colordiffuse="FF555556">fenda_common/white.WEBP</texturesliderbar>
+                                <texturesliderbarfocus colordiffuse="FFB7B4BB">fenda_common/white.WEBP</texturesliderbarfocus>
                                 <showonepage>false</showonepage>
                                 <orientation>Horizontal</orientation>
                                 <visible>Control.IsVisible(2023)</visible>
@@ -552,7 +552,7 @@
                                         <aligny>bottom</aligny>
                                         <align>right</align>
                                         <aspectratio>keep</aspectratio>
-                                        <texture>fenda_common/overlay_selected.png</texture>
+                                        <texture>fenda_common/overlay_selected.WEBP</texture>
                                         <visible>!String.IsEmpty(ListItem.Property(check_status))</visible>
                                     </control>
                                 </itemlayout>
@@ -565,7 +565,7 @@
                                             <animation effect="fade" start="100" end="0" time="0">UnFocus</animation>
                                             <width>560</width>
                                             <height>330</height>
-                                            <texture colordiffuse="FFB7B4BB" border="12">fenda_common/panel-256-box.png</texture>
+                                            <texture colordiffuse="FFB7B4BB" border="12">fenda_common/panel-256-box.WEBP</texture>
                                             <visible>Control.HasFocus(2024) | Control.HasFocus(4024)</visible>
                                         </control>
                                         <control type="image">
@@ -573,7 +573,7 @@
                                             <top>6</top>
                                             <width>548</width>
                                             <height>318</height>
-                                            <texture colordiffuse="FF302F2F">fenda_common/white.png</texture>
+                                            <texture colordiffuse="FF302F2F">fenda_common/white.WEBP</texture>
                                             <visible>Control.HasFocus(2024) | Control.HasFocus(4024)</visible>
                                         </control>
                                         <control type="image">
@@ -591,7 +591,7 @@
                                             <aligny>bottom</aligny>
                                             <align>right</align>
                                             <aspectratio>keep</aspectratio>
-                                            <texture>fenda_common/overlay_selected.png</texture>
+                                            <texture>fenda_common/overlay_selected.WEBP</texture>
                                             <visible>!String.IsEmpty(ListItem.Property(check_status))</visible>
                                         </control>
                                     </control>
@@ -604,9 +604,9 @@
                                 <height>15</height>
                                 <onup>2024</onup>
                                 <ondown>2025</ondown>
-                                <texturesliderbackground colordiffuse="FF302F2F">fenda_common/white.png</texturesliderbackground>
-                                <texturesliderbar colordiffuse="FF555556">fenda_common/white.png</texturesliderbar>
-                                <texturesliderbarfocus colordiffuse="FFB7B4BB">fenda_common/white.png</texturesliderbarfocus>
+                                <texturesliderbackground colordiffuse="FF302F2F">fenda_common/white.WEBP</texturesliderbackground>
+                                <texturesliderbar colordiffuse="FF555556">fenda_common/white.WEBP</texturesliderbar>
+                                <texturesliderbarfocus colordiffuse="FFB7B4BB">fenda_common/white.WEBP</texturesliderbarfocus>
                                 <showonepage>false</showonepage>
                                 <orientation>Horizontal</orientation>
                                 <visible>Control.IsVisible(2024)</visible>
@@ -666,7 +666,7 @@
                                         <aligny>bottom</aligny>
                                         <align>right</align>
                                         <aspectratio>keep</aspectratio>
-                                        <texture>fenda_common/overlay_selected.png</texture>
+                                        <texture>fenda_common/overlay_selected.WEBP</texture>
                                         <visible>!String.IsEmpty(ListItem.Property(check_status))</visible>
                                     </control>
                                 </itemlayout>
@@ -679,7 +679,7 @@
                                             <animation effect="fade" start="100" end="0" time="0">UnFocus</animation>
                                             <width>560</width>
                                             <height>330</height>
-                                            <texture colordiffuse="FFB7B4BB" border="12">fenda_common/panel-256-box.png</texture>
+                                            <texture colordiffuse="FFB7B4BB" border="12">fenda_common/panel-256-box.WEBP</texture>
                                             <visible>Control.HasFocus(2025) | Control.HasFocus(4025)</visible>
                                         </control>
                                         <control type="image">
@@ -697,7 +697,7 @@
                                             <aligny>bottom</aligny>
                                             <align>right</align>
                                             <aspectratio>keep</aspectratio>
-                                            <texture>fenda_common/overlay_selected.png</texture>
+                                            <texture>fenda_common/overlay_selected.WEBP</texture>
                                             <visible>!String.IsEmpty(ListItem.Property(check_status))</visible>
                                         </control>
                                     </control>
@@ -710,9 +710,9 @@
                                 <height>15</height>
                                 <onup>2025</onup>
                                 <ondown>2026</ondown>
-                                <texturesliderbackground colordiffuse="FF302F2F">fenda_common/white.png</texturesliderbackground>
-                                <texturesliderbar colordiffuse="FF555556">fenda_common/white.png</texturesliderbar>
-                                <texturesliderbarfocus colordiffuse="FFB7B4BB">fenda_common/white.png</texturesliderbarfocus>
+                                <texturesliderbackground colordiffuse="FF302F2F">fenda_common/white.WEBP</texturesliderbackground>
+                                <texturesliderbar colordiffuse="FF555556">fenda_common/white.WEBP</texturesliderbar>
+                                <texturesliderbarfocus colordiffuse="FFB7B4BB">fenda_common/white.WEBP</texturesliderbarfocus>
                                 <showonepage>false</showonepage>
                                 <orientation>Horizontal</orientation>
                                 <visible>Control.IsVisible(2025)</visible>
@@ -774,7 +774,7 @@
                                         <aligny>bottom</aligny>
                                         <align>right</align>
                                         <aspectratio>keep</aspectratio>
-                                        <texture>fenda_common/overlay_selected.png</texture>
+                                        <texture>fenda_common/overlay_selected.WEBP</texture>
                                         <visible>!String.IsEmpty(ListItem.Property(check_status))</visible>
                                     </control>
                                 </itemlayout>
@@ -789,7 +789,7 @@
                                             <top>40</top>
                                             <height>250</height>
                                             <width>240</width>
-                                            <texture colordiffuse="FFB7B4BB" border="12">fenda_common/panel-256-box.png</texture>
+                                            <texture colordiffuse="FFB7B4BB" border="12">fenda_common/panel-256-box.WEBP</texture>
                                             <visible>Control.HasFocus(2026) | Control.HasFocus(4026)</visible>
                                         </control>
                                         <control type="image">
@@ -807,7 +807,7 @@
                                             <aligny>bottom</aligny>
                                             <align>right</align>
                                             <aspectratio>keep</aspectratio>
-                                            <texture>fenda_common/overlay_selected.png</texture>
+                                            <texture>fenda_common/overlay_selected.WEBP</texture>
                                             <visible>!String.IsEmpty(ListItem.Property(check_status))</visible>
                                         </control>
                                     </control>
@@ -820,9 +820,9 @@
                                 <height>15</height>
                                 <onup>2026</onup>
                                 <ondown>2027</ondown>
-                                <texturesliderbackground colordiffuse="FF302F2F">fenda_common/white.png</texturesliderbackground>
-                                <texturesliderbar colordiffuse="FF555556">fenda_common/white.png</texturesliderbar>
-                                <texturesliderbarfocus colordiffuse="FFB7B4BB">fenda_common/white.png</texturesliderbarfocus>
+                                <texturesliderbackground colordiffuse="FF302F2F">fenda_common/white.WEBP</texturesliderbackground>
+                                <texturesliderbar colordiffuse="FF555556">fenda_common/white.WEBP</texturesliderbar>
+                                <texturesliderbarfocus colordiffuse="FFB7B4BB">fenda_common/white.WEBP</texturesliderbarfocus>
                                 <showonepage>false</showonepage>
                                 <orientation>Horizontal</orientation>
                                 <visible>Control.IsVisible(2026)</visible>
@@ -875,7 +875,7 @@
                                         <height max="318">auto</height>
                                         <width max="228">auto</width>
                                         <aspectratio>scale</aspectratio>
-                                        <texture diffuse="fenda_diffuse/poster_w217_h320.png">$INFO[ListItem.Property(thumbnail)]</texture>
+                                        <texture diffuse="fenda_diffuse/poster_w217_h320.WEBP">$INFO[ListItem.Property(thumbnail)]</texture>
                                     </control>
                                     <control type="image">
                                         <left>175</left>
@@ -884,7 +884,7 @@
                                         <aligny>bottom</aligny>
                                         <align>right</align>
                                         <aspectratio>keep</aspectratio>
-                                        <texture>fenda_common/overlay_selected.png</texture>
+                                        <texture>fenda_common/overlay_selected.WEBP</texture>
                                         <visible>!String.IsEmpty(ListItem.Property(check_status))</visible>
                                     </control>
                                 </itemlayout>
@@ -899,7 +899,7 @@
                                             <top>0</top>
                                             <height>330</height>
                                             <width>240</width>
-                                            <texture colordiffuse="FFB7B4BB" border="12">fenda_common/panel-256-box.png</texture>
+                                            <texture colordiffuse="FFB7B4BB" border="12">fenda_common/panel-256-box.WEBP</texture>
                                             <visible>Control.HasFocus(2027) | Control.HasFocus(4027)</visible>
                                         </control>
                                         <control type="image">
@@ -908,7 +908,7 @@
                                             <height max="318">auto</height>
                                             <width max="228">auto</width>
                                             <aspectratio>scale</aspectratio>
-                                            <texture diffuse="fenda_diffuse/poster_w217_h320.png">$INFO[ListItem.Property(thumbnail)]</texture>
+                                            <texture diffuse="fenda_diffuse/poster_w217_h320.WEBP">$INFO[ListItem.Property(thumbnail)]</texture>
                                         </control>
                                         <control type="image">
                                             <left>175</left>
@@ -917,7 +917,7 @@
                                             <aligny>bottom</aligny>
                                             <align>right</align>
                                             <aspectratio>keep</aspectratio>
-                                            <texture>fenda_common/overlay_selected.png</texture>
+                                            <texture>fenda_common/overlay_selected.WEBP</texture>
                                             <visible>!String.IsEmpty(ListItem.Property(check_status))</visible>
                                         </control>
                                     </control>
@@ -930,9 +930,9 @@
                                 <height>15</height>
                                 <onup>2027</onup>
                                 <ondown>2020</ondown>
-                                <texturesliderbackground colordiffuse="FF302F2F">fenda_common/white.png</texturesliderbackground>
-                                <texturesliderbar colordiffuse="FF555556">fenda_common/white.png</texturesliderbar>
-                                <texturesliderbarfocus colordiffuse="FFB7B4BB">fenda_common/white.png</texturesliderbarfocus>
+                                <texturesliderbackground colordiffuse="FF302F2F">fenda_common/white.WEBP</texturesliderbackground>
+                                <texturesliderbar colordiffuse="FF555556">fenda_common/white.WEBP</texturesliderbar>
+                                <texturesliderbarfocus colordiffuse="FFB7B4BB">fenda_common/white.WEBP</texturesliderbarfocus>
                                 <showonepage>false</showonepage>
                                 <orientation>Horizontal</orientation>
                                 <visible>Control.IsVisible(2027)</visible>
