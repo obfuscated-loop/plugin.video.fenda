@@ -36,7 +36,7 @@ resolution_tuple = ({'poster': 'w185', 'fanart': 'w300', 'still': 'w185', 'profi
 
 
 def generic_list_sorting(setting_id):
-    return get_setting('fenda.sort.%s' % setting_id, 'popularity.desc').replace('&amp;', '&')
+    return get_setting(f'fenda.sort.{setting_id}', 'popularity.desc').replace('&amp;', '&')
 
 
 def skin_location(skin_xml):
@@ -72,18 +72,18 @@ def results_xml_window_number(window_format=None):
 
 def store_resolved_torrent_to_cloud(debrid_service, pack):
     setting_value = int(get_setting(
-        'fenda.store_resolved_torrent.%s' % debrid_service.lower(), '0'))
+        f'fenda.store_resolved_torrent.{debrid_service.lower()}', '0'))
     return setting_value in (1, 2) if pack else setting_value == 1
 
 
 def enabled_debrids_check(debrid_service):
-    if not get_setting('fenda.%s.enabled' % debrid_service) == 'true':
+    if not get_setting(f'fenda.{debrid_service}.enabled') == 'true':
         return False
     return authorized_debrid_check(debrid_service)
 
 
 def authorized_debrid_check(debrid_service):
-    if get_setting('fenda.%s.token' % debrid_service) in (None, ''):
+    if get_setting(f'fenda.{debrid_service}.token') in (None, ''):
         return False
     return True
 
@@ -133,7 +133,7 @@ def download_directory(media_type):
 
 
 def source_folders_directory(media_type, source):
-    setting = 'fenda.%s.movies_directory' % source if media_type == 'movie' else 'fenda.%s.tv_shows_directory' % source
+    setting = f'fenda.{source}.movies_directory' if media_type == 'movie' else f'fenda.{source}.tv_shows_directory'
     if get_setting(setting) not in ('', 'None', None):
         return translate_path(get_setting(setting))
     else:
@@ -165,7 +165,7 @@ def use_year_in_search():
 
 
 def quality_filter(setting):
-    return get_setting('fenda.%s' % setting).split(', ')
+    return get_setting(f'fenda.{setting}').split(', ')
 
 
 def audio_filters():
@@ -180,7 +180,7 @@ def include_prerelease_results():
 
 
 def auto_play(media_type):
-    return get_setting('fenda.auto_play_%s' % media_type, 'false') == 'true'
+    return get_setting(f'fenda.auto_play_{media_type}', 'false') == 'true'
 
 
 def autoplay_next_episode():
@@ -206,9 +206,8 @@ def auto_rescrape_with_all():
 def auto_nextep_settings(play_type):
     play_type = 'autoplay' if play_type == 'autoplay_nextep' else 'autoscrape'
     window_percentage = 100 - \
-        int(get_setting('fenda.%s_next_window_percentage' % play_type, '95'))
-    use_chapters = get_setting('fenda.%s_use_chapters' %
-                               play_type, 'true') == 'true'
+        int(get_setting(f'fenda.{play_type}_next_window_percentage', '95'))
+    use_chapters = get_setting(f'fenda.{play_type}_use_chapters', 'true') == 'true'
     scraper_time = int(get_setting('fenda.results.timeout', '60')) + 20
     if play_type == 'autoplay':
         alert_method = int(get_setting('fenda.autoplay_alert_method', '0'))
@@ -220,7 +219,7 @@ def auto_nextep_settings(play_type):
 
 
 def filter_status(filter_type):
-    return int(get_setting('fenda.filter_%s' % filter_type, '0'))
+    return int(get_setting(f'fenda.filter_{filter_type}', '0'))
 
 
 def ignore_results_filter():
@@ -242,7 +241,7 @@ def trakt_sync_refresh_widgets():
 
 
 def lists_sort_order(setting):
-    return int(get_setting('fenda.sort.%s' % setting, '0'))
+    return int(get_setting(f'fenda.sort.{setting}', '0'))
 
 
 def auto_start_fenda():
@@ -304,8 +303,8 @@ def extras_enabled_menus():
 
 def check_prescrape_sources(scraper, media_type):
     if scraper in prescrape_scrapers_tuple:
-        return get_setting('fenda.check.%s' % scraper) == 'true'
-    if get_setting('fenda.check.%s' % scraper) == 'true' and auto_play(media_type):
+        return get_setting(f'fenda.check.{scraper}') == 'true'
+    if get_setting(f'fenda.check.{scraper}') == 'true' and auto_play(media_type):
         return True
     else:
         return False
@@ -322,7 +321,7 @@ def external_scraper_info():
 def filter_by_name(scraper):
     if get_property('fs_filterless_search') == 'true':
         return False
-    return get_setting('fenda.%s.title_filter' % scraper, 'false') == 'true'
+    return get_setting(f'fenda.{scraper}.title_filter', 'false') == 'true'
 
 
 def easynews_language_filter():
@@ -363,7 +362,7 @@ def active_internal_scrapers():
         if enabled_debrids_check(item[0]):
             settings_append(item[1])
     active = [i.split('.')[1]
-              for i in settings if get_setting('fenda.%s' % i) == 'true']
+              for i in settings if get_setting(f'fenda.{i}') == 'true']
     return active
 
 
@@ -382,7 +381,7 @@ def sort_to_top(provider):
 
 
 def auto_resume(media_type):
-    auto_resume = get_setting('fenda.auto_resume_%s' % media_type)
+    auto_resume = get_setting(f'fenda.auto_resume_{media_type}')
     if auto_resume == '1':
         return True
     if auto_resume == '2' and auto_play(media_type):

@@ -12,7 +12,7 @@ default_ad_icon, fanart, set_view_mode = kodi_utils.get_icon(
 add_items, set_content, end_directory = kodi_utils.add_items, kodi_utils.set_content, kodi_utils.end_directory
 show_busy_dialog, hide_busy_dialog, show_text = kodi_utils.show_busy_dialog, kodi_utils.hide_busy_dialog, kodi_utils.show_text
 folder_str, file_str, archive_str, down_str = ls(32742).upper(), ls(
-    32743).upper(), ls(32982), '[B]%s[/B]' % ls(32747)
+    32743).upper(), ls(32982), f'[B]{ls(32747)}[/B]'
 linked_str, addlink_str, clearlink_str = ls(
     33074).upper(), ls(33078), ls(33079)
 extensions = supported_video_extensions()
@@ -29,7 +29,7 @@ def ad_torrent_cloud(folder_id=None):
                 clean_folder_name = clean_file_name(
                     normalize(folder_name)).upper()
                 linked_folder = test_assigned_content(
-                    'Fenda_AD_%s' % folder_id, assigned_content)
+                    f'Fenda_AD_{folder_id}', assigned_content)
                 if linked_folder:
                     display = '%02d | [B]%s | [COLOR limegreen]%s | %s[/B][/COLOR] | [I]%s[/I]' % (
                         count, folder_str, linked_str, linked_folder, clean_folder_name)
@@ -43,10 +43,8 @@ def ad_torrent_cloud(folder_id=None):
                 link_folders_remove = {'mode': 'link_folders_choice',
                                        'service': 'AD', 'folder_id': folder_id, 'action': 'remove'}
                 url = build_url(url_params)
-                cm_append((addlink_str, 'RunPlugin(%s)' %
-                          build_url(link_folders_add)))
-                cm_append((clearlink_str, 'RunPlugin(%s)' %
-                          build_url(link_folders_remove)))
+                cm_append((addlink_str, f'RunPlugin({build_url(link_folders_add)})'))
+                cm_append((clearlink_str, f'RunPlugin({build_url(link_folders_remove)})'))
                 listitem = make_listitem()
                 listitem.setLabel(display)
                 listitem.addContextMenuItems(cm)
@@ -90,8 +88,7 @@ def browse_ad_cloud(folder):
                 down_file_params = {'mode': 'downloader', 'name': name, 'url': url_link,
                                     'action': 'cloud.alldebrid', 'image': default_ad_icon}
                 url = build_url(url_params)
-                cm.append((down_str, 'RunPlugin(%s)' %
-                          build_url(down_file_params)))
+                cm.append((down_str, f'RunPlugin({build_url(down_file_params)})'))
                 listitem = make_listitem()
                 listitem.setLabel(display)
                 listitem.addContextMenuItems(cm)

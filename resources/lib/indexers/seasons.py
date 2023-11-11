@@ -14,7 +14,7 @@ metadata_user_info, watched_indicators_info, show_unaired_info = settings.metada
 fenda_str, trakt_str, season_str, watched_str, unwatched_str, season_str = ls(
     32036), ls(32037), ls(32537), ls(32642), ls(32643), ls(32537)
 extras_str, options_str, refr_widg_str = ls(
-    32645), ls(32646), '[B]%s[/B]' % ls(32611)
+    32645), ls(32646), f'[B]{ls(32611)}[/B]'
 string, run_plugin, unaired_label, tmdb_poster_prefix = str, 'RunPlugin(%s)', '[COLOR red][I]%s[/I][/COLOR]', 'https://image.tmdb.org/t/p/'
 view_mode, content_type = 'view.seasons', 'seasons'
 season_name_str = '%s %s'
@@ -38,11 +38,11 @@ def build_season_list(params):
                 tmdb_poster = '%s%s%s' % (
                     tmdb_poster_prefix, image_resolution, poster_path) if poster_path is not None else show_poster
                 if fanart_enabled:
-                    banner, thumb = season_art.get('seasonbanner_%s' % season_number, '') or show_banner, season_art.get(
-                        'seasonthumb_%s' % season_number, '') or show_fanart
+                    banner, thumb = season_art.get(f'seasonbanner_{season_number}', '') or show_banner, season_art.get(
+                        f'seasonthumb_{season_number}', '') or show_fanart
                     if fanart_default:
                         poster = season_art.get(
-                            'seasonposter_%s' % season_number, '') or tmdb_poster
+                            f'seasonposter_{season_number}', '') or tmdb_poster
                     else:
                         poster = tmdb_poster
                 else:

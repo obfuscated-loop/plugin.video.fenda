@@ -44,9 +44,9 @@ class OMDbAPI:
         else:
             tomatousermeter_icon = 'popcorn_spilt.png'
         data = {
-            'metascore': {'rating': '%s%%' % metascore_rating, 'icon': metascore_icon},
-            'tomatometer': {'rating': '%s%%' % tomatometer_rating, 'icon': tomatometer_icon},
-            'tomatousermeter': {'rating': '%s%%' % tomatousermeter_rating, 'icon': tomatousermeter_icon},
+            'metascore': {'rating': f'{metascore_rating}%', 'icon': metascore_icon},
+            'tomatometer': {'rating': f'{tomatometer_rating}%', 'icon': tomatometer_icon},
+            'tomatousermeter': {'rating': f'{tomatousermeter_rating}%', 'icon': tomatousermeter_icon},
             'imdb': {'rating': imdb_rating, 'icon': imdb_icon},
             'tmdb': {'rating': '', 'icon': tmdb_icon},
         }

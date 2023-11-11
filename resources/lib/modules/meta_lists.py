@@ -162,7 +162,7 @@ movie_genres = {
 }
 
 tvshow_genres = {
-    '%s & %s' % (ls(32548), ls(32549)): ['10759', 'genre_action'],         ls(32550): ['16', 'genre_animation'],
+    f'{ls(32548)} & {ls(32549)}': ['10759', 'genre_action'],         ls(32550): ['16', 'genre_animation'],
     ls(32551): ['35', 'genre_comedy'],                                     ls(32552): ['80', 'genre_crime'],
     ls(32553): ['99', 'genre_documentary'],                                ls(32554): ['18', 'genre_drama'],
     ls(32555): ['10751', 'genre_family'],                                  ls(32556): ['10762', 'genre_kids'],

@@ -53,7 +53,7 @@ class source:
                         file_id, file_dl = item['id'], item['url_dl']
                         video_quality, details = get_file_info(name_info=release_info_format(
                             file_name), default_quality=self._quality_estimate(int(item.get('width', 0))))
-                        source_item = {'name': file_name, 'display_name': display_name, 'quality': video_quality, 'size': size, 'size_label': '%.2f GB' % size,
+                        source_item = {'name': file_name, 'display_name': display_name, 'quality': video_quality, 'size': size, 'size_label': f'{size:.2f} GB',
                                        'extraInfo': details, 'url_dl': file_dl, 'id': file_id, 'local': False, 'direct': True, 'package': package, 'source': self.scrape_provider,
                                        'scrape_provider': self.scrape_provider}
                         yield source_item

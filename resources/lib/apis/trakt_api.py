@@ -81,7 +81,7 @@ def call_trakt(path, params={}, data=None, is_delete=False, with_auth=True, meth
         return None
     if status_code == 401:
         if player.isPlaying() == False:
-            if with_auth and confirm_dialog(heading='%s %s' % (ls(32057), trakt_str), text=32741) and trakt_authenticate():
+            if with_auth and confirm_dialog(heading=f'{ls(32057)} {trakt_str}', text=32741) and trakt_authenticate():
                 response = send_query()
             else:
                 pass
@@ -133,8 +133,7 @@ def trakt_get_device_token(device_codes):
         content = '[CR]%s[CR]%s' % (ls(32700) % str(device_codes['verification_url']), ls(
             32701) % '[COLOR red]%s[/COLOR]' % user_code)
         current_highlight = set_temp_highlight('red')
-        progressDialog = progress_dialog('%s %s' % (
-            ls(32037), ls(32057)), get_icon('trakt_qrcode'))
+        progressDialog = progress_dialog(f'{ls(32037)} {ls(32057)}', get_icon('trakt_qrcode'))
         progressDialog.update(content, 0)
         try:
             time_passed = 0
@@ -218,7 +217,7 @@ def trakt_revoke_authentication(dummy=''):
 
 
 def trakt_movies_trending(page_no):
-    string = 'trakt_movies_trending_%s' % page_no
+    string = f'trakt_movies_trending_{page_no}'
     params = {'path': 'movies/trending/%s',
               'params': {'limit': 20}, 'page_no': page_no}
     return cache_object(get_trakt, string, params, False, 48)
@@ -226,8 +225,8 @@ def trakt_movies_trending(page_no):
 
 def trakt_movies_trending_recent(page_no):
     current_year = get_datetime().year
-    years = '%s-%s' % (str(current_year-1), str(current_year))
-    string = 'trakt_movies_trending_recent_%s' % page_no
+    years = f'{str(current_year - 1)}-{str(current_year)}'
+    string = f'trakt_movies_trending_recent_{page_no}'
     params = {'path': 'movies/trending/%s',
               'params': {'limit': 20, 'years': years}, 'page_no': page_no}
     return cache_object(get_trakt, string, params, False, 48)
@@ -240,21 +239,21 @@ def trakt_movies_top10_boxoffice(page_no):
 
 
 def trakt_movies_most_watched(page_no):
-    string = 'trakt_movies_most_watched_%s' % page_no
+    string = f'trakt_movies_most_watched_{page_no}'
     params = {'path': 'movies/watched/weekly/%s',
               'params': {'limit': 20}, 'page_no': page_no}
     return cache_object(get_trakt, string, params, False, 48)
 
 
 def trakt_recommendations(media_type):
-    string = 'trakt_recommendations_%s' % (media_type)
+    string = f'trakt_recommendations_{media_type}'
     params = {'path': '/recommendations/%s', 'path_insert': media_type,
               'with_auth': True, 'params': {'limit': 50}, 'pagination': False}
     return cache_trakt_object(get_trakt, string, params)
 
 
 def trakt_tv_trending(page_no):
-    string = 'trakt_tv_trending_%s' % page_no
+    string = f'trakt_tv_trending_{page_no}'
     params = {'path': 'shows/trending/%s',
               'params': {'limit': 20}, 'page_no': page_no}
     return cache_object(get_trakt, string, params, False, 48)
@@ -262,22 +261,22 @@ def trakt_tv_trending(page_no):
 
 def trakt_tv_trending_recent(page_no):
     current_year = get_datetime().year
-    years = '%s-%s' % (str(current_year-1), str(current_year))
-    string = 'trakt_tv_trending_recent_%s' % page_no
+    years = f'{str(current_year - 1)}-{str(current_year)}'
+    string = f'trakt_tv_trending_recent_{page_no}'
     params = {'path': 'shows/trending/%s',
               'params': {'limit': 20, 'years': years}, 'page_no': page_no}
     return cache_object(get_trakt, string, params, False, 48)
 
 
 def trakt_tv_most_watched(page_no):
-    string = 'trakt_tv_most_watched_%s' % page_no
+    string = f'trakt_tv_most_watched_{page_no}'
     params = {'path': 'shows/watched/weekly/%s',
               'params': {'limit': 20}, 'page_no': page_no}
     return cache_object(get_trakt, string, params, False, 48)
 
 
 def trakt_tv_certifications(certification, page_no):
-    string = 'trakt_tv_certifications_%s_%s' % (certification, page_no)
+    string = f'trakt_tv_certifications_{certification}_{page_no}'
     params = {'path': 'shows/collected/all?certifications=%s',
               'path_insert': certification, 'params': {'limit': 20}, 'page_no': page_no}
     return cache_object(get_trakt, string, params, False, 48)
@@ -295,7 +294,7 @@ def trakt_get_hidden_items(list_type):
         return results
     results = []
     results_append = results.append
-    string = 'trakt_hidden_items_%s' % list_type
+    string = f'trakt_hidden_items_{list_type}'
     params = {'path': 'users/hidden/%s', 'path_insert': list_type,
               'params': {'limit': 1500, 'type': 'show'}, 'with_auth': True, 'pagination': False}
     return cache_trakt_object(_process, string, params)
@@ -329,7 +328,7 @@ def trakt_watched_status_mark(action, media, media_id, tvdb_id=0, season=None, e
 
 def trakt_progress(action, media, media_id, percent, season=None, episode=None, resume_id=None, refresh_trakt=False):
     if action == 'clear_progress':
-        url = 'sync/playback/%s' % resume_id
+        url = f'sync/playback/{resume_id}'
         result = call_trakt(url, is_delete=True)
     else:
         url = 'scrobble/pause'
@@ -397,7 +396,7 @@ def trakt_fetch_collection_watchlist(list_type, media_type):
         'movie', 'movies') else ('show', 'first_aired', 'tvshow')
     collected_at = 'listed_at' if list_type == 'watchlist' else 'collected_at' if media_type in (
         'movie', 'movies') else 'last_collected_at'
-    string = 'trakt_%s_%s' % (list_type, string_insert)
+    string = f'trakt_{list_type}_{string_insert}'
     path = 'sync/%s/%s?extended=full'
     params = {'path': path, 'path_insert': (
         list_type, media_type), 'with_auth': True, 'pagination': False}
@@ -434,7 +433,7 @@ def trakt_fetch_movie_sets():
 
 
 def add_to_list(user, slug, data):
-    result = call_trakt('/users/%s/lists/%s/items' % (user, slug), data=data)
+    result = call_trakt(f'/users/{user}/lists/{slug}/items', data=data)
     if result['existing']['movies'] + result['existing']['shows'] > 0:
         return notification(32082, 3000)
     if result['added']['movies'] + result['added']['shows'] == 0:
@@ -445,8 +444,7 @@ def add_to_list(user, slug, data):
 
 
 def remove_from_list(user, slug, data):
-    result = call_trakt('/users/%s/lists/%s/items/remove' %
-                        (user, slug), data=data)
+    result = call_trakt(f'/users/{user}/lists/{slug}/items/remove', data=data)
     if result['deleted']['movies'] + result['deleted']['shows'] == 0:
         return notification(32574, 3000)
     notification(32576, 3000)
@@ -505,7 +503,7 @@ def hide_unhide_progress_items(params):
     action, media_type, media_id, list_type = params['action'], params[
         'media_type'], params['media_id'], params['section']
     media_type = 'movies' if media_type in ('movie', 'movies') else 'shows'
-    url = 'users/hidden/%s' % list_type if action == 'hide' else 'users/hidden/%s/remove' % list_type
+    url = f'users/hidden/{list_type}' if action == 'hide' else f'users/hidden/{list_type}/remove'
     data = {media_type: [{'ids': {'tmdb': media_id}}]}
     call_trakt(url, data=data)
     trakt_sync_activities()
@@ -515,14 +513,14 @@ def hide_unhide_progress_items(params):
 def trakt_search_lists(search_title, page_no):
     def _process(dummy_arg):
         return call_trakt('search', params={'type': 'list', 'fields': 'name, description', 'query': search_title, 'limit': 50}, pagination=True, page_no=page_no)
-    string = 'trakt_search_lists_%s_%s' % (search_title, page_no)
+    string = f'trakt_search_lists_{search_title}_{page_no}'
     return cache_object(_process, string, 'dummy_arg', False, 4)
 
 
 def get_trakt_list_contents(list_type, user, slug, with_auth):
     def _process(params):
         return [{'media_ids': i[i['type']]['ids'], 'title': i[i['type']]['title'], 'type': i['type'], 'order': c} for c, i in enumerate(get_trakt(params))]
-    string = 'trakt_list_contents_%s_%s_%s_TEST' % (list_type, user, slug)
+    string = f'trakt_list_contents_{list_type}_{user}_{slug}_TEST'
     if user == 'Trakt Official':
         params = {'path': 'lists/%s/items', 'path_insert': slug,
                   'params': {'extended': 'full'}, 'method': 'sort_by_headers'}
@@ -533,7 +531,7 @@ def get_trakt_list_contents(list_type, user, slug, with_auth):
 
 
 def trakt_trending_popular_lists(list_type, page_no):
-    string = 'trakt_%s_user_lists_%s' % (list_type, page_no)
+    string = f'trakt_{list_type}_user_lists_{page_no}'
     params = {'path': 'lists/%s', 'path_insert': list_type,
               'params': {'limit': 50}, 'page_no': page_no}
     return cache_object(get_trakt, string, params, False)
@@ -591,7 +589,7 @@ def delete_trakt_list(params):
     list_slug = params['list_slug']
     if not confirm_dialog():
         return
-    url = 'users/%s/lists/%s' % (user, list_slug)
+    url = f'users/{user}/lists/{list_slug}'
     call_trakt(url, is_delete=True)
     trakt_sync_activities()
     notification(32576, 3000)
@@ -652,8 +650,7 @@ def trakt_like_a_list(params):
     user = params['user']
     list_slug = params['list_slug']
     try:
-        call_trakt('/users/%s/lists/%s/like' %
-                   (user, list_slug), method='post')
+        call_trakt(f'/users/{user}/lists/{list_slug}/like', method='post')
         notification(32576, 3000)
         trakt_sync_activities()
         kodi_refresh()
@@ -665,8 +662,7 @@ def trakt_unlike_a_list(params):
     user = params['user']
     list_slug = params['list_slug']
     try:
-        call_trakt('/users/%s/lists/%s/like' %
-                   (user, list_slug), method='delete')
+        call_trakt(f'/users/{user}/lists/{list_slug}/like', method='delete')
         notification(32576, 3000)
         trakt_sync_activities()
         kodi_refresh()
@@ -766,7 +762,7 @@ def trakt_comments(media_type, imdb_id):
         data = get_trakt(params)
         for count, item in enumerate(data, 1):
             try:
-                rating = '%s/10 - ' % item['user_rating'] if item['user_rating'] else ''
+                rating = f"{item['user_rating']}/10 - " if item['user_rating'] else ''
                 comment = template % \
                     (count, rating, item['user']['username'].upper(), js2date(
                         item['created_at'], date_format, True).strftime('%d %B %Y'), replace_html_codes(item['comment']))
@@ -781,7 +777,7 @@ def trakt_comments(media_type, imdb_id):
     template, spoiler_template, date_format = '[B]%02d. [I]%s%s - %s[/I][/B][CR][CR]%s', '[B][COLOR red][%s][/COLOR][CR][/B]' % ls(
         32985).upper(), '%Y-%m-%dT%H:%M:%S.000Z'
     media_type = 'movies' if media_type in ('movie', 'movies') else 'shows'
-    string = 'trakt_comments_%s %s' % (media_type, imdb_id)
+    string = f'trakt_comments_{media_type} {imdb_id}'
     params = {'path': '%s/%s/comments', 'path_insert': (media_type, imdb_id), 'params': {
         'limit': 1000, 'sort': 'likes'}, 'pagination': False}
     return cache_object(_process, string, 'foo', False, 168)
@@ -873,14 +869,14 @@ def trakt_official_status(media_type):
 def trakt_get_my_calendar(recently_aired, current_date):
     def _process(dummy):
         data = get_trakt(params)
-        data = [{'sort_title': '%s s%s e%s' % (i['show']['title'], str(i['episode']['season']).zfill(2), str(i['episode']['number']).zfill(2)),
+        data = [{'sort_title': f"{i['show']['title']} s{str(i['episode']['season']).zfill(2)} e{str(i['episode']['number']).zfill(2)}",
                  'media_ids': i['show']['ids'], 'season': i['episode']['season'], 'episode': i['episode']['number'], 'first_aired': i['first_aired']}
                 for i in data if i['episode']['season'] > 0]
         # remove duplicates
         data = [i for n, i in enumerate(data) if i not in data[n + 1:]]
         return data
     start, finish = trakt_calendar_days(recently_aired, current_date)
-    string = 'trakt_get_my_calendar_%s_%s' % (start, finish)
+    string = f'trakt_get_my_calendar_{start}_{finish}'
     params = {'path': 'calendars/my/shows/%s/%s',
               'path_insert': (start, finish), 'with_auth': True, 'pagination': False}
     return cache_trakt_object(_process, string, params)

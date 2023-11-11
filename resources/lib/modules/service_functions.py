@@ -90,7 +90,7 @@ class FirstRunActions:
                      'The use of external scrapers is outside of the intended use of Fenda, and will not be supported by Fenda.')
             for count, line in enumerate(lines, 1):
                 button_label = 'Finish' if count == 5 else 'Continue'
-                heading = '%s - %s/5.' % (ls(32522), count)
+                heading = f'{ls(32522)} - {count}/5.'
                 ok_dialog(heading, line, button_label)
             set_setting('first_use', 'false')
         return logger(fenda_str, 'CheckUpdateActions Service Finished')
@@ -124,7 +124,7 @@ class ReuseLanguageInvokerCheck:
             new_xml = str(root.toxml()).replace('<?xml version="1.0" ?>', '')
             with open(addon_xml, 'w') as f:
                 f.write(new_xml)
-            if not get_setting('fenda.auto_invoker_fix') == 'true' and not confirm_dialog(text='%s\n%s' % (ls(33021), ls(33020))):
+            if not get_setting('fenda.auto_invoker_fix') == 'true' and not confirm_dialog(text=f'{ls(33021)}\n{ls(33020)}'):
                 return logger(fenda_str, 'ReuseLanguageInvokerCheck Service Finished')
             execute_builtin('ActivateWindow(Home)', True)
             update_local_addons()
@@ -167,7 +167,7 @@ class TraktMonitor:
                         'Success. No Changes Needed', next_update_string))  # 'not needed'
             except Exception as e:
                 logger(fenda_str, trakt_service_string %
-                       ('Failed', 'The following Error Occured: %s' % str(e)))
+                       ('Failed', f'The following Error Occured: {str(e)}'))
             wait_for_abort(wait_time)
         try:
             del monitor
@@ -329,7 +329,7 @@ class PremiumExpiryCheck:
 
     def make_message(self):
         if any(i in [i[1] for i in self.days_remaining] for i in (7, 5, 3, 1, 0)):
-            self.message = ['[B]%s: EXPIRED[/B]' % i[0] if i[1] ==
+            self.message = [f'[B]{i[0]}: EXPIRED[/B]' if i[1] ==
                             0 else '[B]%s:[/B] %s Days Remaining' % i for i in self.days_remaining]
         return self.message
 

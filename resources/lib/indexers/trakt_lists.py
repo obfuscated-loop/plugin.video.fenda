@@ -39,9 +39,8 @@ def search_trakt_lists(params):
                     continue
                 cm = []
                 cm_append = cm.append
-                display = '%s | [I]%s (x%s)[/I]' % (list_name_upper,
-                                                    user, str(item_count))
-                editor_display = '%s | %s' % (list_name_upper, user)
+                display = f'{list_name_upper} | [I]{user} (x{str(item_count)})[/I]'
+                editor_display = f'{list_name_upper} | {user}'
                 url = build_url({'mode': 'trakt.list.build_trakt_list', 'user': user,
                                 'slug': slug, 'list_type': 'user_lists', 'list_name': list_name})
                 cm_append((add2menu_str, 'RunPlugin(%s)' % build_url(
@@ -98,17 +97,14 @@ def get_trakt_lists(params):
                 url = build_url({'mode': 'trakt.list.build_trakt_list', 'user': user,
                                 'slug': slug, 'list_type': list_type, 'list_name': list_name})
                 if list_type == 'liked_lists':
-                    display = '%s | [I]%s (x%s)[/I]' % (list_name_upper,
-                                                        user, str(item_count))
-                    editor_display = '%s | %s' % (list_name_upper, user)
+                    display = f'{list_name_upper} | [I]{user} (x{str(item_count)})[/I]'
+                    editor_display = f'{list_name_upper} | {user}'
                     cm_append((unlikelist_str, 'RunPlugin(%s)' % build_url(
                         {'mode': 'trakt.trakt_unlike_a_list', 'user': user, 'list_slug': slug})))
                 else:
-                    display = '%s [I](x%s)[/I]' % (list_name_upper,
-                                                   str(item_count))
+                    display = f'{list_name_upper} [I](x{str(item_count)})[/I]'
                     editor_display = list_name
-                    cm_append((newlist_str, 'RunPlugin(%s)' %
-                              build_url({'mode': 'trakt.make_new_trakt_list'})))
+                    cm_append((newlist_str, f"RunPlugin({build_url({'mode': 'trakt.make_new_trakt_list'})})"))
                     cm_append((deletelist_str, 'RunPlugin(%s)' % build_url(
                         {'mode': 'trakt.delete_trakt_list', 'user': user, 'list_slug': slug})))
                 cm_append((add2menu_str, 'RunPlugin(%s)' % build_url(
@@ -160,9 +156,8 @@ def get_trakt_trending_popular_lists(params):
                     user = 'Trakt Official'
                 if not user:
                     continue
-                display = '%s | [I]%s (x%s)[/I]' % (list_name_upper,
-                                                    user, str(item_count))
-                editor_display = '%s | %s' % (list_name_upper, user)
+                display = f'{list_name_upper} | [I]{user} (x{str(item_count)})[/I]'
+                editor_display = f'{list_name_upper} | {user}'
                 url = build_url({'mode': 'trakt.list.build_trakt_list', 'user': user,
                                 'slug': slug, 'list_type': 'user_lists', 'list_name': list_name})
                 listitem = make_listitem()
@@ -268,7 +263,7 @@ def build_trakt_list(params):
     if not is_external:
         if params.get('refreshed') == 'true':
             sleep(1000)
-        set_view_mode('view.%s' % content, content, is_external)
+        set_view_mode(f'view.{content}', content, is_external)
 
 
 def build_trakt_movie_sets(params):
@@ -281,4 +276,4 @@ def build_trakt_movie_sets(params):
     set_content(handle, content)
     set_category(handle, params.get('category_name', ''))
     end_directory(handle, False if is_external else None)
-    set_view_mode('view.%s' % content, content, is_external)
+    set_view_mode(f'view.{content}', content, is_external)

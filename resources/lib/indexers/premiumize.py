@@ -15,7 +15,7 @@ confirm_dialog, ok_dialog, kodi_refresh, dialog = kodi_utils.confirm_dialog, kod
 default_pm_icon, fanart = kodi_utils.get_icon(
     'premiumize'), kodi_utils.addon_fanart
 folder_str, file_str, down_str = ls(32742).upper(), ls(
-    32743).upper(), '[B]%s[/B]' % ls(32747)
+    32743).upper(), f'[B]{ls(32747)}[/B]'
 extensions = supported_video_extensions()
 Premiumize = PremiumizeAPI()
 
@@ -47,8 +47,7 @@ def pm_torrent_cloud(folder_id=None, folder_name=None):
                                   'url': url_link, 'obj': 'video'}
                     down_file_params = {
                         'mode': 'downloader', 'name': item['name'], 'url': url_link, 'action': 'cloud.premiumize', 'image': default_pm_icon}
-                    cm_append((down_str, 'RunPlugin(%s)' %
-                              build_url(down_file_params)))
+                    cm_append((down_str, f'RunPlugin({build_url(down_file_params)})'))
                     listitem.setProperty('fenda.context_main_menu_params', build_url({'mode': 'menu_editor.edit_menu_external', 'name': name, 'iconImage': default_pm_icon,
                                                                                       'action': 'cloud.premiumize'}))
                 url = build_url(url_params)
@@ -112,8 +111,7 @@ def pm_transfers():
                                   'url': url_link, 'obj': 'video'}
                     down_file_params = {
                         'mode': 'downloader', 'name': item['name'], 'url': url_link, 'media_type': 'cloud.premiumize', 'image': default_pm_icon}
-                    cm.append((down_str, 'RunPlugin(%s)' %
-                              build_url(down_file_params)))
+                    cm.append((down_str, f'RunPlugin({build_url(down_file_params)})'))
                 url = build_url(url_params)
                 listitem = make_listitem()
                 listitem.setLabel(display)

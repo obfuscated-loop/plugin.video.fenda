@@ -96,8 +96,7 @@ class FendaPlayer(xbmc_player):
                 play_random = self.sources_object.random
                 disable_autoplay_next_episode = self.sources_object.disable_autoplay_next_episode
                 if disable_autoplay_next_episode:
-                    notification('%s - %s %s' %
-                                 (ls(32135), ls(32178), ls(32736)), 4500)
+                    notification(f'{ls(32135)} - {ls(32178)} {ls(32736)}', 4500)
                 if any((play_random_continual, play_random, disable_autoplay_next_episode)):
                     self.autoplay_nextep, self.autoscrape_nextep = False, False
                 else:
@@ -478,7 +477,7 @@ class Subtitles(xbmc_player):
             except:
                 lang = chosen_sub['SubLanguageID']
             sub_format = chosen_sub['SubFormat']
-            final_filename = sub_filename + '_%s.%s' % (lang, sub_format)
+            final_filename = sub_filename + f'_{lang}.{sub_format}'
             download_url = chosen_sub['ZipDownloadLink']
             temp_zip = os.path.join(subtitle_path, 'temp.zip')
             temp_path = os.path.join(subtitle_path, chosen_sub['SubFileName'])
@@ -492,9 +491,8 @@ class Subtitles(xbmc_player):
         sleep(2500)
         imdb_id = re.sub(r'[^0-9]', '', imdb_id)
         subtitle_path = translate_path('special://temp/')
-        sub_filename = 'FendaSubs_%s_%s_%s' % (
-            imdb_id, season, episode) if season else 'FendaSubs_%s' % imdb_id
-        search_filename = sub_filename + '_%s.srt' % self.language
+        sub_filename = f'FendaSubs_{imdb_id}_{season}_{episode}' if season else f'FendaSubs_{imdb_id}'
+        search_filename = sub_filename + f'_{self.language}.srt'
         subtitle = _video_file_subs()
         if subtitle:
             return

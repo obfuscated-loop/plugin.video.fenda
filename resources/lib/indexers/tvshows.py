@@ -17,7 +17,7 @@ max_threads, widget_hide_next_page = settings.max_threads, settings.widget_hide_
 fenda_str, trakt_str, watched_str, unwatched_str, exit_str, nextpage_str, browse_str, jump2_str = ls(
     32036), ls(32037), ls(32642), ls(32643), ls(32650), ls(32799), ls(33137), ls(32964)
 extras_str, options_str, refr_widg_str = ls(
-    32645), ls(32646), '[B]%s[/B]' % ls(32611)
+    32645), ls(32646), f'[B]{ls(32611)}[/B]'
 run_plugin, container_update = 'RunPlugin(%s)', 'Container.Update(%s)'
 tmdb_main = ('tmdb_tv_popular', 'tmdb_tv_popular_today', 'tmdb_tv_premieres',
              'tmdb_tv_airing_today', 'tmdb_tv_on_the_air', 'tmdb_tv_upcoming')
@@ -66,8 +66,7 @@ class TVShows:
             if self.action in personal:
                 var_module, import_function = personal[self.action]
             else:
-                var_module, import_function = 'apis.%s_api' % self.action.split('_')[
-                    0], self.action
+                var_module, import_function = f"apis.{self.action.split('_')[0]}_api", self.action
             try:
                 function = manual_function_import(var_module, import_function)
             except:

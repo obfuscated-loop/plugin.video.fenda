@@ -101,7 +101,7 @@ def reset_activity(latest_activities):
 
 
 def clear_trakt_hidden_data(list_type):
-    string = 'trakt_hidden_items_%s' % list_type
+    string = f'trakt_hidden_items_{list_type}'
     try:
         _cache.dbcon.execute(DELETE, (string, ))
     except:
@@ -113,7 +113,7 @@ def clear_trakt_collection_watchlist_data(list_type, media_type):
         media_type = 'movie'
     if media_type in ('tvshows', 'shows'):
         media_type = 'tvshow'
-    string = 'trakt_%s_%s' % (list_type, media_type)
+    string = f'trakt_{list_type}_{media_type}'
     if media_type == 'movie':
         clear_trakt_movie_sets()
     try:
@@ -131,7 +131,7 @@ def clear_trakt_list_contents_data(list_type):
 
 
 def clear_trakt_list_data(list_type):
-    string = 'trakt_%s' % list_type
+    string = f'trakt_{list_type}'
 
     try:
         _cache.dbcon.execute(DELETE, (string,))
@@ -146,7 +146,7 @@ def clear_trakt_calendar():
 
 
 def clear_trakt_recommendations(media_type):
-    string = 'trakt_recommendations_%s' % (media_type)
+    string = f'trakt_recommendations_{media_type}'
 
     try:
         _cache.dbcon.execute(DELETE, (string, ))

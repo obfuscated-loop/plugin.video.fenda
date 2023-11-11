@@ -194,7 +194,7 @@ class MetaCache:
 
     def delete_all_seasons(self, media_id, dbcur=None):
         for item in range(1, 51):
-            self.delete_season('%s_%s' % (media_id, string(item)))
+            self.delete_season(f'{media_id}_{string(item)}')
 
     def delete_all(self):
         try:

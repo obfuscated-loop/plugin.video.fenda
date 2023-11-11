@@ -15,9 +15,9 @@ class OpenSubtitlesAPI:
         self.session = make_session('https://rest.opensubtitles.org/')
 
     def search(self, query, imdb_id, language, season=None, episode=None):
-        cache_name = 'opensubtitles_%s_%s' % (imdb_id, language)
+        cache_name = f'opensubtitles_{imdb_id}_{language}'
         if season:
-            cache_name += '_%s_%s' % (season, episode)
+            cache_name += f'_{season}_{episode}'
         cache = main_cache.get(cache_name)
         if cache:
             return cache

@@ -537,7 +537,7 @@ def clear_local_bookmarks():
         file_ids = dbcon.execute(
             "SELECT idFile FROM files WHERE strFilename LIKE 'plugin.video.fenda%'").fetchall()
         for i in ('bookmark', 'streamdetails', 'files'):
-            dbcon.executemany("DELETE FROM %s WHERE idFile=?" % i, file_ids)
+            dbcon.executemany(f"DELETE FROM {i} WHERE idFile=?", file_ids)
     except:
         pass
 

@@ -53,14 +53,14 @@ class Discover:
     def movie(self):
         self._set_default_params()
         self.add({'mode': 'discover._clear_property', 'media_type': 'movie',
-                 'list_name': '[B]%s[/B]' % ls(32656).upper()})
+                 'list_name': f'[B]{ls(32656).upper()}[/B]'})
         self.add({'mode': 'discover.recommended', 'media_type': 'movie',
-                 'list_name': '[B]%s %s:[/B]  [I]%s[/I]' % (ls(32451), ls(32593), self.gv('recommended'))})
+                 'list_name': f"[B]{ls(32451)} {ls(32593)}:[/B]  [I]{self.gv('recommended')}[/I]"})
         if not 'recommended' in self.value_names:
             self.add({'mode': 'discover.year', 'media_type': 'movie', 'key': 'year_start',
-                     'list_name': base_str % ('%s %s' % (ls(32543), ls(32654)), self.gv('year_start'))})
+                     'list_name': base_str % (f'{ls(32543)} {ls(32654)}', self.gv('year_start'))})
             self.add({'mode': 'discover.year', 'media_type': 'movie', 'key': 'year_end',
-                     'list_name': base_str % ('%s %s' % (ls(32543), ls(32655)), self.gv('year_end'))})
+                     'list_name': base_str % (f'{ls(32543)} {ls(32655)}', self.gv('year_end'))})
             self.add({'mode': 'discover.genres', 'media_type': 'movie', 'key': 'with_genres',
                      'list_name': base_str % (inc_str % ls(32470), self.gv('with_genres'))})
             self.add({'mode': 'discover.genres', 'media_type': 'movie', 'key': 'without_genres',
@@ -78,9 +78,9 @@ class Discover:
             self.add({'mode': 'discover.certification', 'media_type': 'movie',
                      'list_name': base_str % (ls(32473), self.gv('certification'))})
             self.add({'mode': 'discover.rating', 'media_type': 'movie', 'list_name': base_str % (
-                '%s %s' % (ls(32661), ls(32621)), self.gv('rating'))})
+                f'{ls(32661)} {ls(32621)}', self.gv('rating'))})
             self.add({'mode': 'discover.rating_votes', 'media_type': 'movie', 'list_name': base_str % (
-                '%s %s' % (ls(32661), ls(32663)), self.gv('rating_votes'))})
+                f'{ls(32661)} {ls(32663)}', self.gv('rating_votes'))})
             self.add({'mode': 'discover.cast', 'media_type': 'movie',
                      'list_name': base_str % (inc_str % ls(32664), self.gv('cast'))})
             self.add({'mode': 'discover.sort_by', 'media_type': 'movie',
@@ -93,14 +93,14 @@ class Discover:
     def tvshow(self):
         self._set_default_params()
         self.add({'mode': 'discover._clear_property', 'media_type': 'tvshow',
-                 'list_name': '[B]%s[/B]' % ls(32656).upper()})
+                 'list_name': f'[B]{ls(32656).upper()}[/B]'})
         self.add({'mode': 'discover.recommended', 'media_type': 'tvshow',
-                 'list_name': '[B]%s %s:[/B]  [I]%s[/I]' % (ls(32451), ls(32593), self.gv('recommended'))})
+                 'list_name': f"[B]{ls(32451)} {ls(32593)}:[/B]  [I]{self.gv('recommended')}[/I]"})
         if not 'recommended' in self.value_names:
             self.add({'mode': 'discover.year', 'media_type': 'tvshow', 'key': 'year_start',
-                     'list_name': base_str % ('%s %s' % (ls(32543), ls(32654)), self.gv('year_start'))})
+                     'list_name': base_str % (f'{ls(32543)} {ls(32654)}', self.gv('year_start'))})
             self.add({'mode': 'discover.year', 'media_type': 'tvshow', 'key': 'year_end',
-                     'list_name': base_str % ('%s %s' % (ls(32543), ls(32655)), self.gv('year_end'))})
+                     'list_name': base_str % (f'{ls(32543)} {ls(32655)}', self.gv('year_end'))})
             self.add({'mode': 'discover.genres', 'media_type': 'tvshow', 'key': 'with_genres',
                      'list_name': base_str % (inc_str % ls(32470), self.gv('with_genres'))})
             self.add({'mode': 'discover.genres', 'media_type': 'tvshow', 'key': 'without_genres',
@@ -114,9 +114,9 @@ class Discover:
             self.add({'mode': 'discover.network', 'media_type': 'tvshow',
                      'list_name': base_str % (ls(32480), self.gv('network'))})
             self.add({'mode': 'discover.rating', 'media_type': 'tvshow', 'list_name': base_str % (
-                '%s %s' % (ls(32661), ls(32621)), self.gv('rating'))})
+                f'{ls(32661)} {ls(32621)}', self.gv('rating'))})
             self.add({'mode': 'discover.rating_votes', 'media_type': 'tvshow', 'list_name': base_str % (
-                '%s %s' % (ls(32661), ls(32663)), self.gv('rating_votes'))})
+                f'{ls(32661)} {ls(32663)}', self.gv('rating_votes'))})
             self.add({'mode': 'discover.sort_by', 'media_type': 'tvshow',
                      'list_name': base_str % (ls(32067), self.gv('sort_by'))})
         self._add_defaults()
@@ -133,10 +133,9 @@ class Discover:
             function = tmdb_api.tmdb_movies_search
         else:
             function = tmdb_api.tmdb_tv_search
-        year = dialog.input(heading_base % ('%s (%s)' %
-                            (ls(32543), ls(32669))), type=numeric_input)
+        year = dialog.input(heading_base % (f'{ls(32543)} ({ls(32669)})'), type=numeric_input)
         if year:
-            query = '%s|%s' % (query, year)
+            query = f'{query}|{year}'
         results = function(query, 1)['results']
         if len(results) == 0:
             return notification(32490)
@@ -150,16 +149,16 @@ class Discover:
             except:
                 year = ''
             if year:
-                rootname = '%s (%s)' % (title, year)
+                rootname = f'{title} ({year})'
             else:
                 rootname = title
             if item.get('poster_path'):
-                icon = 'https://image.tmdb.org/t/p/w780%s' % item['poster_path']
+                icon = f"https://image.tmdb.org/t/p/w780{item['poster_path']}"
             else:
                 icon = get_icon(default_poster)
             append({'line1': rootname, 'icon': icon,
                    'rootname': rootname, 'tmdb_id': str(item['id'])})
-        heading = heading_base % ('%s %s' % (ls(32193), ls(32228)))
+        heading = heading_base % (f'{ls(32193)} {ls(32228)}')
         kwargs = {'items': json.dumps(choice_list), 'heading': heading}
         values = select_dialog([(i['tmdb_id'], i['rootname'])
                                for i in choice_list], **kwargs)
@@ -176,7 +175,7 @@ class Discover:
             self.key, [])
         key_ids_append, key_words_append = current_key_ids.append, current_keywords.append
         heading = inc_str if self.key == 'with_keywords' else ex_str
-        replace_value = '&%s=' % self.key
+        replace_value = f'&{self.key}='
         if not isinstance(current_key_ids, list):
             current_key_ids = current_key_ids.replace(
                 replace_value, '').split(', ')
@@ -207,18 +206,16 @@ class Discover:
             years = years_tvshows
         years_list = [str(i) for i in years]
         year = self._selection_dialog(
-            years_list, years, heading_base % ('%s %s' % (ls(32655), ls(32543))))
+            years_list, years, heading_base % (f'{ls(32655)} {ls(32543)}'))
         if year != None:
             if self.key == 'year_start':
                 value_ending, value_date = 'gte', '01-01'
             else:
                 value_ending, value_date = 'lte', '12-31'
             if self.discover_params['media_type'] == 'movie':
-                value = '&primary_release_date.%s=%s-%s' % (
-                    value_ending, str(year), value_date)
+                value = f'&primary_release_date.{value_ending}={str(year)}-{value_date}'
             else:
-                value = '&first_air_date.%s=%s-%s' % (
-                    value_ending, str(year), value_date)
+                value = f'&first_air_date.{value_ending}={str(year)}-{value_date}'
             values = (value, str(year))
             self._process(self.key, values)
 
@@ -236,7 +233,7 @@ class Discover:
         if genres_choice != None:
             genre_ids = ','.join([i[1] for i in genres_choice])
             genre_names = ', '.join([i[0] for i in genres_choice])
-            values = ('&%s=%s' % (self.key, genre_ids), genre_names)
+            values = (f'&{self.key}={genre_ids}', genre_names)
             self._process(self.key, values)
 
     def language(self):
@@ -246,8 +243,7 @@ class Discover:
         language = self._selection_dialog(
             [i[0] for i in languages], languages, heading_base % ls(32658))
         if language != None:
-            values = ('&with_original_language=%s' %
-                      str(language[1]), str(language[1]).upper())
+            values = (f'&with_original_language={str(language[1])}', str(language[1]).upper())
             self._process(key, values)
 
     def region(self):
@@ -261,7 +257,7 @@ class Discover:
         if region != None:
             region_name = [i['name']
                            for i in regions if i['code'] == region][0]
-            values = ('&region=%s' % region, region_name)
+            values = (f'&region={region}', region_name)
             self._process(key, values)
 
     def rating(self):
@@ -271,9 +267,9 @@ class Discover:
         ratings = [i for i in range(1, 11)]
         ratings_list = [str(float(i)) for i in ratings]
         rating = self._selection_dialog(
-            ratings_list, ratings, heading_base % ('%s %s' % (ls(32661), ls(32621))))
+            ratings_list, ratings, heading_base % (f'{ls(32661)} {ls(32621)}'))
         if rating != None:
-            values = ('&vote_average.gte=%s' % str(rating), str(float(rating)))
+            values = (f'&vote_average.gte={str(rating)}', str(float(rating)))
             self._process(key, values)
 
     def rating_votes(self):
@@ -285,24 +281,22 @@ class Discover:
         rating_votes.insert(0, 1)
         rating_votes_list = [str(i) for i in rating_votes]
         rating_votes = self._selection_dialog(
-            rating_votes_list, rating_votes, heading_base % ('%s %s' % (ls(32661), ls(32663))))
+            rating_votes_list, rating_votes, heading_base % (f'{ls(32661)} {ls(32663)}'))
         if rating_votes != None:
-            values = ('&vote_count.gte=%s' %
-                      str(rating_votes), str(rating_votes))
+            values = (f'&vote_count.gte={str(rating_votes)}', str(rating_votes))
             self._process(key, values)
 
     def certification(self):
         key = 'certification'
         if self._action(key) in ('clear', None):
             return
-        cert_list = [(i, '=%s' % i) for i in movie_certifications]
-        [cert_list.insert(cert_list.index((item, '=%s' % item)) + 1,
-                          ('%s (and lower)' % item, '.lte=%s' % item)) for item in lower_certs]
+        cert_list = [(i, f'={i}') for i in movie_certifications]
+        [cert_list.insert(cert_list.index((item, f'={item}')) + 1,
+                          (f'{item} (and lower)', f'.lte={item}')) for item in lower_certs]
         certification = self._selection_dialog(
             [i[0] for i in cert_list], cert_list, heading_base % ls(32473))
         if certification != None:
-            values = ('&certification_country=US&certification%s' %
-                      certification[1], certification[0])
+            values = (f'&certification_country=US&certification{certification[1]}', certification[0])
             self._process(key, values)
 
     def cast(self):
@@ -313,8 +307,7 @@ class Discover:
         search_name = dialog.input(heading_base % ls(32664))
         if not search_name:
             return
-        string = '%s_%s' % (
-            'tmdb_movies_people_search_actor_data', search_name)
+        string = f'tmdb_movies_people_search_actor_data_{search_name}'
         url = tmdb_url % 'search/person?api_key=%s&language=en-US&query=%s' % (
             self.tmdb_api, search_name)
         result = cache_object(tmdb_api.get_tmdb, string, url, 4)
@@ -331,7 +324,7 @@ class Discover:
                 known_for_list = [i for i in known_for_list if not i == 'NA']
                 known_for = ', '.join(known_for_list) if known_for_list else ''
                 if item.get('profile_path'):
-                    icon = 'https://image.tmdb.org/t/p/h632/%s' % item['profile_path']
+                    icon = f"https://image.tmdb.org/t/p/h632/{item['profile_path']}"
                 else:
                     icon = translate_path(default_cast)
                 append({'line1': name, 'line2': known_for,
@@ -348,7 +341,7 @@ class Discover:
             actor_id = [item['id'] for item in result][0]
             actor_name = [item['name'] for item in result][0]
         if actor_id:
-            values = ('&with_cast=%s' % str(actor_id),
+            values = (f'&with_cast={str(actor_id)}',
                       safe_string(remove_accents(actor_name)))
             self._process(key, values)
 
@@ -369,7 +362,7 @@ class Discover:
         choice = select_dialog(network_list, **kwargs)
         if choice == None:
             return
-        values = ('&with_networks=%s' % choice['id'], choice['name'])
+        values = (f"&with_networks={choice['id']}", choice['name'])
         self._process(key, values)
 
     def companies(self):
@@ -430,8 +423,7 @@ class Discover:
         include_adult = self._selection_dialog(
             (ls(32859), ls(32860)), ('true', 'false'), heading_base % inc_str % ls(32665))
         if include_adult != None:
-            values = ('&include_adult=%s' %
-                      include_adult, include_adult.capitalize())
+            values = (f'&include_adult={include_adult}', include_adult.capitalize())
             self._process(key, values)
 
     def export(self):
@@ -464,7 +456,7 @@ class Discover:
                     name = item['name']
                     url_params = {'mode': item['mode'], 'action': item['action'], 'query': item['query'], 'name': name,
                                   'iconImage': default_icon, 'data_id': data_id, 'media_type': media_type, 'list_type': 'discover_history'}
-                    display = '%s | %s' % (count+1, name)
+                    display = f'{count + 1} | {name}'
                     url = build_url(url_params)
                     remove_single_params = {
                         'mode': 'discover.remove_from_history', 'data_id': data_id, 'silent': 'false'}
@@ -477,10 +469,8 @@ class Discover:
                     info_tag = listitem.getVideoInfoTag()
                     info_tag.setMediaType('video')
                     info_tag.setPlot(' ')
-                    cm_append(('[B]%s[/B]' % remove_str, 'RunPlugin(%s)' %
-                              build_url(remove_single_params)))
-                    cm_append(('[B]%s[/B]' % clear_str, 'RunPlugin(%s)' %
-                              build_url(remove_all_params)))
+                    cm_append((f'[B]{remove_str}[/B]', f'RunPlugin({build_url(remove_single_params)})'))
+                    cm_append((f'[B]{clear_str}[/B]', f'RunPlugin({build_url(remove_all_params)})'))
                     cm_append((add_menu_str, 'RunPlugin(%s)' % build_url(
                         {'mode': 'menu_editor.add_external', 'name': name, 'iconImage': 'discover'})))
                     cm_append((add_folder_str, 'RunPlugin(%s)' % build_url(
@@ -494,7 +484,7 @@ class Discover:
 
         handle = int(sys.argv[1])
         media_type = media_type if media_type else self.media_type
-        string = 'fenda_discover_%s_%%' % media_type
+        string = f'fenda_discover_{media_type}_%'
         
         dbcon = _init_db(maincache_db)
         # if not display:
@@ -538,9 +528,9 @@ class Discover:
         name, query, export_icon = self.discover_params.get(
             'name', '...'), self.discover_params.get('final_string', ''), get_icon('nextpage')
         menu_export_str = ls(32730).upper().replace(
-            '[/B]', ':[/B] [I]%s[/I]' % name)
+            '[/B]', f':[/B] [I]{name}[/I]')
         folder_export_str = ls(32731).upper().replace(
-            '[/B]', ':[/B] [I]%s[/I]' % name)
+            '[/B]', f':[/B] [I]{name}[/I]')
         self.add({'mode': 'discover.export', 'media_type': self.media_type,
                  'export_type': 'menu', 'list_name': menu_export_str}, icon=export_icon)
         self.add({'mode': 'discover.export', 'media_type': self.media_type,
@@ -633,62 +623,59 @@ class Discover:
         values = self.discover_params['value_names']
         media_type = values['media_type']
         db_name = ls(32028) if media_type == 'Movies' else ls(32029)
-        name = '[B]%s[/B] ' % db_name
+        name = f'[B]{db_name}[/B] '
         if 'recommended' in values:
-            name += '| %s %s' % (ls(32673), values['recommended'])
+            name += f"| {ls(32673)} {values['recommended']}"
             self.discover_params['name'] = name
             return
         if 'year_start' in values:
             if 'year_end' in values and not values['year_start'] == values['year_end']:
-                name += '| %s' % values['year_start']
+                name += f"| {values['year_start']}"
             else:
-                name += '| %s ' % values['year_start']
+                name += f"| {values['year_start']} "
         if 'year_end' in values:
             if 'year_start' in values:
                 if not values['year_start'] == values['year_end']:
-                    name += '-%s ' % values['year_end']
+                    name += f"-{values['year_end']} "
             else:
-                name += '| %s ' % values['year_end']
+                name += f"| {values['year_end']} "
         if 'language' in values:
-            name += '| %s ' % values['language']
+            name += f"| {values['language']} "
         if 'region' in values:
-            name += '| %s ' % values['region']
+            name += f"| {values['region']} "
         if 'network' in values:
-            name += '| %s ' % values['network']
+            name += f"| {values['network']} "
         if 'with_genres' in values:
-            name += '| %s ' % values['with_genres']
+            name += f"| {values['with_genres']} "
             if 'without_genres' in values:
-                name += '(%s %s) ' % (ls(32189).lower(),
-                                      values['without_genres'])
+                name += f"({ls(32189).lower()} {values['without_genres']}) "
         elif 'without_genres' in values:
-            name += '| %s %s ' % (ls(32189).lower(), values['without_genres'])
+            name += f"| {ls(32189).lower()} {values['without_genres']} "
         if 'companies' in values:
-            name += '| %s ' % values['companies']
+            name += f"| {values['companies']} "
         if 'certification' in values:
-            name += '| %s ' % values['certification']
+            name += f"| {values['certification']} "
         if 'rating' in values:
-            name += '| %s+ ' % values['rating']
+            name += f"| {values['rating']}+ "
             if 'rating_votes' in values:
-                name += '(%s) ' % values['rating_votes']
+                name += f"({values['rating_votes']}) "
         elif 'rating_votes' in values:
-            name += '| %s+ %s ' % (values['rating_votes'], ls(32623).lower())
+            name += f"| {values['rating_votes']}+ {ls(32623).lower()} "
         if 'cast' in values:
-            name += '| %s %s ' % (ls(32664).lower(), values['cast'])
+            name += f"| {ls(32664).lower()} {values['cast']} "
         if 'with_keywords' in values:
-            name += '| %s %s: %s ' % (ls(32188).lower(),
-                                      ls(32657).lower(), values['with_keywords'])
+            name += f"| {ls(32188).lower()} {ls(32657).lower()}: {values['with_keywords']} "
         if 'without_keywords' in values:
-            name += '| %s %s: %s ' % (ls(32189).lower(),
-                                      ls(32657).lower(), values['without_keywords'])
+            name += f"| {ls(32189).lower()} {ls(32657).lower()}: {values['without_keywords']} "
         if 'sort_by' in values:
-            name += '| %s ' % values['sort_by']
+            name += f"| {values['sort_by']} "
         if 'adult' in values and values['adult'] == ls(32859):
-            name += '| %s %s ' % (ls(32188).lower(), ls(32665).lower())
+            name += f'| {ls(32188).lower()} {ls(32665).lower()} '
         self.discover_params['name'] = name
 
     def _position(self, key):
         if self.media_type == 'movie' and key in ('rating', 'rating_votes', 'sort_by'):
-            key = '%s_movie' % key
+            key = f'{key}_movie'
         try:
             return position[key]
         except:
@@ -741,7 +728,7 @@ class Discover:
 
 
 def set_history(media_type, name, query):
-    string = 'fenda_discover_%s_%s' % (media_type, query)
+    string = f'fenda_discover_{media_type}_{query}'
     cache = main_cache.get(string)
     if cache:
         return

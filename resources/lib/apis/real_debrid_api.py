@@ -45,8 +45,7 @@ class RealDebridAPI:
         content = line % (ls(32517), ls(32700) % 'https://real-debrid.com/device',
                           ls(32701) % '[COLOR seagreen]%s[/COLOR]' % user_code)
         current_highlight = set_temp_highlight('seagreen')
-        progressDialog = progress_dialog('%s %s' % (
-            ls(32054), ls(32057)), get_icon('rd_qrcode'))
+        progressDialog = progress_dialog(f'{ls(32054)} {ls(32057)}', get_icon('rd_qrcode'))
         progressDialog.update(content, 0)
         expires_in = int(response['expires_in'])
         sleep_interval = int(response['interval'])
@@ -85,7 +84,7 @@ class RealDebridAPI:
         if self.secret:
             data = {'client_id': self.client_ID, 'client_secret': self.secret,
                     'code': device_code, 'grant_type': 'http://oauth.net/grant_type/device/1.0'}
-            url = '%stoken' % auth_url
+            url = f'{auth_url}token'
             response = self.session.post(url, data=data, timeout=timeout).json()
             self.token = response['access_token']
             self.refresh = response['refresh_token']
@@ -131,11 +130,11 @@ class RealDebridAPI:
 
     def check_cache(self, hashes):
         hash_string = '/'.join(hashes)
-        url = 'torrents/instantAvailability/%s' % hash_string
+        url = f'torrents/instantAvailability/{hash_string}'
         return self._get(url)
 
     def check_hash(self, hash_string):
-        url = 'torrents/instantAvailability/%s' % hash_string
+        url = f'torrents/instantAvailability/{hash_string}'
         return self._get(url)
 
     def check_single_magnet(self, hash_string):
@@ -162,12 +161,12 @@ class RealDebridAPI:
         return cache_object(self._get, string, url, False, 0.5)
 
     def user_cloud_info(self, file_id):
-        string = 'fenda_rd_user_cloud_info_%s' % file_id
-        url = 'torrents/info/%s' % file_id
+        string = f'fenda_rd_user_cloud_info_{file_id}'
+        url = f'torrents/info/{file_id}'
         return cache_object(self._get, string, url, False, 2)
 
     def torrent_info(self, file_id):
-        url = 'torrents/info/%s' % file_id
+        url = f'torrents/info/{file_id}'
         return self._get(url)
 
     def unrestrict_link(self, link):
@@ -203,14 +202,14 @@ class RealDebridAPI:
 
     def add_torrent_select(self, torrent_id, file_ids):
         self.clear_cache(clear_hashes=False)
-        url = 'torrents/selectFiles/%s' % torrent_id
+        url = f'torrents/selectFiles/{torrent_id}'
         post_data = {'files': file_ids}
         return self._post(url, post_data)
 
     def delete_torrent(self, folder_id):
         if self.token == '':
             return None
-        url = 'torrents/delete/%s&auth_token=%s' % (folder_id, self.token)
+        url = f'torrents/delete/{folder_id}&auth_token={self.token}'
         response = self.session.delete(base_url + url, timeout=timeout)
         return response
 
@@ -510,7 +509,7 @@ class RealDebridAPI:
                 hide_busy_dialog()
                 return True
             file_size = round(float(video['bytes']) / (1000 ** 3), 2)
-            line1 = '%s...' % (ls(32732) % ls(32054))
+            line1 = f'{ls(32732) % ls(32054)}...'
             line2 = torrent_info['filename']
             line3 = status
             progressDialog = progress_dialog(ls(32733), icon)
@@ -549,9 +548,9 @@ class RealDebridAPI:
         if self.token == '':
             return None
         if '?' not in url:
-            url += '?auth_token=%s' % self.token
+            url += f'?auth_token={self.token}'
         else:
-            url += '&auth_token=%s' % self.token
+            url += f'&auth_token={self.token}'
         response = self.session.get(url, timeout=timeout)
         if any(value in response.text for value in ('bad_token', 'Bad Request')):
             if self.refresh_token():
@@ -569,9 +568,9 @@ class RealDebridAPI:
         if self.token == '':
             return None
         if '?' not in url:
-            url += '?auth_token=%s' % self.token
+            url += f'?auth_token={self.token}'
         else:
-            url += '&auth_token=%s' % self.token
+            url += f'&auth_token={self.token}'
         response = self.session.post(url, data=post_data, timeout=timeout)
         if any(value in response.text for value in ('bad_token', 'Bad Request')):
             if self.refresh_token():
@@ -607,8 +606,8 @@ class RealDebridAPI:
                     clear_property("fenda_rd_user_cloud")
 
                     for i in user_cloud_info_caches:
-                        dbcon.execute('DELETE FROM maincache WHERE id=?', ('fenda_rd_user_cloud_info_%s' % i, ))
-                        clear_property("fenda_rd_user_cloud_info_%s" % i)
+                        dbcon.execute('DELETE FROM maincache WHERE id=?', (f'fenda_rd_user_cloud_info_{i}', ))
+                        clear_property(f"fenda_rd_user_cloud_info_{i}")
 
                     user_cloud_success = True
             except:

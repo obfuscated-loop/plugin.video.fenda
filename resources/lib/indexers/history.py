@@ -8,8 +8,8 @@ ls, sys, build_url, make_listitem, get_icon = kodi_utils.local_string, kodi_util
 set_view_mode, unquote, set_category, icon, fanart = kodi_utils.set_view_mode, kodi_utils.unquote, kodi_utils.set_category, get_icon(
     'search_history'), kodi_utils.addon_fanart
 history_str, remove_str, remove_all_str = '[B]%s:[/B] [I]%s[/I]' % (
-    ls(32486).upper(), '%s'), ls(32786), '[B]%s[/B]' % ls(32699)
-new_search_str = '[B]%s %s...[/B]' % (ls(32857).upper(), ls(32450).upper())
+    ls(32486).upper(), '%s'), ls(32786), f'[B]{ls(32699)}[/B]'
+new_search_str = f'[B]{ls(32857).upper()} {ls(32450).upper()}...[/B]'
 mode_dict = {'movie': ('movie_queries', {'mode': 'get_search_term', 'media_type': 'movie'}),
              'tvshow': ('tvshow_queries', {'mode': 'get_search_term', 'media_type': 'tv_show'}),
              'people': ('people_queries', {'mode': 'get_search_term', 'search_type': 'people'}),

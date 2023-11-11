@@ -123,7 +123,7 @@ def make_alias_dict(meta, title):
     if original_title not in alternative_titles:
         aliases.append({'title': original_title, 'country': ''})
     if country_codes:
-        aliases.extend([{'title': '%s %s' % (title, i), 'country': ''}
+        aliases.extend([{'title': f'{title} {i}', 'country': ''}
                        for i in country_codes])
     return aliases
 

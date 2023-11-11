@@ -150,8 +150,7 @@ def check_corrupt_databases():
     check_databases()
     hide_busy_dialog()
     if database_errors:
-        ok_dialog(text='%s[CR][CR]%s' %
-                  (ls(32213), ', '.join(database_errors)))
+        ok_dialog(text=f"{ls(32213)}[CR][CR]{', '.join(database_errors)}")
     else:
         notification(ls(32237), time=3000)
 
@@ -238,10 +237,10 @@ def clear_all_cache():
         return
     progressDialog = progress_dialog()
     line = '%s....[CR]%s'
-    caches = (('meta', '%s %s' % (ls(32527), ls(32524))), ('internal_scrapers', '%s %s' % (ls(32096), ls(32524))), ('external_scrapers', '%s %s' % (ls(32118), ls(32524))),
-              ('trakt', ls(32087)), ('imdb', '%s %s' % (ls(32064), ls(32524))
-                                     ), ('list', '%s %s' % (ls(32815), ls(32524))),
-              ('pm_cloud', '%s %s' % (ls(32061), ls(32524))), ('rd_cloud', '%s %s' % (ls(32054), ls(32524))), ('ad_cloud', '%s %s' % (ls(32063), ls(32524))))
+    caches = (('meta', f'{ls(32527)} {ls(32524)}'), ('internal_scrapers', f'{ls(32096)} {ls(32524)}'), ('external_scrapers', f'{ls(32118)} {ls(32524)}'),
+              ('trakt', ls(32087)), ('imdb', f'{ls(32064)} {ls(32524)}'
+                                     ), ('list', f'{ls(32815)} {ls(32524)}'),
+              ('pm_cloud', f'{ls(32061)} {ls(32524)}'), ('rd_cloud', f'{ls(32054)} {ls(32524)}'), ('ad_cloud', f'{ls(32063)} {ls(32524)}'))
     for count, cache_type in enumerate(caches, 1):
         try:
             progressDialog.update(line % (ls(32816), cache_type[1]), int(

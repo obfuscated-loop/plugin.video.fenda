@@ -261,10 +261,10 @@ class BaseDialog(window_xml_dialog):
         return translate_path(path)
 
     def set_home_property(self, prop, value):
-        set_property('fenda.%s' % prop, value)
+        set_property(f'fenda.{prop}', value)
 
     def get_home_property(self, prop):
-        return get_property('fenda.%s' % prop)
+        return get_property(f'fenda.{prop}')
 
     def get_attribute(self, obj, attribute):
         return getattr(obj, attribute)
@@ -300,7 +300,7 @@ class FontUtils:
         skin_folder = self.get_skin_folder()
         if skin_folder:
             skin_font_xml = translate_path(
-                'special://skin/%s/Font.xml' % skin_folder)
+                f'special://skin/{skin_folder}/Font.xml')
         if skin_font_xml and self.use_skin_fonts == 'true':
             self.skin_font_info = self.get_font_info(
                 skin_font_xml) or self.default_font_info()
@@ -334,7 +334,7 @@ class FontUtils:
         return False
 
     def match_font(self, size, bold, fallback):
-        font_tag = 'Fenda_%s%s' % (size, '_BOLD' if bold else '')
+        font_tag = f"Fenda_{size}{'_BOLD' if bold else ''}"
         size_range = range(int(size * 0.75), int(size * 1.25))
         compatibility_range = range(int(size * 0.50), int(size * 1.50))
         compatibility_fonts = [i['name'] for i in self.skin_font_info if i['name']
@@ -395,7 +395,7 @@ class FontUtils:
         for item in replacement_values:
             try:
                 content = re.sub(r'<font>(.*?)</font> <\!-- %s -->' %
-                                 item[0], '<font>%s</font> <!-- %s -->' % (item[1], item[0]), content)
+                                 item[0], f'<font>{item[1]}</font> <!-- {item[0]} -->', content)
             except:
                 pass
         with open_file(file, 'w') as f:

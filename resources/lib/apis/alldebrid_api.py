@@ -30,7 +30,7 @@ class AllDebridAPI:
         self.token = ''
         
         line = '%s[CR]%s[CR]%s'
-        url = self.base_url + 'pin/get?agent=%s' % self.user_agent
+        url = self.base_url + f'pin/get?agent={self.user_agent}'
         response = self.session.get(url, timeout=self.timeout).json()
         response = response['data']
         expires_in = int(response['expires_in'])
@@ -44,8 +44,7 @@ class AllDebridAPI:
         content = line % (ls(32517), ls(32700) % self.pin_url, ls(
             32701) % '[COLOR goldenrod]%s[/COLOR]' % user_code)
         current_highlight = set_temp_highlight('goldenrod')
-        progressDialog = progress_dialog('%s %s' % (
-            ls(32063), ls(32057)), get_icon('ad_qrcode'))
+        progressDialog = progress_dialog(f'{ls(32063)} {ls(32057)}', get_icon('ad_qrcode'))
         progressDialog.update(content, 0)
         start, time_passed = time.time(), 0
         sleep(2000)
@@ -108,7 +107,7 @@ class AllDebridAPI:
 
     def unrestrict_link(self, link):
         url = 'link/unlock'
-        url_append = '&link=%s' % link
+        url_append = f'&link={link}'
         response = self._get(url, url_append)
         try:
             return response['link']
@@ -117,21 +116,21 @@ class AllDebridAPI:
 
     def create_transfer(self, magnet):
         url = 'magnet/upload'
-        url_append = '&magnet=%s' % magnet
+        url_append = f'&magnet={magnet}'
         result = self._get(url, url_append)
         result = result['magnets'][0]
         return result.get('id', '')
 
     def list_transfer(self, transfer_id):
         url = 'magnet/status'
-        url_append = '&id=%s' % transfer_id
+        url_append = f'&id={transfer_id}'
         result = self._get(url, url_append)
         result = result['magnets']
         return result
 
     def delete_transfer(self, transfer_id):
         url = 'magnet/delete'
-        url_append = '&id=%s' % transfer_id
+        url_append = f'&id={transfer_id}'
         result = self._get(url, url_append)
         if result.get('success', False):
             return True
@@ -231,7 +230,7 @@ class AllDebridAPI:
             return True
         interval = 5
         line = '%s[CR]%s[CR]%s'
-        line1 = '%s...' % (ls(32732) % ls(32063))
+        line1 = f'{ls(32732) % ls(32063)}...'
         line2 = transfer_info['filename']
         line3 = transfer_info['status']
         status_code = transfer_info['statusCode']
@@ -303,7 +302,7 @@ class AllDebridAPI:
             if self.token == '':
                 return None
             url = self.base_url + url + \
-                '?agent=%s&apikey=%s' % (self.user_agent, self.token) + url_append
+                f'?agent={self.user_agent}&apikey={self.token}' + url_append
             result = self.session.get(url, timeout=self.timeout).json()
             if result.get('status') == 'success' and 'data' in result:
                 result = result['data']
@@ -317,7 +316,7 @@ class AllDebridAPI:
             if self.token == '':
                 return None
             url = self.base_url + url + \
-                '?agent=%s&apikey=%s' % (self.user_agent, self.token)
+                f'?agent={self.user_agent}&apikey={self.token}'
             result = self.session.post(url, data=data, timeout=self.timeout).json()
             if result.get('status') == 'success' and 'data' in result:
                 result = result['data']

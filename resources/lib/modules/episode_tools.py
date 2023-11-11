@@ -126,7 +126,7 @@ class EpisodeTools:
     def auto_nextep(self):
         url_params = self.get_next_episode_info()
         if url_params == 'error':
-            return notification('%s %s' % (ls(33041), ls(32574)), 3000)
+            return notification(f'{ls(33041)} {ls(32574)}', 3000)
         elif url_params == 'no_next_episode':
             return
         return Sources().playback_prep(url_params)
@@ -134,14 +134,14 @@ class EpisodeTools:
     def play_random(self):
         url_params = self.get_random_episode()
         if url_params == 'error':
-            return notification('%s %s' % (ls(32541), ls(32574)), 3000)
+            return notification(f'{ls(32541)} {ls(32574)}', 3000)
         return Sources().playback_prep(url_params)
 
     def play_random_continual(self, first_run=True):
         url_params = self.get_random_episode(
             continual=True, first_run=first_run)
         if url_params == 'error':
-            return notification('%s %s' % (ls(32542), ls(32574)), 3000)
+            return notification(f'{ls(32542)} {ls(32574)}', 3000)
         return Sources().playback_prep(url_params)
 
 
@@ -181,7 +181,7 @@ def build_next_episode_manager():
     item_list = sorted(list_items, key=lambda k: (
         title_key(k['sort_title'], ignore_articles())), reverse=False)
     item_list = [i['listitem'] for i in item_list]
-    add_dir({'mode': 'nill'}, '[I][COLOR=grey2]%s[/COLOR][/I]' % heading.upper(),
+    add_dir({'mode': 'nill'}, f'[I][COLOR=grey2]{heading.upper()}[/COLOR][/I]',
             handle, iconImage='settings', isFolder=False)
     add_items(handle, item_list)
     set_content(handle, '')

@@ -24,14 +24,14 @@ get_in_progress_episodes, get_next_episodes, get_recently_watched = ws.get_in_pr
 string, fenda_str, trakt_str, watched_str, unwatched_str, season_str, episodes_str = str, ls(
     32036), ls(32037), ls(32642), ls(32643), ls(32537), ls(32506)
 extras_str, options_str, clearprog_str, refr_widg_str, play_options_str = ls(
-    32645), ls(32646), ls(32651), '[B]%s[/B]' % ls(32611), '[B]%s...[/B]' % ls(32187)
+    32645), ls(32646), ls(32651), f'[B]{ls(32611)}[/B]', f'[B]{ls(32187)}...[/B]'
 poster_empty, fanart_empty = kodi_utils.empty_poster, kodi_utils.addon_fanart
 run_plugin, unaired_label, tmdb_poster_prefix = 'RunPlugin(%s)', '[COLOR red][I]%s[/I][/COLOR]', 'https://image.tmdb.org/t/p/'
 upper = string.upper
 content_type = 'episodes'
 list_view, single_view = 'view.episodes', 'view.episodes_single'
 category_name_dict = {'episode.progress': ls(32482), 'episode.recently_watched': ls(32200), 'episode.next': ls(32483),
-                      'episode.trakt': {'true': '%s %s' % (ls(32505), episodes_str), None: ls(32081)}}
+                      'episode.trakt': {'true': f'{ls(32505)} {episodes_str}', None: ls(32081)}}
 
 
 def build_episode_list(params):
@@ -59,10 +59,10 @@ def build_episode_list(params):
                 if fanart_enabled:
                     if fanart_default:
                         thumb = tmdb_thumb or season_art.get(
-                            'seasonthumb_%s' % season, '') or show_fanart
+                            f'seasonthumb_{season}', '') or show_fanart
                     else:
                         thumb = tmdb_thumb or show_fanart or season_art.get(
-                            'seasonthumb_%s' % season, '')
+                            f'seasonthumb_{season}', '')
                 else:
                     thumb = tmdb_thumb or show_fanart
                 if not item_get('duration'):
@@ -204,12 +204,12 @@ def build_episode_list(params):
             tmdb_poster = show_poster
         if fanart_default:
             season_poster = season_art.get(
-                'seasonposter_%s' % season, '') or tmdb_poster
+                f'seasonposter_{season}', '') or tmdb_poster
         else:
             season_poster = tmdb_poster
     add_items(handle, list(_process()))
     set_sort_method(handle, content_type)
-    category_name = '%s %s' % (season_str, season)
+    category_name = f'{season_str} {season}'
     set_content(handle, content_type)
     set_category(handle, category_name)
     end_directory(handle, False if is_external else None)
@@ -313,14 +313,14 @@ def build_single_episode(list_type, params={}):
                     'custom_landscape') or meta_get('landscape') or ''
                 if fanart_default:
                     season_poster = season_art.get(
-                        'seasonposter_%s' % season, '') or tmdb_poster
+                        f'seasonposter_{season}', '') or tmdb_poster
                     thumb = tmdb_thumb or season_art.get(
-                        'seasonthumb_%s' % season, '') or show_fanart
+                        f'seasonthumb_{season}', '') or show_fanart
                 else:
                     season_poster = tmdb_poster or season_art.get(
-                        'seasonposter_%s' % orig_season, '')
+                        f'seasonposter_{orig_season}', '')
                     thumb = tmdb_thumb or show_fanart or season_art.get(
-                        'seasonthumb_%s' % season, '')
+                        f'seasonthumb_{season}', '')
             else:
                 show_banner, show_clearart, show_landscape, season_art, season_poster, thumb = '', '', '', {
                 }, tmdb_poster, tmdb_thumb or show_fanart
@@ -329,49 +329,42 @@ def build_single_episode(list_type, params={}):
             str_season_zfill2, str_episode_zfill2 = string(
                 season).zfill(2), string(episode).zfill(2)
             if display_title == 0:
-                title_string = '%s: ' % title
+                title_string = f'{title}: '
             else:
                 title_string = ''
             if display_title in (0, 1):
-                seas_ep = '%sx%s - ' % (str_season_zfill2, str_episode_zfill2)
+                seas_ep = f'{str_season_zfill2}x{str_episode_zfill2} - '
             else:
                 seas_ep = ''
             if list_type_starts_with('next_'):
                 display_premiered = make_day_function(
                     current_date, episode_date, date_format) if episode_date else 'UNKNOWN'
                 if nextep_include_airdate:
-                    airdate = '[COLOR %s][%s][/COLOR] ' % (
-                        fenda_highlight, display_premiered)
+                    airdate = f'[COLOR {fenda_highlight}][{display_premiered}][/COLOR] '
                 else:
                     airdate = ''
                 highlight_color = nextep_unwatched_color if unwatched else nextep_unaired_color if unaired else ''
                 italics_open, italics_close = (
                     '[I]', '[/I]') if highlight_color else ('', '')
                 if highlight_color:
-                    episode_info = '%s[COLOR%s]%s%s[/COLOR]%s' % (
-                        italics_open, highlight_color, seas_ep, ep_name, italics_close)
+                    episode_info = f'{italics_open}[COLOR{highlight_color}]{seas_ep}{ep_name}[/COLOR]{italics_close}'
                 else:
-                    episode_info = '%s%s%s%s' % (
-                        italics_open, seas_ep, ep_name, italics_close)
-                display = '%s%s%s' % (
-                    airdate, upper(title_string), episode_info)
+                    episode_info = f'{italics_open}{seas_ep}{ep_name}{italics_close}'
+                display = f'{airdate}{upper(title_string)}{episode_info}'
             elif list_type_compare == 'trakt_calendar':
                 if episode_date:
                     display_premiered = make_day_function(
                         current_date, episode_date, date_format)
                 else:
                     display_premiered = 'UNKNOWN'
-                display = '[%s] %s%s%s' % (
-                    display_premiered, upper(title_string), seas_ep, ep_name)
+                display = f'[{display_premiered}] {upper(title_string)}{seas_ep}{ep_name}'
                 if unaired:
                     displays = display.split(']')
-                    display = '[COLOR %s]%s][/COLOR]%s' % (
-                        fenda_highlight, displays[0], displays[1])
+                    display = f'[COLOR {fenda_highlight}]{displays[0]}][/COLOR]{displays[1]}'
             else:
-                color_tags = ('[COLOR %s]' % fenda_highlight,
+                color_tags = (f'[COLOR {fenda_highlight}]',
                               '[/COLOR]') if unaired else ('', '')
-                display = '%s%s%s%s%s' % (
-                    upper(title_string), color_tags[0], seas_ep, ep_name, color_tags[1])
+                display = f'{upper(title_string)}{color_tags[0]}{seas_ep}{ep_name}{color_tags[1]}'
             if not item_get('duration'):
                 item['duration'] = meta_get('duration')
             options_params = build_url({'mode': 'options_menu_choice', 'content': list_type, 'tmdb_id': tmdb_id, 'season': season, 'episode': episode,
@@ -444,7 +437,7 @@ def build_single_episode(list_type, params={}):
                              'tvshow.clearlogo': show_clearlogo, 'tvshow.landscape': show_landscape, 'tvshow.banner': show_banner})
             set_properties({'fenda.extras_params': extras_params, 'fenda.options_params': options_params, 'fenda.unwatched_params': unwatched_params,
                             'fenda.watched_params': watched_params, 'fenda.clearprog_params': clearprog_params})
-            item_list_append({'list_items': (url_params, listitem, False), 'first_aired': premiered, 'name': '%s - %sx%s' % (title, str_season_zfill2, str_episode_zfill2),
+            item_list_append({'list_items': (url_params, listitem, False), 'first_aired': premiered, 'name': f'{title} - {str_season_zfill2}x{str_episode_zfill2}',
                               'unaired': unaired, 'last_played': ep_data_get('last_played', resinsert), 'sort_order': string(_position)})
         except:
             pass

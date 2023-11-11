@@ -103,7 +103,7 @@ class Images():
         media_title = self.params['media_title']
         image_info, next_page = imdb_images(imdb_id, page_no)
         image_info.sort(key=lambda x: x['title'])
-        all_images = [(i['image'], '%s_%s' % (media_title, i['title']))
+        all_images = [(i['image'], f"{media_title}_{i['title']}")
                       for i in image_info]
         image_action = json.dumps(
             {'mode': 'imageviewer', 'all_images': all_images})

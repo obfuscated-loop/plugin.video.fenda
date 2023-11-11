@@ -88,7 +88,7 @@ class Select(BaseDialog):
             if self.enable_context_menu:
                 choice = self.make_context_menu(chosen_listitem)
                 if choice:
-                    self.execute_code('RunPlugin(%s)' % self.build_url(choice))
+                    self.execute_code(f'RunPlugin({self.build_url(choice)})')
             else:
                 return self.close()
         elif action in self.closing_actions:
@@ -127,7 +127,7 @@ class Select(BaseDialog):
             add_external_params = {'mode': 'menu_editor.add_external', 'name': '%s (IMDb)' % keyword.upper(
             ), 'iconImage': 'imdb', 'menu_item': menu_item}
             add_shortcut_folder_params = {'mode': 'menu_editor.shortcut_folder_add_item',
-                                          'name': '%s (IMDb)' % keyword.upper(), 'iconImage': 'imdb', 'menu_item': menu_item}
+                                          'name': f'{keyword.upper()} (IMDb)', 'iconImage': 'imdb', 'menu_item': menu_item}
             choices_append((ls(32730), add_external_params))
             choices_append((ls(32731), add_shortcut_folder_params))
         list_items = [{'line1': i[0]} for i in choices]

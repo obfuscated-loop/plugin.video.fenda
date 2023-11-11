@@ -52,7 +52,7 @@ class FurkAPI:
             search_in = '' if '@files' in query else '&attrs=name'
             url = base_url + \
                 search_url % (self.api_key, query, 'extended', search_in)
-            string = 'fenda_FURK_SEARCH_%s' % url
+            string = f'fenda_FURK_SEARCH_{url}'
             return cache_object(self._process_files, string, url, json=False, expiration=expiration)
         except:
             return
@@ -60,7 +60,7 @@ class FurkAPI:
     def direct_search(self, query):
         try:
             url = base_url + search_direct_url % (self.api_key, query)
-            string = 'fenda_FURK_SEARCH_DIRECT_%s' % url
+            string = f'fenda_FURK_SEARCH_DIRECT_{url}'
             return cache_object(self._process_files, string, url, json=False, expiration=48)
         except:
             return
@@ -68,7 +68,7 @@ class FurkAPI:
     def t_files(self, file_id):
         try:
             url = base_url + tfile_url % (self.api_key, file_id)
-            string = 'fenda_%s_%s' % ('FURK_T_FILE', file_id)
+            string = f'fenda_FURK_T_FILE_{file_id}'
             return cache_object(self._process_tfiles, string, url, json=False, expiration=168)
         except:
             return

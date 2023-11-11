@@ -22,7 +22,7 @@ class MainCache(BaseCache):
             if count == 1:
                 command = like_select % item
             else:
-                command += '%s%s' % (all_list_add, item)
+                command += f'{all_list_add}{item}'
 
         try:
             for item in self.dbcon.execute(command):

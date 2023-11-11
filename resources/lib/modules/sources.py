@@ -352,11 +352,11 @@ class Sources():
     def import_external_scrapers(self):
         try:
             append_module_to_syspath(
-                'special://home/addons/%s/lib' % self.ext_folder)
+                f'special://home/addons/{self.ext_folder}/lib')
             self.ext_sources = manual_module_import(
-                '%s.sources_%s' % (self.ext_name, self.ext_name))
+                f'{self.ext_name}.sources_{self.ext_name}')
             self.ext_default_providers = manual_function_import(
-                '%s.modules.control' % self.ext_name, 'getProviderDefaults')
+                f'{self.ext_name}.modules.control', 'getProviderDefaults')
         except:
             return False
         return True
@@ -382,7 +382,7 @@ class Sources():
         active_sources = [
             i for i in self.active_internal_scrapers if i in internal_include_list]
         try:
-            sourceDict = [('internal', manual_function_import('scrapers.%s' % i, 'source'), i) for i in active_sources
+            sourceDict = [('internal', manual_function_import(f'scrapers.{i}', 'source'), i) for i in active_sources
                           if not (prescrape and not check_prescrape_sources(i, self.media_type))]
         except:
             sourceDict = []
@@ -397,7 +397,7 @@ class Sources():
                     k.split('.')[1] for k, v in self.ext_default_providers().items() if v == 'true']
             else:
                 active_sources = [i for i in self.ext_sources.total_providers['torrents'] if
-                                  json.loads(get_property('%s_settings' % self.ext_name)).get('provider.%s' % i, 'false') == 'true']
+                                  json.loads(get_property(f'{self.ext_name}_settings')).get(f'provider.{i}', 'false') == 'true']
             sourceDict = [(i, manual_function_import('%s.sources_%s.%s.%s' % (
                 self.ext_name, self.ext_name, 'torrents', i), 'source')) for i in active_sources]
         except:
@@ -434,7 +434,7 @@ class Sources():
         current_list.extend(self.folder_sources())
 
     def get_folderscraper_info(self):
-        folder_info = [(get_setting('fenda.%s.display_name' % i), i, source_folders_directory(
+        folder_info = [(get_setting(f'fenda.{i}.display_name'), i, source_folders_directory(
             self.media_type, i)) for i in folder_scrapers]
         return [i for i in folder_info if not i[0] in (None, 'None', '') and i[2]]
 
@@ -504,7 +504,7 @@ class Sources():
 
     def _process_ignore_filters(self):
         if self.autoplay:
-            notification('%s & %s' % (ls(32686), ls(32071)))
+            notification(f'{ls(32686)} & {ls(32071)}')
         self.filters_ignored, self.autoplay = True, False
         results = self.sort_results(self.orig_results)
         results = self._sort_first(results)
@@ -514,7 +514,7 @@ class Sources():
         self._kill_progress_dialog()
         hide_busy_dialog()
         if self.background:
-            return notification('%s %s' % (ls(32801), ls(32760)), 5000)
+            return notification(f'{ls(32801)} {ls(32760)}', 5000)
         notification(32760, 2000)
 
     def _update_meta(self):
@@ -624,7 +624,7 @@ class Sources():
                 self, item[0]) + item[2](sources, item[1]))
 
     def _quality_filter(self):
-        setting = 'results_quality_%s' % self.media_type if not self.autoplay else 'autoplay_quality_%s' % self.media_type
+        setting = f'results_quality_{self.media_type}' if not self.autoplay else f'autoplay_quality_{self.media_type}'
         filter_list = quality_filter(setting)
         if self.include_prerelease_results and 'SD' in filter_list:
             filter_list += ['SCR', 'CAM', 'TELE']
@@ -844,8 +844,7 @@ class Sources():
                 elif provider == 'folders':
                     provider = item['source']
                 provider_text = provider.upper()
-                extra_info = '[B]%s[/B] | [B]%s[/B] | %s' % (
-                    item['quality'], item['size_label'], item['extraInfo'])
+                extra_info = f"[B]{item['quality']}[/B] | [B]{item['size_label']}[/B] | {item['extraInfo']}"
                 display_name = item['display_name'].upper()
                 resolve_item['resolve_display'] = '%s[CR]%s[CR]%s' % (
                     '%02d. [B]%s[/B]' % (count, provider_text), extra_info, display_name)

@@ -36,8 +36,7 @@ class PremiumizeAPI:
         content = line % (ls(32517), ls(32700) % response.get('verification_uri'), ls(
             32701) % '[COLOR orangered]%s[/COLOR]' % user_code)
         current_highlight = set_temp_highlight('orangered')
-        progressDialog = progress_dialog('%s %s' % (
-            ls(32061), ls(32057)), get_icon('pm_qrcode'))
+        progressDialog = progress_dialog(f'{ls(32061)} {ls(32057)}', get_icon('pm_qrcode'))
         progressDialog.update(content, 0)
         device_code = response['device_code']
         expires_in = int(response['expires_in'])
@@ -212,7 +211,7 @@ class PremiumizeAPI:
             return True
         interval = 5
         line = '%s[CR]%s[CR]%s'
-        line1 = '%s...' % (ls(32732) % ls(32061))
+        line1 = f'{ls(32732) % ls(32061)}...'
         line2 = transfer_info['name']
         line3 = transfer_info['message']
         progressDialog = progress_dialog(ls(32733), icon)
@@ -242,8 +241,8 @@ class PremiumizeAPI:
 
     def user_cloud(self, folder_id=None):
         if folder_id:
-            string = 'fenda_pm_user_cloud_%s' % folder_id
-            url = 'folder/list?id=%s' % folder_id
+            string = f'fenda_pm_user_cloud_{folder_id}'
+            url = f'folder/list?id={folder_id}'
         else:
             string = 'fenda_pm_user_cloud_root'
             url = 'folder/list'
@@ -275,12 +274,12 @@ class PremiumizeAPI:
 
     def delete_object(self, object_type, object_id):
         data = {'id': object_id}
-        url = '%s/delete' % object_type
+        url = f'{object_type}/delete'
         response = self._post(url, data)
         return response['status']
 
     def get_item_details(self, item_id):
-        string = 'fenda_pm_item_details_%s' % item_id
+        string = f'fenda_pm_item_details_{item_id}'
         url = 'item/details'
         data = {'id': item_id}
         args = [url, data]
@@ -306,13 +305,13 @@ class PremiumizeAPI:
         return url + '|' + urlencode(self.headers())
 
     def headers(self):
-        return {'User-Agent': self.user_agent, 'Authorization': 'Bearer %s' % self.token}
+        return {'User-Agent': self.user_agent, 'Authorization': f'Bearer {self.token}'}
 
     def _get(self, url, data={}):
         if self.token == '':
             return None
         headers = {'User-Agent': self.user_agent,
-                   'Authorization': 'Bearer %s' % self.token}
+                   'Authorization': f'Bearer {self.token}'}
         url = base_url + url
         response = self.session.get(
             url, data=data, headers=headers, timeout=timeout).text
@@ -325,7 +324,7 @@ class PremiumizeAPI:
         if self.token == '' and not 'token' in url:
             return None
         headers = {'User-Agent': self.user_agent,
-                   'Authorization': 'Bearer %s' % self.token}
+                   'Authorization': f'Bearer {self.token}'}
         if not 'token' in url:
             url = base_url + url
         response = self.session.post(

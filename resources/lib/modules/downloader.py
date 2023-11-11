@@ -66,8 +66,7 @@ def runner(params):
         art_provider = get_art_provider()
         image = meta.get('custom_poster') or meta.get(
             art_provider[0]) or meta.get(art_provider[1]) or poster_empty
-        default_name = '%s (%s)' % (
-            clean_file_name(get_title(meta)), get_year(meta))
+        default_name = f'{clean_file_name(get_title(meta))} ({get_year(meta)})'
         default_foldername = dialog.input(ls(32228), defaultt=default_name)
         for item in chosen_list:
             if show_package:
@@ -92,10 +91,9 @@ def download_threads_manager(threads, image):
 
 
 def select_pack_item(pack_choices, icon):
-    list_items = [{'line1': '%.2f GB | %s' % (float(item['pack_files']['size'])/1073741824, clean_file_name(item['pack_files']['filename']).upper()), 'icon': icon}
+    list_items = [{'line1': f"{float(item['pack_files']['size']) / 1073741824:.2f} GB | {clean_file_name(item['pack_files']['filename']).upper()}", 'icon': icon}
                   for item in pack_choices]
-    heading = '%s - %s' % (ls(32031), clean_file_name(
-        json.loads(pack_choices[0].get('source')).get('name')))
+    heading = f"{ls(32031)} - {clean_file_name(json.loads(pack_choices[0].get('source')).get('name'))}"
     kwargs = {'items': json.dumps(
         list_items), 'heading': heading, 'enumerate': 'true', 'multi_choice': 'true'}
     return select_dialog(pack_choices, **kwargs)
@@ -253,7 +251,7 @@ class Downloader:
         if self.action == 'image':
             self.final_destination = self.down_folder
         elif self.action in ('meta.single', 'meta.pack'):
-            default_name = '%s (%s)' % (self.title, self.year)
+            default_name = f'{self.title} ({self.year})'
             if self.action == 'meta.single':
                 folder_rootname = dialog.input(
                     ls(32228), defaultt=default_name)
@@ -310,7 +308,7 @@ class Downloader:
             ext = os.path.splitext(urlparse(self.url).path)[1][1:]
             if not ext in video_extensions:
                 ext = 'mp4'
-        ext = '.%s' % ext
+        ext = f'.{ext}'
         self.extension = ext
 
     def download_check(self):
@@ -355,8 +353,7 @@ class Downloader:
                 if percent >= notify:
                     notify += notification_frequency
                     try:
-                        line1 = '%s - [I]%s[/I]' % (str(percent) +
-                                                    '%', self.final_name)
+                        line1 = f"{str(percent) + '%'} - [I]{self.final_name}[/I]"
                         if not player.isPlaying():
                             notification(line1, 3000, self.image)
                     except:
@@ -428,14 +425,14 @@ class Downloader:
         if self.action == 'meta.pack' or self.media_type == 'thumb_url':
             return
         if self.media_type == 'image_url':
-            return notification('[I]%s[/I]' % ls(32576) if downloaded else ls(32691), 2500, self.image)
+            return notification(f'[I]{ls(32576)}[/I]' if downloaded else ls(32691), 2500, self.image)
         text = '[B]%s[/B] : %s' % (self.final_name.replace('.', ' ').replace(
             '_', ' '), '%s %s' % (ls(32107), ls(32576) if downloaded else ls(32490)))
         if downloaded and not player.isPlaying():
             ok_dialog(text=text)
 
     def confirm_download(self):
-        return True if self.action in ('image', 'meta.pack') else confirm_dialog(heading=self.final_name, text='%s[CR]%s' % (ls(32688) % self.mb, ls(32689)))
+        return True if self.action in ('image', 'meta.pack') else confirm_dialog(heading=self.final_name, text=f'{ls(32688) % self.mb}[CR]{ls(32689)}')
 
     def return_notification(self, _notification=None, _ok_dialog=None):
         hide_busy_dialog()

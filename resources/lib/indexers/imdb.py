@@ -38,7 +38,7 @@ def imdb_build_user_lists(params):
     handle = int(sys.argv[1])
     media_type = params.get('media_type')
     user_lists = imdb_user_lists(media_type)
-    mode = 'build_%s_list' % media_type
+    mode = f'build_{media_type}_list'
     add_items(handle, list(_builder()))
     set_content(handle, 'files')
     set_category(handle, params.get('category_name'))
@@ -52,7 +52,7 @@ def imdb_build_keyword_results(params):
             try:
                 cm = []
                 cm_append = cm.append
-                name = '%s (IMDb)' % keyword.upper()
+                name = f'{keyword.upper()} (IMDb)'
                 url_params = {'mode': mode, 'action': 'imdb_keywords_list_contents', 'list_id': keyword.lower(
                 ), 'iconImage': 'imdb', 'category_name': keyword.capitalize()}
                 url = build_url(url_params)
@@ -76,7 +76,7 @@ def imdb_build_keyword_results(params):
     handle = int(sys.argv[1])
     media_type, query = params.get('media_type'), params.get('query')
     results = imdb_keyword_search(query)
-    mode = 'build_%s_list' % media_type
+    mode = f'build_{media_type}_list'
     add_items(handle, list(_builder()))
     set_content(handle, 'files')
     set_category(handle, query.capitalize())

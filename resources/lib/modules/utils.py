@@ -273,7 +273,7 @@ def safe_string(obj):
 def remove_accents(obj):
     try:
         try:
-            obj = u'%s' % obj
+            obj = f'{obj}'
         except:
             pass
         obj = ''.join(c for c in unicodedata.normalize(
@@ -446,8 +446,7 @@ def download_github_zip(repo, file, destination):
     from zipfile import ZipFile
     from modules.kodi_utils import requests, path_exists, userdata_path, translate_path
     try:
-        url = 'https://github.com/obfuscated-loop/%s/raw/main/%s.zip' % (
-            repo, file)
+        url = f'https://github.com/obfuscated-loop/{repo}/raw/main/{file}.zip'
         result = requests.get(url, stream=True)
         zipfile = ZipFile(BytesIO(result.raw.read()))
         zipfile.extractall(path=userdata_path)

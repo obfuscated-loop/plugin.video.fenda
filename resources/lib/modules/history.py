@@ -43,7 +43,7 @@ def get_search_term(params):
         string = 'people_queries'
     elif search_type == 'imdb_keyword':
         url_params, string = {'mode': 'imdb_build_keyword_results',
-                              'media_type': media_type}, 'keyword_imdb_%s_queries' % media_type
+                              'media_type': media_type}, f'keyword_imdb_{media_type}_queries'
     elif search_type == 'furk_direct':
         url_params, string = {'mode': 'furk.search_furk',
                               'media_type': media_type}, 'furk_video_queries'
@@ -61,10 +61,9 @@ def get_search_term(params):
         return
     query = unquote(query)
     if search_type == 'media_title' and not params_query and use_year_in_search():
-        year = dialog.input('%s (%s)' %
-                            (ls(32543), ls(32669)), type=numeric_input)
+        year = dialog.input(f'{ls(32543)} ({ls(32669)})', type=numeric_input)
         if year:
-            query = '%s|%s' % (query, year)
+            query = f'{query}|{year}'
     if string:
         add_to_search_history(query, string)
     if search_type == 'people':

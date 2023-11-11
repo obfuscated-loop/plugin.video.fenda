@@ -60,7 +60,7 @@ class ThumbImageViewer(BaseDialog):
                     'name'), chosen_listitem.getProperty('thumb'), chosen_listitem.getProperty('path')
                 params = {'mode': 'downloader', 'action': 'image', 'name': name,
                           'thumb_url': thumb, 'image_url': path, 'media_type': 'image', 'image': thumb}
-                self.execute_code('RunPlugin(%s)' % self.build_url(params))
+                self.execute_code(f'RunPlugin({self.build_url(params)})')
 
     def make_page(self):
         try:

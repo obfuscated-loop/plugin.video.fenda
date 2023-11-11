@@ -35,9 +35,9 @@ session = make_session('https://www.imdb.com/')
 
 
 def imdb_people_id(actor_name):
-    string = 'imdb_people_id_%s' % actor_name
+    string = f'imdb_people_id_{actor_name}'
     name = actor_name.lower()
-    string = 'imdb_people_id_%s' % name
+    string = f'imdb_people_id_{name}'
     url, url_backup = people_search_url % (name[0], name.replace(
         ' ', '%20')), base_url % people_search_url_backup % name
     params = {'url': url, 'action': 'imdb_people_id',
@@ -48,8 +48,7 @@ def imdb_people_id(actor_name):
 def imdb_watchlist(media_type, foo_var, page_no):
     imdb_user = string_alphanum_to_num(get_setting('fenda.imdb_user'))
     sort = imdb_sort_list()
-    string = 'imdb_watchlist_%s_%s_%s_%s' % (
-        media_type, imdb_user, sort, page_no)
+    string = f'imdb_watchlist_{media_type}_{imdb_user}_{sort}_{page_no}'
     url = base_url % watchlist_url % imdb_user
     params = {'url': url, 'action': 'imdb_watchlist', 'imdb_user': imdb_user,
               'media_type': media_type, 'sort': sort, 'page_no': page_no}
@@ -58,7 +57,7 @@ def imdb_watchlist(media_type, foo_var, page_no):
 
 def imdb_user_lists(media_type):
     imdb_user = string_alphanum_to_num(get_setting('fenda.imdb_user'))
-    string = 'imdb_user_lists_%s_%s' % (media_type, imdb_user)
+    string = f'imdb_user_lists_{media_type}_{imdb_user}'
     url = base_url % lists_link % imdb_user
     params = {'url': url, 'action': 'imdb_user_lists'}
     return cache_object(get_imdb, string, params, False, 2)[0]
@@ -67,8 +66,7 @@ def imdb_user_lists(media_type):
 def imdb_user_list_contents(media_type, list_id, page_no):
     imdb_user = string_alphanum_to_num(get_setting('fenda.imdb_user'))
     sort = imdb_sort_list()
-    string = 'imdb_user_list_contents_%s_%s_%s_%s_%s' % (
-        media_type, imdb_user, list_id, sort, page_no)
+    string = f'imdb_user_list_contents_{media_type}_{imdb_user}_{list_id}_{sort}_{page_no}'
     params = {'url': list_id, 'action': 'imdb_user_list_contents',
               'media_type': media_type, 'sort': sort, 'page_no': page_no}
     return cache_object(get_imdb, string, params, False, 2)
@@ -78,84 +76,83 @@ def imdb_keywords_list_contents(media_type, keywords, page_no):
     keywords = keywords.replace(' ', '-')
     add_url = keywords_movies_url if media_type == 'movie' else keywords_tvshows_url
     url = base_url % add_url % (keywords, page_no)
-    string = 'imdb_keywords_list_contents_%s_%s_%s' % (
-        media_type, keywords, page_no)
+    string = f'imdb_keywords_list_contents_{media_type}_{keywords}_{page_no}'
     params = {'url': url, 'action': 'imdb_keywords_list_contents'}
     return cache_object(get_imdb, string, params, False, 168)
 
 
 def imdb_reviews(imdb_id):
     url = base_url % reviews_url % (imdb_id, '')
-    string = 'imdb_reviews_%s' % imdb_id
+    string = f'imdb_reviews_{imdb_id}'
     params = {'url': url, 'action': 'imdb_reviews', 'imdb_id': imdb_id}
     return cache_object(get_imdb, string, params, False, 168)[0]
 
 
 def imdb_parentsguide(imdb_id):
     url = base_url % parentsguide_url % imdb_id
-    string = 'imdb_parentsguide_%s' % imdb_id
+    string = f'imdb_parentsguide_{imdb_id}'
     params = {'url': url, 'action': 'imdb_parentsguide'}
     return cache_object(get_imdb, string, params, False, 168)[0]
 
 
 def imdb_trivia(imdb_id):
     url = base_url % trivia_url % imdb_id
-    string = 'imdb_trivia_%s' % imdb_id
+    string = f'imdb_trivia_{imdb_id}'
     params = {'url': url, 'action': 'imdb_trivia'}
     return cache_object(get_imdb, string, params, False, 168)[0]
 
 
 def imdb_blunders(imdb_id):
     url = base_url % blunders_url % imdb_id
-    string = 'imdb_blunders_%s' % imdb_id
+    string = f'imdb_blunders_{imdb_id}'
     params = {'url': url, 'action': 'imdb_blunders'}
     return cache_object(get_imdb, string, params, False, 168)[0]
 
 
 def imdb_people_trivia(imdb_id):
     url = base_url % people_trivia_url % imdb_id
-    string = 'imdb_people_trivia_%s' % imdb_id
+    string = f'imdb_people_trivia_{imdb_id}'
     params = {'url': url, 'action': 'imdb_people_trivia'}
     return cache_object(get_imdb, string, params, False, 168)[0]
 
 
 def imdb_images(imdb_id, page_no):
     url = base_url % images_url % (imdb_id, page_no)
-    string = 'imdb_images_%s_%s' % (imdb_id, str(page_no))
+    string = f'imdb_images_{imdb_id}_{str(page_no)}'
     params = {'url': url, 'action': 'imdb_images', 'next_page': int(page_no)+1}
     return cache_object(get_imdb, string, params, False, 168)
 
 
 def imdb_videos(imdb_id):
     url = base_url % videos_url % imdb_id
-    string = 'imdb_videos_%s' % imdb_id
+    string = f'imdb_videos_{imdb_id}'
     params = {'url': url, 'imdb_id': imdb_id, 'action': 'imdb_videos'}
     return cache_object(get_imdb, string, params, False, 24)[0]
 
 
 def imdb_people_images(imdb_id, page_no):
     url = base_url % people_images_url % (imdb_id, page_no)
-    string = 'imdb_people_images_%s_%s' % (imdb_id, str(page_no))
+    string = f'imdb_people_images_{imdb_id}_{str(page_no)}'
     params = {'url': url, 'action': 'imdb_images', 'next_page': 1}
     return cache_object(get_imdb, string, params, False, 168)
 
 
 def imdb_year_check(imdb_id):
     url = year_check_url % imdb_id
-    string = 'imdb_year_check%s' % imdb_id
+    string = f'imdb_year_check{imdb_id}'
     params = {'url': url, 'imdb_id': imdb_id, 'action': 'imdb_year_check'}
     return cache_object(get_imdb, string, params, False, 8736)[0]
 
 
 def imdb_keyword_search(keyword):
     url = base_url % keywords_search_url % keyword
-    string = 'imdb_keyword_search_%s' % keyword
+    string = f'imdb_keyword_search_{keyword}'
     params = {'url': url, 'action': 'imdb_keyword_search'}
     return cache_object(get_imdb, string, params, False, 168)[0]
 
 
 def imdb_featured(media_type, foo_var, page_no):
-    string = 'imdb_featured_%s_%s' % (media_type, page_no)
+    string = f'imdb_featured_{media_type}_{page_no}'
     featured_url = featured_movies_url if media_type == 'movie' else featured_tvshows_url
     url = base_url % featured_url % get_start_no(page_no)
     params = {'url': url, 'action': 'imdb_main'}
@@ -163,7 +160,7 @@ def imdb_featured(media_type, foo_var, page_no):
 
 
 def imdb_most_voted(media_type, foo_var, page_no):
-    string = 'imdb_most_voted_%s_%s' % (media_type, page_no)
+    string = f'imdb_most_voted_{media_type}_{page_no}'
     most_voted_url = most_voted_movies_url if media_type == 'movie' else most_voted_tvshows_url
     url = base_url % most_voted_url % get_start_no(page_no)
     params = {'url': url, 'action': 'imdb_main'}
@@ -180,7 +177,7 @@ def get_imdb(params):
         date_time = (datetime.utcnow() - timedelta(hours=5))
         for i in re.findall(r'date\[(\d+)\]', url):
             url = url.replace(
-                'date[%s]' % i, (date_time - timedelta(days=int(i))).strftime('%Y-%m-%d'))
+                f'date[{i}]', (date_time - timedelta(days=int(i))).strftime('%Y-%m-%d'))
     if action in ('imdb_watchlist', 'imdb_user_list_contents', 'imdb_keywords_list_contents', 'imdb_main'):
         def _process():
             for item in items:
@@ -200,8 +197,7 @@ def get_imdb(params):
             if action == 'imdb_watchlist':
                 def _get_watchlist_id(dummy):
                     return parseDOM(remove_accents(session.get(url, timeout=timeout).text), 'meta', ret='content', attrs={'property': 'pageId'})[0]
-                url = cache_object(_get_watchlist_id, 'imdb_watchlist_id_%s' %
-                                   params['imdb_user'], 'dummy', False, 672)
+                url = cache_object(_get_watchlist_id, f"imdb_watchlist_id_{params['imdb_user']}", 'dummy', False, 672)
             url = base_url % list_url_type % (
                 url, params['sort'], params['page_no'])
         result = session.get(url, timeout=timeout)
@@ -324,7 +320,7 @@ def get_imdb(params):
                     review = '[B]%02d. [I]%s - %s - %s[/I][/B][CR][CR]%s' % (
                         count, rating, date, title, content)
                     if spoiler:
-                        review = '[B][COLOR red][%s][/COLOR][CR][/B]' % spoiler_str + review
+                        review = f'[B][COLOR red][{spoiler_str}][/COLOR][CR][/B]' + review
                     yield review
                 except:
                     pass
@@ -598,7 +594,7 @@ def refresh_imdb_meta_data(imdb_id):
             return
 
         imdb_results = []
-        insert1, insert2 = '%%_%s' % imdb_id, '%%_%s_%%' % imdb_id
+        insert1, insert2 = f'%_{imdb_id}', f'%_{imdb_id}_%'
 
         dbcon = _init_db(maincache_db)
         

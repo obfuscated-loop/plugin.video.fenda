@@ -130,10 +130,10 @@ class People(BaseDialog):
                 return window_player(self)
 
     def set_infoline1(self):
-        gender, age = self.person_gender or None, '%syo' % self.person_age if self.person_age else None
+        gender, age = self.person_gender or None, f'{self.person_age}yo' if self.person_age else None
         birthday = self.person_birthday
         if birthday and self.person_deathday:
-            birthday += '  [B]-[/B]  %s' % self.person_deathday
+            birthday += f'  [B]-[/B]  {self.person_deathday}'
         self.set_label(2001, self.separator.join(
             [i for i in (gender, age, birthday) if i]))
 
@@ -252,8 +252,7 @@ class People(BaseDialog):
                 list_type, _id, data, date_key = 'movie', more_from_director_id, self.director_data, 'release_date'
             data = self.sort_items_by_release(data, date_key)
             item_list = list(self.make_tmdb_listitems(data, list_type))
-            self.setProperty('more_from_%s.number' %
-                             media_type, count_insert % len(item_list))
+            self.setProperty(f'more_from_{media_type}.number', count_insert % len(item_list))
             self.item_action_dict[_id] = 'tmdb_id'
             self.add_items(_id, item_list)
         except:
@@ -330,8 +329,7 @@ class People(BaseDialog):
                         pass
                 listitem.setProperty('name', item[name_key])
                 listitem.setProperty('release_date', year)
-                listitem.setProperty('vote_average', '%.1f' %
-                                     item['vote_average'])
+                listitem.setProperty('vote_average', f"{item['vote_average']:.1f}")
                 listitem.setProperty('thumbnail', thumbnail)
                 listitem.setProperty('tmdb_id', str(tmdb_id))
                 append(tmdb_id)

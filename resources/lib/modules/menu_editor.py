@@ -17,15 +17,14 @@ pos_str, top_pos_str, top_str, exists_str, addq_str, eadd_str, erename_str = ls(
 move_str, remove_str, add_org_str, fol_add_str, orig_add_str, fol_menu_str, trak_add_str = ls(
     32716), ls(32717), ls(32718), ls(32719), ls(32721), ls(32725), ls(32720)
 res_str, brws_str, upd_str, reload_str, emove_str, eremove_str, eclear_str = ls(32722), ls(
-    32706), ls(32723), ls(32724), ls(32712), ls(32713), '%s %s' % (ls(32671), ls(32129))
+    32706), ls(32723), ls(32724), ls(32712), ls(32713), f'{ls(32671)} {ls(32129)}'
 eedelete_str, eeremove_str, eeclear_str, eefadd_str, eefadde_str, eesets_str, trlike_str = ls(
     32703), ls(32786), ls(32699), ls(32731), ls(32730), ls(33081), ls(32776)
 trunlike_str, trnew_str, trdel_str, eerem_disc_str, down_str, furk_add_str, furk_remove_str = ls(
     32783), ls(32780), ls(32781), ls(32698), ls(32747), ls(32769), ls(32766)
 furk_p_str, furk_up_str, cloud_link_str, cloud_unlink_str, choose_icon_str = ls(
     32767), ls(32768), ls(33078), ls(33079), ls(33137)
-tools_str, settings_str = '%s %s' % (
-    ls(32641), ls(32456)), '%s %s' % (ls(32641), ls(32247))
+tools_str, settings_str = f'{ls(32641)} {ls(32456)}', f'{ls(32641)} {ls(32247)}'
 default_path = 'plugin://plugin.video.fenda'
 
 
@@ -287,7 +286,7 @@ class MenuEditor:
             return notification(32983, 1500)
         new_entry = [i for i in new_contents if not i in default][0]
         new_entry_translated_name = ls(new_entry.get('name'))
-        if not confirm_dialog(text='%s[CR]%s' % (exists_str % new_entry_translated_name, addq_str)):
+        if not confirm_dialog(text=f'{exists_str % new_entry_translated_name}[CR]{addq_str}'):
             return notification(32736, 1500)
         item_position = self._menu_select(
             current_list, new_entry_translated_name, position_list=True)
@@ -595,7 +594,7 @@ class MenuEditor:
                 all_icons.insert(0, default_icon)
             except:
                 pass
-            list_items = [{'line1': i if i != default_icon else '%s (default)' % default_icon, 'icon': get_icon(
+            list_items = [{'line1': i if i != default_icon else f'{default_icon} (default)', 'icon': get_icon(
                 i)} for i in all_icons]
         else:
             list_items = [{'line1': i, 'icon': get_icon(i)} for i in all_icons]
@@ -670,11 +669,11 @@ class MenuEditor:
         list_items, function_items = [], []
         if file != default_path:
             list_items.append(
-                {'line1': 'Use [B]%s[/B] As Path' % self._remove_bold(label), 'icon': thumbnail})
+                {'line1': f'Use [B]{self._remove_bold(label)}[/B] As Path', 'icon': thumbnail})
             function_items.append(json.dumps(
                 {'label': label, 'file': file, 'thumbnail': thumbnail}))
         list_items.extend(
-            [{'line1': '%s >>' % i['label'], 'icon': i['thumbnail']} for i in results])
+            [{'line1': f"{i['label']} >>", 'icon': i['thumbnail']} for i in results])
         function_items.extend([json.dumps(
             {'label': i['label'], 'file': i['file'], 'thumbnail': i['thumbnail']}) for i in results])
         kwargs = {'items': json.dumps(list_items)}

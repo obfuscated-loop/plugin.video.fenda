@@ -15,58 +15,52 @@ session = make_session(base_url)
 
 
 def tmdb_network_details(network_id):
-    string = 'tmdb_network_details_%s' % network_id
-    url = '%s/network/%s?api_key=%s' % (base_url, network_id, tmdb_api_key())
+    string = f'tmdb_network_details_{network_id}'
+    url = f'{base_url}/network/{network_id}?api_key={tmdb_api_key()}'
     return cache_object(get_tmdb, string, url, expiration=EXPIRY_1_WEEK)
 
 
 def tmdb_keywords_by_query(query):
-    string = 'tmdb_keywords_by_query_%s' % query
-    url = '%s/search/keyword?api_key=%s&query=%s' % (
-        base_url, tmdb_api_key(), query)
+    string = f'tmdb_keywords_by_query_{query}'
+    url = f'{base_url}/search/keyword?api_key={tmdb_api_key()}&query={query}'
     return cache_object(get_tmdb, string, url, expiration=EXPIRY_1_WEEK)
 
 
 def tmdb_movie_keywords(tmdb_id):
-    string = 'tmdb_movie_keywords_%s' % tmdb_id
-    url = '%s/movie/%s/keywords?api_key=%s' % (
-        base_url, tmdb_id, tmdb_api_key())
+    string = f'tmdb_movie_keywords_{tmdb_id}'
+    url = f'{base_url}/movie/{tmdb_id}/keywords?api_key={tmdb_api_key()}'
     return cache_object(get_tmdb, string, url, expiration=EXPIRY_1_WEEK)
 
 
 def tmdb_tv_keywords(tmdb_id):
-    string = 'tmdb_tv_keywords_%s' % tmdb_id
-    url = '%s/tv/%s/keywords?api_key=%s' % (base_url, tmdb_id, tmdb_api_key())
+    string = f'tmdb_tv_keywords_{tmdb_id}'
+    url = f'{base_url}/tv/{tmdb_id}/keywords?api_key={tmdb_api_key()}'
     return cache_object(get_tmdb, string, url, expiration=EXPIRY_1_WEEK)
 
 
 def tmdb_movie_keyword_results(tmdb_id, page_no):
-    string = 'tmdb_movie_keyword_results_%s' % page_no
-    url = '%s/discover/movie?api_key=%s&language=en-US&with_keywords=%s&page=%s' % (
-        base_url, tmdb_api_key(), tmdb_id, page_no)
+    string = f'tmdb_movie_keyword_results_{page_no}'
+    url = f'{base_url}/discover/movie?api_key={tmdb_api_key()}&language=en-US&with_keywords={tmdb_id}&page={page_no}'
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
 
 
 def tmdb_tv_keyword_results(tmdb_id, page_no):
-    string = 'tmdb_tv_keyword_results_%s' % page_no
-    url = '%s/discover/tv?api_key=%s&language=en-US&with_keywords=%s&page=%s' % (
-        base_url, tmdb_api_key(), tmdb_id, page_no)
+    string = f'tmdb_tv_keyword_results_{page_no}'
+    url = f'{base_url}/discover/tv?api_key={tmdb_api_key()}&language=en-US&with_keywords={tmdb_id}&page={page_no}'
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
 
 
 def tmdb_company_id(query):
-    string = 'tmdb_company_id_%s' % query
-    url = '%s/search/company?api_key=%s&query=%s' % (
-        base_url, tmdb_api_key(), query)
+    string = f'tmdb_company_id_{query}'
+    url = f'{base_url}/search/company?api_key={tmdb_api_key()}&query={query}'
     return cache_object(get_tmdb, string, url, expiration=EXPIRY_1_WEEK)
 
 
 def tmdb_media_images(media_type, tmdb_id):
     if media_type == 'movies':
         media_type = 'movie'
-    string = 'tmdb_media_images_%s_%s' % (media_type, tmdb_id)
-    url = '%s/%s/%s/images?api_key=%s' % (base_url,
-                                          media_type, tmdb_id, tmdb_api_key())
+    string = f'tmdb_media_images_{media_type}_{tmdb_id}'
+    url = f'{base_url}/{media_type}/{tmdb_id}/images?api_key={tmdb_api_key()}'
     return cache_object(get_tmdb, string, url, expiration=EXPIRY_1_WEEK)
 
 
@@ -75,9 +69,8 @@ def tmdb_media_videos(media_type, tmdb_id):
         media_type = 'movie'
     if media_type in ('tvshow', 'tvshows'):
         media_type = 'tv'
-    string = 'tmdb_media_videos_%s_%s' % (media_type, tmdb_id)
-    url = '%s/%s/%s/videos?api_key=%s' % (base_url,
-                                          media_type, tmdb_id, tmdb_api_key())
+    string = f'tmdb_media_videos_{media_type}_{tmdb_id}'
+    url = f'{base_url}/{media_type}/{tmdb_id}/videos?api_key={tmdb_api_key()}'
     return cache_object(get_tmdb, string, url, expiration=EXPIRY_1_WEEK)
 
 
@@ -87,28 +80,28 @@ def tmdb_movies_discover(query, page_no):
 
 
 def tmdb_movies_popular(page_no):
-    string = 'tmdb_movies_popular_%s' % page_no
+    string = f'tmdb_movies_popular_{page_no}'
     url = '%s/movie/popular?api_key=%s&language=en-US&region=US&with_original_language=en&page=%s' % (
         base_url, tmdb_api_key(), page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
 
 
 def tmdb_movies_popular_today(page_no):
-    string = 'tmdb_movies_popular_today_%s' % page_no
+    string = f'tmdb_movies_popular_today_{page_no}'
     url = '%s/trending/movie/day?api_key=%s&language=en-US&region=US&with_original_language=en&page=%s' % (
         base_url, tmdb_api_key(), page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_1_DAY)
 
 
 def tmdb_movies_blockbusters(page_no):
-    string = 'tmdb_movies_blockbusters_%s' % page_no
+    string = f'tmdb_movies_blockbusters_{page_no}'
     url = '%s/discover/movie?api_key=%s&language=en-US&region=US&with_original_language=en&sort_by=revenue.desc&page=%s' % (
         base_url, tmdb_api_key(), page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
 
 
 def tmdb_movies_in_theaters(page_no):
-    string = 'tmdb_movies_in_theaters_%s' % page_no
+    string = f'tmdb_movies_in_theaters_{page_no}'
     url = '%s/movie/now_playing?api_key=%s&language=en-US&region=US&with_original_language=en&page=%s' % (
         base_url, tmdb_api_key(), page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
@@ -116,7 +109,7 @@ def tmdb_movies_in_theaters(page_no):
 
 def tmdb_movies_upcoming(page_no):
     current_date, future_date = get_dates(31, reverse=False)
-    string = 'tmdb_movies_upcoming_%s' % page_no
+    string = f'tmdb_movies_upcoming_{page_no}'
     url = '%s/discover/movie?api_key=%s&language=en-US&region=US&with_original_language=en&release_date.gte=%s&release_date.lte=%s&with_release_type=3|2|1&page=%s' \
         % (base_url, tmdb_api_key(), current_date, future_date, page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
@@ -124,7 +117,7 @@ def tmdb_movies_upcoming(page_no):
 
 def tmdb_movies_latest_releases(page_no):
     current_date, previous_date = get_dates(31, reverse=True)
-    string = 'tmdb_movies_latest_releases_%s' % page_no
+    string = f'tmdb_movies_latest_releases_{page_no}'
     url = '%s/discover/movie?api_key=%s&language=en-US&region=US&with_original_language=en&release_date.gte=%s&release_date.lte=%s&with_release_type=4|5|6&page=%s' \
         % (base_url, tmdb_api_key(), previous_date, current_date, page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
@@ -132,7 +125,7 @@ def tmdb_movies_latest_releases(page_no):
 
 def tmdb_movies_premieres(page_no):
     current_date, previous_date = get_dates(31, reverse=True)
-    string = 'tmdb_movies_premieres_%s' % page_no
+    string = f'tmdb_movies_premieres_{page_no}'
     url = '%s/discover/movie?api_key=%s&language=en-US&region=US&with_original_language=en&release_date.gte=%s&release_date.lte=%s&with_release_type=1|3|2&page=%s' \
         % (base_url, tmdb_api_key(), previous_date, current_date, page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
@@ -140,7 +133,7 @@ def tmdb_movies_premieres(page_no):
 
 def tmdb_movies_genres(genre_id, page_no):
     sort_type = generic_list_sorting('movies.genres')
-    string = 'tmdb_movies_genres_%s_%s_%s' % (genre_id, sort_type, page_no)
+    string = f'tmdb_movies_genres_{genre_id}_{sort_type}_{page_no}'
     url = '%s/discover/movie?api_key=%s&with_genres=%s&language=en-US&region=US&with_original_language=en&sort_by=%s&release_date.lte=%s&page=%s' \
         % (base_url, tmdb_api_key(), genre_id, sort_type, get_current_date(), page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
@@ -148,7 +141,7 @@ def tmdb_movies_genres(genre_id, page_no):
 
 def tmdb_movies_languages(language, page_no):
     sort_type = generic_list_sorting('movies.languages')
-    string = 'tmdb_movies_languages_%s_%s_%s' % (language, sort_type, page_no)
+    string = f'tmdb_movies_languages_{language}_{sort_type}_{page_no}'
     url = '%s/discover/movie?api_key=%s&language=en-US&with_original_language=%s&sort_by=%s&release_date.lte=%s&page=%s' \
         % (base_url, tmdb_api_key(), language, sort_type, get_current_date(), page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
@@ -156,8 +149,7 @@ def tmdb_movies_languages(language, page_no):
 
 def tmdb_movies_certifications(certification, page_no):
     sort_type = generic_list_sorting('movies.certifications')
-    string = 'tmdb_movies_certifications_%s_%s_%s' % (
-        certification, sort_type, page_no)
+    string = f'tmdb_movies_certifications_{certification}_{sort_type}_{page_no}'
     url = '%s/discover/movie?api_key=%s&language=en-US&region=US&with_original_language=en&certification_country=US&certification=%s&sort_by=%s&release_date.lte=%s&page=%s' \
         % (base_url, tmdb_api_key(), certification, sort_type, get_current_date(), page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
@@ -165,7 +157,7 @@ def tmdb_movies_certifications(certification, page_no):
 
 def tmdb_movies_year(year, page_no):
     sort_type = generic_list_sorting('movies.years')
-    string = 'tmdb_movies_year_%s_%s_%s' % (year, sort_type, page_no)
+    string = f'tmdb_movies_year_{year}_{sort_type}_{page_no}'
     url = '%s/discover/movie?api_key=%s&language=en-US&region=US&with_original_language=en&certification_country=US&primary_release_year=%s&sort_by=%s&page=%s' \
         % (base_url, tmdb_api_key(), year, sort_type, page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
@@ -173,10 +165,10 @@ def tmdb_movies_year(year, page_no):
 
 def tmdb_movies_decade(decade, page_no):
     sort_type = generic_list_sorting('movies.decades')
-    string = 'tmdb_movies_decade_%s_%s_%s' % (decade, sort_type, page_no)
-    start = '%s-01-01' % decade
+    string = f'tmdb_movies_decade_{decade}_{sort_type}_{page_no}'
+    start = f'{decade}-01-01'
     end = get_dates(
-        2)[0] if decade == '2020' else '%s-12-31' % str(int(decade) + 9)
+        2)[0] if decade == '2020' else f'{str(int(decade) + 9)}-12-31'
     url = '%s/discover/movie?api_key=%s&language=en-US&region=US&with_original_language=en&certification_country=US&primary_release_date.gte=%s' \
         '&primary_release_date.lte=%s&sort_by=%s&page=%s' % (
             base_url, tmdb_api_key(), start, end, sort_type, page_no)
@@ -185,14 +177,14 @@ def tmdb_movies_decade(decade, page_no):
 
 def tmdb_movies_networks(network, page_no):
     sort_type = generic_list_sorting('movies.networks')
-    string = 'tmdb_movies_networks_%s_%s_%s' % (network, sort_type, page_no)
+    string = f'tmdb_movies_networks_{network}_{sort_type}_{page_no}'
     url = '%s/discover/movie/?api_key=%s&watch_region=US&with_watch_providers=%s&sort_by=%s&vote_count.gte=100&page=%s' % (
         base_url, tmdb_api_key(), network, sort_type, page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
 
 
 def tmdb_movies_recommendations(tmdb_id, page_no):
-    string = 'tmdb_movies_recommendations_%s_%s' % (tmdb_id, page_no)
+    string = f'tmdb_movies_recommendations_{tmdb_id}_{page_no}'
     url = '%s/movie/%s/recommendations?api_key=%s&language=en-US&region=US&with_original_language=en&page=%s' % (
         base_url, tmdb_id, tmdb_api_key(), page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
@@ -202,34 +194,31 @@ def tmdb_movies_search(query, page_no):
     meta_filter = get_meta_filter()
     if '|' in query:
         query, year = query.split('|')
-        string = 'tmdb_movies_search_%s_%s_%s_%s' % (
-            query, year, page_no, meta_filter)
+        string = f'tmdb_movies_search_{query}_{year}_{page_no}_{meta_filter}'
         url = '%s/search/movie?api_key=%s&language=en-US&include_adult=%s&query=%s&year=%s&page=%s' % (
             base_url, tmdb_api_key(), meta_filter, query, year, page_no)
     else:
-        string = 'tmdb_movies_search_%s_%s_%s' % (query, page_no, meta_filter)
+        string = f'tmdb_movies_search_{query}_{page_no}_{meta_filter}'
         url = '%s/search/movie?api_key=%s&language=en-US&include_adult=%s&query=%s&page=%s' % (
             base_url, tmdb_api_key(), meta_filter, query, page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
 
 
 def tmdb_movies_search_sets(query, page_no):
-    string = 'tmdb_movies_search_sets_%s_%s' % (query, page_no)
-    url = '%s/search/collection?api_key=%s&language=en-US&query=%s&page=%s' % (
-        base_url, tmdb_api_key(), query, page_no)
+    string = f'tmdb_movies_search_sets_{query}_{page_no}'
+    url = f'{base_url}/search/collection?api_key={tmdb_api_key()}&language=en-US&query={query}&page={page_no}'
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_1_WEEK)
 
 
 def tmdb_movies_companies(company_id, page_no):
-    string = 'tmdb_movies_companies_%s_%s' % (company_id, page_no)
+    string = f'tmdb_movies_companies_{company_id}_{page_no}'
     url = '%s/discover/movie?api_key=%s&language=en-US&region=US&with_original_language=en&sort_by=popularity.desc&certification_country=US&with_companies=%s&page=%s' \
         % (base_url, tmdb_api_key(), company_id, page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
 
 
 def tmdb_movies_reviews(tmdb_id, page_no):
-    url = '%s/movie/%s/reviews?api_key=%s&page=%s' % (
-        base_url, tmdb_id, tmdb_api_key(), page_no)
+    url = f'{base_url}/movie/{tmdb_id}/reviews?api_key={tmdb_api_key()}&page={page_no}'
     return get_tmdb(url).json()
 
 
@@ -239,14 +228,14 @@ def tmdb_tv_discover(query, page_no):
 
 
 def tmdb_tv_popular(page_no):
-    string = 'tmdb_tv_popular_%s' % page_no
+    string = f'tmdb_tv_popular_{page_no}'
     url = '%s/tv/popular?api_key=%s&language=en-US&region=US&with_original_language=en&page=%s' % (
         base_url, tmdb_api_key(), page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
 
 
 def tmdb_tv_popular_today(page_no):
-    string = 'tmdb_tv_popular_today_%s' % page_no
+    string = f'tmdb_tv_popular_today_{page_no}'
     url = '%s/trending/tv/day?api_key=%s&language=en-US&region=US&with_original_language=en&page=%s' % (
         base_url, tmdb_api_key(), page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_1_DAY)
@@ -254,21 +243,21 @@ def tmdb_tv_popular_today(page_no):
 
 def tmdb_tv_premieres(page_no):
     current_date, previous_date = get_dates(31, reverse=True)
-    string = 'tmdb_tv_premieres_%s' % page_no
+    string = f'tmdb_tv_premieres_{page_no}'
     url = '%s/discover/tv?api_key=%s&language=en-US&region=US&with_original_language=en&sort_by=popularity.desc&first_air_date.gte=%s&first_air_date.lte=%s&page=%s' \
         % (base_url, tmdb_api_key(), previous_date, current_date, page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
 
 
 def tmdb_tv_airing_today(page_no):
-    string = 'tmdb_tv_airing_today_%s' % page_no
+    string = f'tmdb_tv_airing_today_{page_no}'
     url = '%s/tv/airing_today?api_key=%s&language=en-US&region=US&with_original_language=en&page=%s' % (
         base_url, tmdb_api_key(), page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
 
 
 def tmdb_tv_on_the_air(page_no):
-    string = 'tmdb_tv_on_the_air_%s' % page_no
+    string = f'tmdb_tv_on_the_air_{page_no}'
     url = '%s/tv/on_the_air?api_key=%s&language=en-US&region=US&with_original_language=en&page=%s' % (
         base_url, tmdb_api_key(), page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
@@ -276,7 +265,7 @@ def tmdb_tv_on_the_air(page_no):
 
 def tmdb_tv_upcoming(page_no):
     current_date, future_date = get_dates(31, reverse=False)
-    string = 'tmdb_tv_upcoming_%s' % page_no
+    string = f'tmdb_tv_upcoming_{page_no}'
     url = '%s/discover/tv?api_key=%s&language=en-US&region=US&with_original_language=en&sort_by=popularity.desc&first_air_date.gte=%s&first_air_date.lte=%s&page=%s' \
         % (base_url, tmdb_api_key(), current_date, future_date, page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
@@ -284,7 +273,7 @@ def tmdb_tv_upcoming(page_no):
 
 def tmdb_tv_genres(genre_id, page_no):
     sort_type = generic_list_sorting('tvshows.genres')
-    string = 'tmdb_tv_genres_%s_%s_%s' % (genre_id, sort_type, page_no)
+    string = f'tmdb_tv_genres_{genre_id}_{sort_type}_{page_no}'
     url = '%s/discover/tv?api_key=%s&with_genres=%s&language=en-US&region=US&with_original_language=en&include_null_first_air_dates=false&sort_by=%s&release_date.lte=%s&page=%s' \
         % (base_url, tmdb_api_key(), genre_id, sort_type, get_current_date(), page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
@@ -292,7 +281,7 @@ def tmdb_tv_genres(genre_id, page_no):
 
 def tmdb_tv_languages(language, page_no):
     sort_type = generic_list_sorting('tvshows.languages')
-    string = 'tmdb_tv_languages_%s_%s_%s' % (language, sort_type, page_no)
+    string = f'tmdb_tv_languages_{language}_{sort_type}_{page_no}'
     url = '%s/discover/tv?api_key=%s&language=en-US&include_null_first_air_dates=false&with_original_language=%s&sort_by=%s&release_date.lte=%s&page=%s' \
         % (base_url, tmdb_api_key(), language, sort_type, get_current_date(), page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
@@ -300,7 +289,7 @@ def tmdb_tv_languages(language, page_no):
 
 def tmdb_tv_networks(network_id, page_no):
     sort_type = generic_list_sorting('tvshows.networks')
-    string = 'tmdb_tv_networks_%s_%s_%s' % (network_id, sort_type, page_no)
+    string = f'tmdb_tv_networks_{network_id}_{sort_type}_{page_no}'
     url = '%s/discover/tv?api_key=%s&language=en-US&region=US&with_original_language=en&include_null_first_air_dates=false&with_networks=%s&sort_by=%s&release_date.lte=%s&page=%s' \
         % (base_url, tmdb_api_key(), network_id, sort_type, get_current_date(), page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
@@ -308,7 +297,7 @@ def tmdb_tv_networks(network_id, page_no):
 
 def tmdb_tv_year(year, page_no):
     sort_type = generic_list_sorting('tvshows.years')
-    string = 'tmdb_tv_year_%s_%s_%s' % (year, sort_type, page_no)
+    string = f'tmdb_tv_year_{year}_{sort_type}_{page_no}'
     url = '%s/discover/tv?api_key=%s&language=en-US&region=US&with_original_language=en&include_null_first_air_dates=false&first_air_date_year=%s&sort_by=%s&page=%s' \
         % (base_url, tmdb_api_key(), year, sort_type, page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
@@ -316,10 +305,10 @@ def tmdb_tv_year(year, page_no):
 
 def tmdb_tv_decade(decade, page_no):
     sort_type = generic_list_sorting('tvshows.decades')
-    string = 'tmdb_tv_decade_%s_%s_%s' % (decade, sort_type, page_no)
-    start = '%s-01-01' % decade
+    string = f'tmdb_tv_decade_{decade}_{sort_type}_{page_no}'
+    start = f'{decade}-01-01'
     end = get_dates(
-        2)[0] if decade == '2020' else '%s-12-31' % str(int(decade) + 9)
+        2)[0] if decade == '2020' else f'{str(int(decade) + 9)}-12-31'
     url = '%s/discover/tv?api_key=%s&language=en-US&region=US&with_original_language=en&include_null_first_air_dates=false&first_air_date.gte=%s' \
         '&first_air_date.lte=%s&sort_by=%s&page=%s' % (
             base_url, tmdb_api_key(), start, end, sort_type, page_no)
@@ -327,7 +316,7 @@ def tmdb_tv_decade(decade, page_no):
 
 
 def tmdb_tv_recommendations(tmdb_id, page_no):
-    string = 'tmdb_tv_recommendations_%s_%s' % (tmdb_id, page_no)
+    string = f'tmdb_tv_recommendations_{tmdb_id}_{page_no}'
     url = '%s/tv/%s/recommendations?api_key=%s&language=en-US&region=US&with_original_language=en&page=%s' % (
         base_url, tmdb_id, tmdb_api_key(), page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
@@ -337,34 +326,31 @@ def tmdb_tv_search(query, page_no):
     meta_filter = get_meta_filter()
     if '|' in query:
         query, year = query.split('|')
-        string = 'tmdb_tv_search_%s_%s_%s_%s' % (
-            query, year, page_no, meta_filter)
+        string = f'tmdb_tv_search_{query}_{year}_{page_no}_{meta_filter}'
         url = '%s/search/tv?api_key=%s&language=en-US&include_adult=%s&query=%s&first_air_date_year=%s&page=%s' % (
             base_url, tmdb_api_key(), meta_filter, query, year, page_no)
     else:
-        string = 'tmdb_tv_search_%s_%s_%s' % (query, page_no, meta_filter)
+        string = f'tmdb_tv_search_{query}_{page_no}_{meta_filter}'
         url = '%s/search/tv?api_key=%s&language=en-US&include_adult=%s&query=%s&page=%s' % (
             base_url, tmdb_api_key(), meta_filter, query, page_no)
     return cache_object(get_data, string, url, json=False, expiration=EXPIRY_2_DAYS)
 
 
 def tmdb_tv_reviews(tmdb_id, page_no):
-    url = '%s/tv/%s/reviews?api_key=%s&page=%s' % (
-        base_url, tmdb_id, tmdb_api_key(), page_no)
+    url = f'{base_url}/tv/{tmdb_id}/reviews?api_key={tmdb_api_key()}&page={page_no}'
     return get_tmdb(url).json()
 
 
 def tmdb_popular_people(page_no):
-    string = 'tmdb_popular_people_%s' % page_no
-    url = '%s/person/popular?api_key=%s&language=en-US&page=%s' % (
-        base_url, tmdb_api_key(), page_no)
+    string = f'tmdb_popular_people_{page_no}'
+    url = f'{base_url}/person/popular?api_key={tmdb_api_key()}&language=en-US&page={page_no}'
     return cache_object(get_tmdb, string, url)
 
 
 def tmdb_people_full_info(actor_id, language=None):
     if not language:
         language = get_language()
-    string = 'tmdb_people_full_info_%s_%s' % (actor_id, language)
+    string = f'tmdb_people_full_info_{actor_id}_{language}'
     url = '%s/person/%s?api_key=%s&language=%s&append_to_response=external_ids,combined_credits,images,tagged_images' % (
         base_url, actor_id, tmdb_api_key(), language)
     return cache_object(get_tmdb, string, url, expiration=EXPIRY_1_WEEK)
@@ -372,9 +358,8 @@ def tmdb_people_full_info(actor_id, language=None):
 
 def tmdb_people_info(query):
     meta_filter = get_meta_filter()
-    string = 'tmdb_people_info_%s_%s' % (query, meta_filter)
-    url = '%s/search/person?api_key=%s&language=en-US&include_adult=%s&query=%s' % (
-        base_url, tmdb_api_key(), meta_filter, query)
+    string = f'tmdb_people_info_{query}_{meta_filter}'
+    url = f'{base_url}/search/person?api_key={tmdb_api_key()}&language=en-US&include_adult={meta_filter}&query={query}'
     return cache_object(get_tmdb, string, url, expiration=EXPIRY_4_HOURS)['results']
 
 
@@ -398,8 +383,7 @@ def tvshow_details(tmdb_id, language, tmdb_api=None):
 
 def movie_set_details(collection_id, tmdb_api=None):
     try:
-        url = '%s/collection/%s?api_key=%s&language=en-US' % (
-            base_url, collection_id, get_tmdb_api(tmdb_api))
+        url = f'{base_url}/collection/{collection_id}?api_key={get_tmdb_api(tmdb_api)}&language=en-US'
         return get_tmdb(url).json()
     except:
         return None
@@ -416,9 +400,8 @@ def season_episodes_details(tmdb_id, season_no, language, tmdb_api=None):
 
 def movie_external_id(external_source, external_id, tmdb_api=None):
     try:
-        string = 'movie_external_id_%s_%s' % (external_source, external_id)
-        url = '%s/find/%s?api_key=%s&external_source=%s' % (
-            base_url, external_id, get_tmdb_api(tmdb_api), external_source)
+        string = f'movie_external_id_{external_source}_{external_id}'
+        url = f'{base_url}/find/{external_id}?api_key={get_tmdb_api(tmdb_api)}&external_source={external_source}'
         result = cache_function(get_tmdb, string, url)
         result = result['movie_results']
         if result:
@@ -431,9 +414,8 @@ def movie_external_id(external_source, external_id, tmdb_api=None):
 
 def tvshow_external_id(external_source, external_id, tmdb_api=None):
     try:
-        string = 'tvshow_external_id_%s_%s' % (external_source, external_id)
-        url = '%s/find/%s?api_key=%s&external_source=%s' % (
-            base_url, external_id, get_tmdb_api(tmdb_api), external_source)
+        string = f'tvshow_external_id_{external_source}_{external_id}'
+        url = f'{base_url}/find/{external_id}?api_key={get_tmdb_api(tmdb_api)}&external_source={external_source}'
         result = cache_function(get_tmdb, string, url)
         result = result['tv_results']
         if result:
@@ -446,9 +428,8 @@ def tvshow_external_id(external_source, external_id, tmdb_api=None):
 
 def english_translation(media_type, tmdb_id, tmdb_api=None):
     try:
-        string = 'english_translation_%s_%s' % (media_type, tmdb_id)
-        url = '%s/%s/%s/translations?api_key=%s' % (
-            base_url, media_type, tmdb_id, get_tmdb_api(tmdb_api))
+        string = f'english_translation_{media_type}_{tmdb_id}'
+        url = f'{base_url}/{media_type}/{tmdb_id}/translations?api_key={get_tmdb_api(tmdb_api)}'
         result = cache_function(get_tmdb, string, url)['']
         try:
             result = result['translations']
@@ -502,7 +483,7 @@ def get_reviews_data(media_type, tmdb_id):
                     user = item['author'].upper()
                     rating = item['author_details'].get('rating')
                     if rating:
-                        rating = ' - %s/10' % str(rating).split('.')[0]
+                        rating = f" - {str(rating).split('.')[0]}/10"
                     else:
                         rating = ''
                     content = template % (count, user, rating, item['content'])
@@ -510,7 +491,7 @@ def get_reviews_data(media_type, tmdb_id):
                 except:
                     pass
         return reviews_list
-    string, url = 'tmdb_%s_reviews_%s' % (media_type, tmdb_id), [
+    string, url = f'tmdb_{media_type}_reviews_{tmdb_id}', [
         media_type, tmdb_id]
     return cache_object(make_reviews, string, url, json=False, expiration=EXPIRY_1_WEEK)
 

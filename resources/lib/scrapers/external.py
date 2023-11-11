@@ -283,7 +283,7 @@ class source:
                             else:
                                 divider = self.show_divider
                             size = float(size) / divider
-                        size_label = '%.2f GB' % size
+                        size_label = f'{size:.2f} GB'
                     except:
                         pass
                     i.update({'provider': provider, 'display_name': display_name, 'external': True, 'scrape_provider': self.scrape_provider, 'extraInfo': extraInfo,
@@ -324,7 +324,7 @@ class source:
                 self.process_quality_count_final(
                     [i for i in torrent_sources if i['hash'] in cached])
             torrent_results.extend([dict(i, **{'cache_provider': provider if i['hash']
-                                   in cached else 'Uncached %s' % provider, 'debrid': provider}) for i in torrent_sources])
+                                   in cached else f'Uncached {provider}', 'debrid': provider}) for i in torrent_sources])
 
         def _debrid_check_dialog():
             self.progress_dialog.reset_is_cancelled()

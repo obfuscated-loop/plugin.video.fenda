@@ -12,7 +12,7 @@ default_easynews_icon, fanart, sleep = kodi_utils.get_icon(
     'easynews'), kodi_utils.addon_fanart, kodi_utils.sleep
 add_items, set_content, end_directory = kodi_utils.add_items, kodi_utils.set_content, kodi_utils.end_directory
 make_listitem, ok_dialog = kodi_utils.make_listitem, kodi_utils.ok_dialog
-down_str = '[B]%s[/B]' % ls(32747)
+down_str = f'[B]{ls(32747)}[/B]'
 EasyNews = import_easynews()
 
 
@@ -57,8 +57,7 @@ def easynews_file_browser(files, handle):
                 url = build_url(url_params)
                 down_file_params = {'mode': 'downloader', 'name': name, 'url': down_url,
                                     'action': 'cloud.easynews_direct', 'image': default_easynews_icon}
-                cm.append((down_str, 'RunPlugin(%s)' %
-                          build_url(down_file_params)))
+                cm.append((down_str, f'RunPlugin({build_url(down_file_params)})'))
                 listitem = make_listitem()
                 listitem.setLabel(display)
                 listitem.addContextMenuItems(cm)
@@ -99,8 +98,7 @@ def account_info(params):
         append(ls(32757) % account_info[3])
         append(ls(32750) % expires)
         append(ls(32751) % days_remaining)
-        append('%s %s' %
-               (ls(32772), usage_info[2].replace('years', ls(32472))))
+        append(f"{ls(32772)} {usage_info[2].replace('years', ls(32472))}")
         append(ls(32761) % usage_info[0].replace('Gigs', 'GB'))
         append(ls(32762) % usage_info[1].replace('Gigs', 'GB'))
         hide_busy_dialog()

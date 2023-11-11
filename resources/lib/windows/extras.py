@@ -102,7 +102,7 @@ class Extras(BaseDialog):
     def onClick(self, controlID):
         self.control_id = None
         if controlID in button_ids:
-            return exec('self.%s()' % self.button_action_dict[controlID])
+            return exec(f'self.{self.button_action_dict[controlID]}()')
         else:
             self.control_id = controlID
 
@@ -127,7 +127,7 @@ class Extras(BaseDialog):
             if focus_id in (posters_id, fanarts_id):
                 chosen_listitem = self.get_listitem(focus_id)
                 image = chosen_listitem.getProperty('thumbnail')
-                params = {'action': 'image', 'name': '%s %s' % (self.rootname, chosen_listitem.getProperty('name')), 'thumb_url': image, 'media_type': 'image',
+                params = {'action': 'image', 'name': f"{self.rootname} {chosen_listitem.getProperty('name')}", 'thumb_url': image, 'media_type': 'image',
                           'image_url': change_image_resolution(image, 'original' if 'image.tmdb' in image else '/fanart/'), 'image': addon_icon}
                 return runner(params)
             elif focus_id == cast_id:
@@ -194,7 +194,7 @@ class Extras(BaseDialog):
                     continue
                 if check == 'TMDb' and not active_extra_ratings:
                     continue
-                self.setProperty('%s_rating' % prop, 'true'), self.set_label(
+                self.setProperty(f'{prop}_rating', 'true'), self.set_label(
                     win_prop + _id, rating), self.set_image(win_prop + 100 + _id, ratings_icon_base % icon)
                 active_extra_ratings = True
         if win_prop == 4000 and self.getProperty('tmdb_rating') == 'true':
@@ -207,7 +207,7 @@ class Extras(BaseDialog):
             return
         self.tagline = self.meta_get('tagline') or ''
         if self.tagline:
-            self.plot = '[I]%s[/I][CR][CR]%s' % (self.tagline, self.plot)
+            self.plot = f'[I]{self.tagline}[/I][CR][CR]{self.plot}'
         if plot_id in self.enabled_lists:
             self.setProperty('plot_enabled', 'true')
 
@@ -436,8 +436,7 @@ class Extras(BaseDialog):
             else:
                 _id, art_list_id, self.tmdb_fanarts, used_image, default_image = fanarts_id, 'tmdb_fanarts', data, self.fanart, addon_fanart
             item_list = list(builder())
-            self.setProperty('tmdb_artwork.%s.number' %
-                             image_type, count_insert % len(item_list))
+            self.setProperty(f'tmdb_artwork.{image_type}.number', count_insert % len(item_list))
             self.item_action_dict[_id] = 'all_images'
             self.add_items(_id, item_list)
         except:
@@ -560,7 +559,7 @@ class Extras(BaseDialog):
             current_time = datetime.now()
             finish_time = current_time + timedelta(minutes=remaining_time)
             finished = finish_time.strftime(_format)
-            finish_str = '%s: %s' % (label, finished)
+            finish_str = f'{label}: {finished}'
         return finish_str
 
     def get_duration(self):
@@ -570,8 +569,7 @@ class Extras(BaseDialog):
             if hour:
                 time_str += '%dh' % hour
             if minute:
-                time_str += '%s%sm' % (' ' if hour else '', '%d' %
-                                       minute if minute < 10 else '%02d' % minute)
+                time_str += f"{' ' if hour else ''}{'%d' % minute if minute < 10 else '%02d' % minute}m"
         return time_str
 
     def get_progress(self):
@@ -584,7 +582,7 @@ class Extras(BaseDialog):
                     watched_info, str(self.tmdb_id))[0] == 1 else '0'
             except:
                 self.percent_watched = '0'
-        progress_status = '%s%% %s' % (self.percent_watched, ls(32475))
+        progress_status = f'{self.percent_watched}% {ls(32475)}'
         return progress_status
 
     def get_last_aired(self):
@@ -594,7 +592,7 @@ class Extras(BaseDialog):
                 last_ep['season_number'], last_ep['episode_number'])
         else:
             return ''
-        return '%s: %s' % (ls(32634), last_aired)
+        return f'{ls(32634)}: {last_aired}'
 
     def get_next_aired(self):
         if self.status in finished_tvshow:
@@ -605,7 +603,7 @@ class Extras(BaseDialog):
                 next_ep['season_number'], next_ep['episode_number'])
         else:
             return ''
-        return '%s: %s' % (ls(32635), next_aired)
+        return f'{ls(32635)}: {next_aired}'
 
     def get_next_episode(self):
         self.nextep_season, self.nextep_episode = None, None
@@ -644,7 +642,7 @@ class Extras(BaseDialog):
             self.nextep_season, self.nextep_episode = nextep_season, nextep_episode
             next_episode_str = 'S%.2dE%.2d' % (
                 self.nextep_season, self.nextep_episode)
-            value = '%s: %s' % (ls(33041), next_episode_str)
+            value = f'{ls(33041)}: {next_episode_str}'
         return value
 
     def make_tvshow_browse_params(self):
@@ -698,8 +696,7 @@ class Extras(BaseDialog):
                 year = self.get_release_year(item[release_key])
                 listitem.setProperty('name', item[name_key])
                 listitem.setProperty('release_date', year)
-                listitem.setProperty('vote_average', '%.1f' %
-                                     item['vote_average'])
+                listitem.setProperty('vote_average', f"{item['vote_average']:.1f}")
                 listitem.setProperty('thumbnail', thumbnail)
                 listitem.setProperty('tmdb_id', str(item['id']))
                 yield listitem
@@ -800,7 +797,7 @@ class Extras(BaseDialog):
             {'meta': self.meta, 'poster': self.poster, 'return_choice': 'true'})
         if not function:
             return
-        exec('EpisodeTools(self.meta).%s()' % function)
+        exec(f'EpisodeTools(self.meta).{function}()')
         self.close()
 
     def show_director(self):

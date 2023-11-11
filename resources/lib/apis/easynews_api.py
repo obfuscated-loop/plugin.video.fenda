@@ -40,7 +40,7 @@ class EasyNewsAPI:
         self.timeout = 20.0
 
     def _get_auth(self):
-        user_info = '%s:%s' % (self.username, self.password)
+        user_info = f'{self.username}:{self.password}'
         user_info = user_info.encode('utf-8')
         auth = 'Basic ' + base64.b64encode(user_info).decode('utf-8')
         return auth
@@ -96,11 +96,10 @@ class EasyNewsAPI:
                     else:
                         short_vid = False
                     url_add = quote(
-                        '/%s/%s/%s%s/%s%s' % (dl_farm, dl_port, post_hash, ext, post_title, ext))
+                        f'/{dl_farm}/{dl_port}/{post_hash}{ext}/{post_title}{ext}')
                     stream_url = streaming_url + url_add
-                    file_dl = down_url + url_add + '|Authorization=%s' % self.auth_quoted
-                    thumbnail = 'https://th.easynews.com/thumbnails-%s/pr-%s.jpg' % (
-                        post_hash[0:3], post_hash)
+                    file_dl = down_url + url_add + f'|Authorization={self.auth_quoted}'
+                    thumbnail = f'https://th.easynews.com/thumbnails-{post_hash[0:3]}/pr-{post_hash}.jpg'
                     result = {'name': post_title,
                               'size': size,
                               'rawSize': item['rawSize'],
@@ -116,8 +115,7 @@ class EasyNewsAPI:
                 except Exception as e:
                     logger('Fenda easynews API Exception', str(e))
         down_url = files.get('downURL')
-        streaming_url = 'https://%s:%s@members.easynews.com/dl' % (
-            quote(self.username), quote(self.password))
+        streaming_url = f'https://{quote(self.username)}:{quote(self.password)}@members.easynews.com/dl'
         dl_farm, dl_port = self.get_farm_and_port(files)
         files = files.get('data', [])
         results = list(_process())
@@ -150,8 +148,7 @@ class EasyNewsAPI:
                         short_vid = False
                     url_dl = self.stream_url % (
                         post_hash, ext, post_title, sid, sig)
-                    thumbnail = 'https://th.easynews.com/thumbnails-%s/pr-%s.jpg' % (
-                        post_hash[0:3], post_hash)
+                    thumbnail = f'https://th.easynews.com/thumbnails-{post_hash[0:3]}/pr-{post_hash}.jpg'
                     result = {'name': post_title,
                               'size': size,
                               'rawSize': item['rawSize'],
@@ -226,7 +223,7 @@ class EasyNewsAPI:
         response = self.session.get(url_dl, headers=headers,
                                stream=True, timeout=timeout)
         stream_url = response.url
-        resolved_link = stream_url + '|Authorization=%s' % self.auth_quoted
+        resolved_link = stream_url + f'|Authorization={self.auth_quoted}'
         return resolved_link
 
 

@@ -15,13 +15,13 @@ def routing(sys):
     mode = _get('mode', 'navigator.main')
     if 'navigator.' in mode:
         from indexers.navigator import Navigator
-        return exec('Navigator(params).%s()' % mode.split('.')[1])
+        return exec(f"Navigator(params).{mode.split('.')[1]}()")
     if 'menu_editor.' in mode:
         from modules.menu_editor import MenuEditor
-        return exec('MenuEditor(params).%s()' % mode.split('.')[1])
+        return exec(f"MenuEditor(params).{mode.split('.')[1]}()")
     if 'discover.' in mode:
         from indexers.discover import Discover
-        return exec('Discover(params).%s()' % mode.split('.')[1])
+        return exec(f"Discover(params).{mode.split('.')[1]}()")
     if 'furk.' in mode:
         if mode == 'furk.browse_packs':
             from modules.sources import Sources
@@ -36,10 +36,10 @@ def routing(sys):
             from indexers.furk import myfiles_protect_unprotect
             return myfiles_protect_unprotect(_get('action'), _get('name'), _get('item_id'))
         from indexers import furk
-        return exec('furk.%s(params)' % mode.split('.')[1])
+        return exec(f"furk.{mode.split('.')[1]}(params)")
     if 'easynews.' in mode:
         from indexers import easynews
-        return exec('easynews.%s(params)' % mode.split('.')[1])
+        return exec(f"easynews.{mode.split('.')[1]}(params)")
     if 'playback.' in mode:
         if mode == 'playback.media':
             from modules.sources import Sources
@@ -49,13 +49,13 @@ def routing(sys):
             return FendaPlayer().run(_get('url', None), _get('obj', None))
     if 'choice' in mode:
         from indexers import dialogs
-        return exec('dialogs.%s(params)' % mode)
+        return exec(f'dialogs.{mode}(params)')
     if 'trakt.' in mode:
         if '.list' in mode:
             from indexers import trakt_lists
-            return exec('trakt_lists.%s(params)' % mode.split('.')[2])
+            return exec(f"trakt_lists.{mode.split('.')[2]}(params)")
         from apis import trakt_api
-        return exec('trakt_api.%s(params)' % mode.split('.')[1])
+        return exec(f"trakt_api.{mode.split('.')[1]}(params)")
     if 'build' in mode:
         if mode == 'build_movie_list':
             from indexers.movies import Movies
@@ -207,7 +207,7 @@ def routing(sys):
             return kodi_utils.set_view(_get('view_type'))
     if 'settings_manager.' in mode:
         from modules import settings_manager
-        return exec('settings_manager.%s(params)' % mode.split('.')[1])
+        return exec(f"settings_manager.{mode.split('.')[1]}(params)")
     ## EXTRA modes##
     if mode == 'person_direct.search':
         from indexers.people import person_direct_search

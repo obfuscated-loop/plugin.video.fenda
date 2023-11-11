@@ -51,7 +51,7 @@ class SourcesResults(BaseDialog):
         self.meta_get = self.meta.get
         self.highlight_value = self.highlight_var(force=True)
         self.make_poster = self.window_format in poster_lists
-        self.filters_ignored = '[B](%s)[/B]' % filters_ignored if kwargs.get(
+        self.filters_ignored = f'[B]({filters_ignored})[/B]' if kwargs.get(
             'filters_ignored', False) else ''
         self.poster_main, self.poster_backup, self.fanart_main, self.fanart_backup, self.clearlogo_main, self.clearlogo_backup = get_art_provider()
         self.poster = self.original_poster()
@@ -127,7 +127,7 @@ class SourcesResults(BaseDialog):
             self.set_filter(filtered_list)
 
     def onAction(self, action):
-        if self.get_visibility('Control.HasFocus(%s)' % self.filter_window_id):
+        if self.get_visibility(f'Control.HasFocus({self.filter_window_id})'):
             return self.filter_action(action)
         chosen_listitem = self.get_listitem(self.window_id)
         if action in self.closing_actions:
@@ -177,8 +177,7 @@ class SourcesResults(BaseDialog):
                     extraInfo = get('extraInfo', '')
                     extraInfo = extraInfo.rstrip('| ')
                     if pack:
-                        extraInfo = '[B]%s PACK[/B] | %s' % (
-                            get('package'), extraInfo)
+                        extraInfo = f"[B]{get('package')} PACK[/B] | {extraInfo}"
                     elif not extraInfo:
                         extraInfo = 'N/A'
                     if scrape_provider == 'external':
@@ -286,14 +285,13 @@ class SourcesResults(BaseDialog):
         provider_choices = sorted(sort_ranks.keys(), key=sort_ranks.get)
         provider_choices = [upper(i) for i in provider_choices]
         providers.sort(key=provider_choices.index)
-        qualities = [('Show [B]%s[/B] Only' % i, 'quality_%s' % i)
+        qualities = [(f'Show [B]{i}[/B] Only', f'quality_{i}')
                      for i in qualities]
-        providers = [('Show [B]%s[/B] Only' % i, 'provider_%s' % i)
+        providers = [(f'Show [B]{i}[/B] Only', f'provider_{i}')
                      for i in providers]
         data = qualities + providers
         if self.uncached_torrents:
-            data.append(('Show [B]%s[/B] Only' %
-                        show_uncached_str, 'special_showuncached'))
+            data.append((f'Show [B]{show_uncached_str}[/B] Only', 'special_showuncached'))
         data.extend([(filter_title, 'special_title'),
                     (filter_extraInfo, 'special_extraInfo')])
         self.filter_list = list(builder(data))

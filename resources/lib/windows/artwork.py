@@ -41,7 +41,7 @@ class SelectArtwork(BaseDialog):
             if chosen_listitem.getProperty('check_status') == 'checked':
                 return
             chosen_image_type = chosen_listitem.getProperty('image_type')
-            for item in self.get_attribute(self, '%s_listitems' % chosen_image_type):
+            for item in self.get_attribute(self, f'{chosen_image_type}_listitems'):
                 if item.getProperty('check_status') == 'checked':
                     item.setProperty('check_status', '')
             chosen_listitem.setProperty('check_status', 'checked')
@@ -78,7 +78,7 @@ class SelectArtwork(BaseDialog):
                 return
             self.setProperty(count_name % image_type,
                              count_insert % len(item_list))
-            self.set_attribute(self, '%s_listitems' % image_type, item_list)
+            self.set_attribute(self, f'{image_type}_listitems', item_list)
             self.add_items(list_id, item_list)
             self.select_item(list_id, self.focus_index)
             self.add_active(list_id)

@@ -25,7 +25,7 @@ def debrid_authed():
 
 
 def debrid_type_enabled(debrid_type, enabled_debrids):
-    return [i[0] for i in debrid_list if i[0] in enabled_debrids and get_setting('fenda.%s.%s.enabled' % (i[1], debrid_type)) == 'true']
+    return [i[0] for i in debrid_list if i[0] in enabled_debrids and get_setting(f'fenda.{i[1]}.{debrid_type}.enabled') == 'true']
 
 
 def debrid_valid_hosts(enabled_debrids):

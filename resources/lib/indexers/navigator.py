@@ -30,37 +30,33 @@ root_str, season_str, images_str, make_short_str, delete_str, mcol_str, res_hc, 
 _in_str, mov_str, tv_str, edit_str, add_menu_str, s_folder_str, mset_str, local_str = ls(
     32484), ls(32028), ls(32029), ls(32705), ls(32730), ls(32731), ls(33080), ls(33104)
 new_str, spot_str, tips_str, man_acc_str, rename_str = ls(32857).upper(), ls(
-    32858).upper(), ls(32546).upper(), ls(32805), '[B]%s[/B]' % ls(32137)
-changelog_utils_str, search_str = '%s & %s' % (
-    changelog_str, log_utils_str), '%s %s' % (se_str, history_str)
+    32858).upper(), ls(32546).upper(), ls(32805), f'[B]{ls(32137)}[/B]'
+changelog_utils_str, search_str = f'{changelog_str} & {log_utils_str}', f'{se_str} {history_str}'
 clear_all_str, clear_meta_str, clear_list_str, clear_trakt_str = clca_str % all_str, clca_str % ls(
     32527), clca_str % ls_str, clca_str % trakt_str
 sources_folders_str, downloads_ins, because_str = '[B]%s (%s): %s[/B]\n     [COLOR=%s][I]%s[/I][/COLOR]', _in_str % (
     dl_str.upper(), '%s'), '[I]%s[/I]  [B]%s[/B]' % (ls(32474), '%s')
 premium_files_str, ep_lists_str, clear_all_amble = ls(32485), '%s %s' % (
-    episodes_str, ls_str), '[B][I][COLOR=grey] (%s %s & %s)[/COLOR][/I][/B]' % (ls(32189), fav_str, search_str)
+    episodes_str, ls_str), f'[B][I][COLOR=grey] ({ls(32189)} {fav_str} & {search_str})[/COLOR][/I][/B]'
 clear_ad_str, clear_fav_str, clear_search_str, clear_all = clca_str % ad_str, clca_str % fav_str, clca_str % search_str, '[B]%s:[/B] %s' % (
     clear_all_str.upper(), clear_all_amble)
-movh_str, tvh_str, tips_ins = '%s %s' % (mov_str, history_str), '%s %s' % (
+movh_str, tvh_str, tips_ins = f'{mov_str} {history_str}', '%s %s' % (
     tv_str, history_str), '[B]%s[/B]: %s' % (tips_str, '%s')
 corrupt_databases_str, clean_databases_str = ls(
-    32179), '%s %s' % (clean_str, ls(32003))
-kw_mov, kw_tv = '%s %s (%s)' % (imdb_str, keywords_str,
-                                mov_str), '%s %s (%s)' % (imdb_str, keywords_str, tv_str)
+    32179), f'{clean_str} {ls(32003)}'
+kw_mov, kw_tv = f'{imdb_str} {keywords_str} ({mov_str})', f'{imdb_str} {keywords_str} ({tv_str})'
 clear_imdb_str, clint_str, clext_str, clear_rd_str, clear_pm_str = clca_str % imdb_str, clca_str % ls(
     32096), clca_str % ext_str, clca_str % rd_str, clca_str % pm_str
-mrec_str, mran_str,  = '%s %s' % (
-    recent_added_str, mov_str), '%s %s' % (random_str, mov_str)
-tvrec_str, tvran_str, ra_str = '%s %s' % (recent_added_str, tv_str), '%s %s' % (
-    random_str, tv_str), '%s %s' % (recently_aired_str, episodes_str)
-tu_str, pu_str, sea_str = '%s %s %s' % (ls(32458), user_str, ls_str), '%s %s %s' % (
-    ls(32459), user_str, ls_str), '%s %s' % (ls(32477), ls_str)
+mrec_str, mran_str,  = f'{recent_added_str} {mov_str}', f'{random_str} {mov_str}'
+tvrec_str, tvran_str, ra_str = f'{recent_added_str} {tv_str}', '%s %s' % (
+    random_str, tv_str), f'{recently_aired_str} {episodes_str}'
+tu_str, pu_str, sea_str = f'{ls(32458)} {user_str} {ls_str}', '%s %s %s' % (
+    ls(32459), user_str, ls_str), f'{ls(32477)} {ls_str}'
 klv_h_str, klu_h_str = '[B]%s[/B]: %s %s' % (log_utils_str.upper(
-), k_str, lv_str), '[B]%s[/B]: %s' % (log_utils_str.upper(), lu_str)
-klvo_h_str = '[B]%s[/B]: %s %s (%s)' % (log_utils_str.upper(),
-                                        k_str, lv_str, ls(32214))
+), k_str, lv_str), f'[B]{log_utils_str.upper()}[/B]: {lu_str}'
+klvo_h_str = f'[B]{log_utils_str.upper()}[/B]: {k_str} {lv_str} ({ls(32214)})'
 trakt_watchlist_str, imdb_watchlist_str, imdb_lists_str = '%s %s' % (
-    trakt_str, wlist_str), '%s %s' % (imdb_str, wlist_str), '%s %s' % (imdb_str, ls_str)
+    trakt_str, wlist_str), f'{imdb_str} {wlist_str}', f'{imdb_str} {ls_str}'
 clear_info_ins, set_view_modes_ins = _in_str % (
     cache_str.upper(), '%s'), _in_str % (views_str.upper(), '%s')
 auth_ins, revoke_ins = '[B]%s: %s[/B]' % (
@@ -247,9 +243,9 @@ class Navigator:
     def trakt_recommendations(self):
         self.category_name = rec_str
         self.add({'mode': 'build_movie_list', 'action': 'trakt_recommendations', 'new_page': 'movies',
-                 'category_name': '%s %s' % (mov_str, rec_str)}, tr_rec_ins % mov_str, 'trakt')
+                 'category_name': f'{mov_str} {rec_str}'}, tr_rec_ins % mov_str, 'trakt')
         self.add({'mode': 'build_tvshow_list', 'action': 'trakt_recommendations', 'new_page': 'shows',
-                 'category_name': '%s %s' % (tv_str, rec_str)}, tr_rec_ins % tv_str, 'trakt')
+                 'category_name': f'{tv_str} {rec_str}'}, tr_rec_ins % tv_str, 'trakt')
         self.end_directory()
 
     def imdb_watchlists(self):
@@ -396,8 +392,7 @@ class Navigator:
 
     def changelog_utils(self):
         fenda_clogpath = tp(log_path % 'plugin.video.fenda/resources/text')
-        mh_str = '[B]%s[/B]: %s  [I](v.%s)[/I]' % (changelog_str.upper(),
-                                                   fenda_str, addon().getAddonInfo('version'))
+        mh_str = f"[B]{changelog_str.upper()}[/B]: {fenda_str}  [I](v.{addon().getAddonInfo('version')})[/I]"
         self.add({'mode': 'show_text', 'heading': mh_str, 'file': fenda_clogpath,
                  'font_size': 'large', 'isFolder': 'false'}, mh_str, 'lists', False)
         self.add({'mode': 'show_text', 'heading': klv_h_str, 'file': kl_loc,
@@ -435,7 +430,7 @@ class Navigator:
             mode, action, years = 'build_tvshow_list', 'tmdb_tv_year', ml.years_tvshows
         for i in years:
             self.add({'mode': mode, 'action': action, 'year': str(
-                i), 'name': '%s.' % str(i)}, str(i), 'calender')
+                i), 'name': f'{str(i)}.'}, str(i), 'calender')
         self.end_directory()
 
     def decades(self):
@@ -445,7 +440,7 @@ class Navigator:
             mode, action, decades = 'build_tvshow_list', 'tmdb_tv_decade', ml.decades_tvshows
         for i in decades:
             self.add({'mode': mode, 'action': action, 'decade': str(
-                i), 'name': '%ss' % str(i)}, '%ss' % str(i), 'calendar_decades')
+                i), 'name': f'{str(i)}s'}, f'{str(i)}s', 'calendar_decades')
         self.end_directory()
 
     def networks(self):
@@ -483,23 +478,20 @@ class Navigator:
                     cm = []
                     cm_append = cm.append
                     path = info[0]
-                    link_id = '%s_%s' % (setting_id, path)
+                    link_id = f'{setting_id}_{path}'
                     clean_title = clean_file_name(normalize(path))
                     linked_folder = test_assigned_content(
-                        'Fenda_FOLDERS_%s' % link_id, assigned_content)
+                        f'Fenda_FOLDERS_{link_id}', assigned_content)
                     if linked_folder:
-                        display = '%s [COLOR limegreen]| %s | %s[/COLOR]' % (
-                            clean_title, ls(33074).upper(), linked_folder)
+                        display = f'{clean_title} [COLOR limegreen]| {ls(33074).upper()} | {linked_folder}[/COLOR]'
                     else:
                         display = clean_title
                     link_folders_add = {'mode': 'link_folders_choice',
                                         'service': 'FOLDERS', 'folder_id': link_id, 'action': 'add'}
                     link_folders_remove = {
                         'mode': 'link_folders_choice', 'service': 'FOLDERS', 'folder_id': link_id, 'action': 'remove'}
-                    cm_append((ls(33078), 'RunPlugin(%s)' %
-                              build_url(link_folders_add)))
-                    cm_append((ls(33079), 'RunPlugin(%s)' %
-                              build_url(link_folders_remove)))
+                    cm_append((ls(33078), f'RunPlugin({build_url(link_folders_add)})'))
+                    cm_append((ls(33079), f'RunPlugin({build_url(link_folders_remove)})'))
                     url = pjoin(folder_path, path)
                     listitem = make_listitem()
                     listitem.addContextMenuItems(cm)
@@ -516,7 +508,7 @@ class Navigator:
         folder_path, setting_id = self.params_get(
             'folder_path'), self.params_get('setting_id')
         assigned_content = gather_assigned_content(
-            "'Fenda_FOLDERS_%s" % setting_id + "_%'")
+            f"'Fenda_FOLDERS_{setting_id}" + "_%'")
         dirs, files = list_dirs(folder_path)
         results = [(i, True) for i in dirs] + [(i, False) for i in files]
         item_list = list(_process())
@@ -535,12 +527,11 @@ class Navigator:
                     folder_path = source_folders_directory(
                         media_type, setting_id) or ''
                     display_name = get_setting(
-                        'fenda.%s.display_name' % setting_id)
+                        f'fenda.{setting_id}.display_name')
                     if action == 'browse':
                         if not folder_path or not display_name:
                             continue
-                        display = '%s (%s)' % (
-                            display_name.upper(), media_type.upper())
+                        display = f'{display_name.upper()} ({media_type.upper()})'
                     else:
                         if display_name == 'None':
                             display_name = ''
@@ -571,7 +562,7 @@ class Navigator:
         def _make_new_item():
             url = build_url({'mode': 'menu_editor.shortcut_folder_make'})
             listitem = make_listitem()
-            listitem.setLabel('[I]%s...[/I]' % make_short_str)
+            listitem.setLabel(f'[I]{make_short_str}...[/I]')
             listitem.setArt({'icon': new_icon, 'poster': new_icon,
                             'thumb': new_icon, 'fanart': fanart, 'banner': new_icon})
             info_tag = listitem.getVideoInfoTag()
@@ -616,7 +607,7 @@ class Navigator:
             url = build_url(
                 {'mode': 'menu_editor.shortcut_folder_browse_for_content', 'list_name': list_name})
             listitem = make_listitem()
-            listitem.setLabel('[I]%s...[/I]' % add_cont_str)
+            listitem.setLabel(f'[I]{add_cont_str}...[/I]')
             listitem.setArt({'icon': new_icon, 'poster': new_icon,
                             'thumb': new_icon, 'fanart': fanart, 'banner': new_icon})
             info_tag = listitem.getVideoInfoTag()
@@ -677,13 +668,13 @@ class Navigator:
             tip = item.replace('.txt', '')[4:]
             if '!!HELP!!' in tip:
                 tip, sort_order = tip.replace(
-                    '!!HELP!!', '[COLOR crimson]%s!!![/COLOR] ' % help_str.upper()), 0
+                    '!!HELP!!', f'[COLOR crimson]{help_str.upper()}!!![/COLOR] '), 0
             elif '!!NEW!!' in tip:
                 tip, sort_order = tip.replace(
-                    '!!NEW!!', '[COLOR chartreuse]%s!![/COLOR] ' % new_str), 1
+                    '!!NEW!!', f'[COLOR chartreuse]{new_str}!![/COLOR] '), 1
             elif '!!SPOTLIGHT!!' in tip:
                 tip, sort_order = tip.replace(
-                    '!!SPOTLIGHT!!', '[COLOR orange]%s![/COLOR] ' % spot_str), 2
+                    '!!SPOTLIGHT!!', f'[COLOR orange]{spot_str}![/COLOR] '), 2
             else:
                 sort_order = 3
             tip_name = tips_ins % tip

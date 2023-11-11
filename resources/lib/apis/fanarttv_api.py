@@ -93,7 +93,7 @@ def parse_season_art(art, language):
             seasons = None
         if seasons:
             for x in seasons:
-                season_art['%s_%s' % (item, x)] = parse_art(
+                season_art[f'{item}_{x}'] = parse_art(
                     results, language, x)
     return season_art
 

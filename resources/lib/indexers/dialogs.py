@@ -33,8 +33,7 @@ network_str, created_by_str, last_aired_str, next_aired_str, seasons_str, episod
     32480), ls(32633), ls(32634), ls(32635), ls(32636), ls(32506), ls(32453)
 studio_str, collection_str, homepage_str, status_str, type_str, classification_str, include_str = ls(
     32615), ls(32499), ls(32629), ls(32630), ls(32631), ls(32632), ls(32188)
-allscrapers_str, def_scrapers_str, disable_filters_str = '%s?' % ls(
-    32006), '%s?' % ls(32185), ls(32808)
+allscrapers_str, def_scrapers_str, disable_filters_str = f'{ls(32006)}?', f'{ls(32185)}?', ls(32808)
 page_str, current_page_str, from_widget_str, quality_str, provider_str, size_str, aliases_str = ls(
     32022), ls(32995), ls(32020), ls(32241), ls(32583), ls(32584), ls(33044)
 tagline_str, premiered_str, rating_str, votes_str, runtime_str, easy_serv_str = ls(
@@ -58,10 +57,9 @@ def external_scraper_choice(params):
         return
     module_id, module_name = choice['addonid'], choice['name']
     try:
-        append_module_to_syspath('special://home/addons/%s/lib' % module_id)
+        append_module_to_syspath(f'special://home/addons/{module_id}/lib')
         main_folder_name = module_id.split('.')[-1]
-        manual_module_import('%s.sources_%s' %
-                             (main_folder_name, main_folder_name))
+        manual_module_import(f'{main_folder_name}.sources_{main_folder_name}')
         success = True
     except:
         success = False
@@ -88,8 +86,7 @@ def restore_addon_fanart_choice(params):
 
 def auth_accounts_choice(params):
     service, active = params['service'], params['active'] == 'True'
-    line1 = '%s [B]%s[/B]?' % (ls(32059), service.upper()
-                               ) if active else '%s [B]%s[/B]?' % (ls(32057), service.upper())
+    line1 = f'{ls(32059)} [B]{service.upper()}[/B]?' if active else f'{ls(32057)} [B]{service.upper()}[/B]?'
     if not confirm_dialog(heading=32805, text=line1, ok_label=32824, cancel_label=32828):
         return
     if active and not confirm_dialog(ok_label=32824, cancel_label=32828):
@@ -130,8 +127,7 @@ def default_highlight_colors_choice(params):
         try:
             setting, value = item[0], item[1]
             set_setting(setting, value)
-            set_setting('%s_name' %
-                        setting, '[COLOR=%s]%s[/COLOR]' % (value, value))
+            set_setting(f'{setting}_name', f'[COLOR={value}]{value}[/COLOR]')
         except:
             pass
     if not silent:
@@ -178,7 +174,7 @@ def movie_sets_to_collection_choice(params):
             icon = poster_empty
         in_collection = tmdb_id in trakt_collection_ids
         if release_date:
-            line1 = '%s (%s)' % (title, release_date.split('-')[0])
+            line1 = f"{title} ({release_date.split('-')[0]})"
         else:
             line1 = title
         if in_collection:
@@ -235,7 +231,7 @@ def link_folders_choice(params):
     service, folder_id, action = params.get(
         'service'), params.get('folder_id'), params.get('action')
 
-    string = 'Fenda_%s_%s' % (service, folder_id)
+    string = f'Fenda_{service}_{folder_id}'
 
     current_link = main_cache.get(string)
 
@@ -262,9 +258,9 @@ def link_folders_choice(params):
     if not query:
         return
     from apis.tmdb_api import tmdb_movies_search, tmdb_tv_search
-    year = dialog.input('%s (%s)' % (ls(32543), ls(32669)), type=numeric_input)
+    year = dialog.input(f'{ls(32543)} ({ls(32669)})', type=numeric_input)
     if year:
-        query = '%s|%s' % (query, year)
+        query = f'{query}|{year}'
     function = tmdb_movies_search if media_type == 'movie' else tmdb_tv_search
     results = function(query, 1)['results']
     if len(results) == 0:
@@ -284,7 +280,7 @@ def link_folders_choice(params):
                 except:
                     year = ''
                 if year:
-                    rootname = '%s (%s)' % (title, year)
+                    rootname = f'{title} ({year})'
                 else:
                     rootname = title
                 tmdb_id = item['id']
@@ -318,10 +314,9 @@ def navigate_to_page_choice(params):
                 if i == 1 and widget_content:
                     line1 = from_widget_str
                 elif jump_to == 0:
-                    line1 = '%s %s' % (page_str, str(i))
+                    line1 = f'{page_str} {str(i)}'
                     if i == current_page:
-                        line1 = '[COLOR %s][B]%s   |   %s[/B][/COLOR]' % (
-                            fenda_highlight, line1, current_page_str)
+                        line1 = f'[COLOR {fenda_highlight}][B]{line1}   |   {current_page_str}[/B][/COLOR]'
                 else:
                     page_contents = all_pages[i-1]
                     first_entry, last_entry = page_contents[0]['title'], page_contents[-1]['title']
@@ -330,14 +325,13 @@ def navigate_to_page_choice(params):
                     if first_entry == last_entry:
                         line_end = first_alpha
                     else:
-                        line_end = '%s - %s' % (first_alpha, last_alpha)
+                        line_end = f'{first_alpha} - {last_alpha}'
                     if jump_to == 1:
                         line1 = line_end
                     else:
-                        line1 = '%s %s   |   %s' % (page_str, str(i), line_end)
+                        line1 = f'{page_str} {str(i)}   |   {line_end}'
                     if i == current_page:
-                        line1 = '[COLOR %s][B]%s   |   %s[/B][/COLOR]' % (
-                            fenda_highlight, line1, current_page_str)
+                        line1 = f'[COLOR {fenda_highlight}][B]{line1}   |   {current_page_str}[/B][/COLOR]'
             except:
                 line1 = ''
             yield {'line1': line1}
@@ -428,7 +422,7 @@ def trailer_choice(media_type, poster, tmdb_id, trailer_url, all_trailers=[]):
                                      for i in sorted_trailers], **kwargs)
             if video_id == None:
                 return 'canceled'
-        trailer_url = 'plugin://plugin.video.youtube/play/?video_id=%s' % video_id
+        trailer_url = f'plugin://plugin.video.youtube/play/?video_id={video_id}'
     return trailer_url
 
 
@@ -452,7 +446,7 @@ def genres_choice(media_type, genres, poster, return_genres=False):
     if len(genre_list) == 0:
         notification(32760, 2500)
         return None
-    mode = 'build_%s_list' % meta_type
+    mode = f'build_{meta_type}_list'
     list_items = [{'line1': i['genre'], 'icon': poster} for i in genre_list]
     kwargs = {'items': json.dumps(list_items)}
     return select_dialog([{'mode': mode, 'action': action, 'genre_id': i['value'][0]} for i in genre_list], **kwargs)
@@ -483,15 +477,15 @@ def random_choice(params):
     if choice == None:
         return
     from modules.episode_tools import EpisodeTools
-    exec('EpisodeTools(meta).%s()' % choice)
+    exec(f'EpisodeTools(meta).{choice}()')
 
 
 def trakt_manager_choice(params):
     if not get_setting('fenda.trakt.user', ''):
         return notification(32760, 3500)
     icon = params.get('icon', None) or get_icon('trakt')
-    choices = [('%s %s...' % (ls(32602), ls(32199)), 'Add'),
-               ('%s %s...' % (ls(32603), ls(32199)), 'Remove')]
+    choices = [(f'{ls(32602)} {ls(32199)}...', 'Add'),
+               (f'{ls(32603)} {ls(32199)}...', 'Remove')]
     list_items = [{'line1': item[0], 'icon': icon} for item in choices]
     kwargs = {'items': json.dumps(list_items), 'heading': ls(
         32198).replace('[B]', '').replace('[/B]', '')}
@@ -662,12 +656,12 @@ def playback_choice(params):
 def set_quality_choice(params):
     quality_setting = params.get('quality_setting')
     icon = params.get('icon', None) or ''
-    dl = ['%s SD' % include_str, '%s 720p' % include_str,
-          '%s 1080p' % include_str, '%s 4K' % include_str]
+    dl = [f'{include_str} SD', f'{include_str} 720p',
+          f'{include_str} 1080p', f'{include_str} 4K']
     fl = ['SD', '720p', '1080p', '4K']
     try:
         preselect = [fl.index(i) for i in get_setting(
-            'fenda.%s' % quality_setting).split(', ')]
+            f'fenda.{quality_setting}').split(', ')]
     except:
         preselect = []
     list_items = [{'line1': item, 'icon': icon} for item in dl]
@@ -687,15 +681,15 @@ def extras_buttons_choice(params):
         'button_dict', {}), params.get('orig_button_dict', {})
     if not orig_button_dict:
         for _type in ('movie', 'tvshow'):
-            setting_id_base = 'extras.%s.button' % _type
+            setting_id_base = f'extras.{_type}.button'
             for item in range(10, 18):
                 setting_id = setting_id_base + str(item)
-                button_action = get_setting('fenda.%s' % setting_id)
+                button_action = get_setting(f'fenda.{setting_id}')
                 button_label = extras_button_label_values[_type][button_action]
                 button_dict[setting_id] = {
-                    'button_action': button_action, 'button_label': button_label, 'button_name': 'Button %s' % str(item - 9)}
+                    'button_action': button_action, 'button_label': button_label, 'button_name': f'Button {str(item - 9)}'}
                 orig_button_dict[setting_id] = {
-                    'button_action': button_action, 'button_label': button_label, 'button_name': 'Button %s' % str(item - 9)}
+                    'button_action': button_action, 'button_label': button_label, 'button_name': f'Button {str(item - 9)}'}
     if media_type == None:
         choices = [(32028, 'movie'), (32029, 'tvshow')]
         list_items = [{'line1': ls(i[0])} for i in choices]
@@ -709,7 +703,7 @@ def extras_buttons_choice(params):
                 return ok_dialog(text=32576)
             return
         media_type = choice[1]
-    choices = [('[B]%s[/B]   |   %s' % (v['button_name'], ls(v['button_label'])),
+    choices = [(f"[B]{v['button_name']}[/B]   |   {ls(v['button_label'])}",
                 v['button_name'], v['button_label'], k) for k, v in button_dict.items() if media_type in k]
     list_items = [{'line1': i[0]} for i in choices]
     kwargs = {'items': json.dumps(list_items), 'heading': ls(
@@ -778,9 +772,8 @@ def extras_lists_choice(params={}):
     choices = [(ls(32842), 2000), (ls(32664), 2050), (ls(32503), 2051), (ls(32607), 2052), (ls(33158), 2053),
                (ls(32984), 2054), (ls(32986), 2055), (ls(32989), 2056), (ls(
                    33032), 2057), (ls(32616), 2058), (ls(32617), 2059),
-               ('%s %s' % (ls(32612), ls(32543)), 2060), ('%s %s' %
-                                                          (ls(32612), ls(32470)), 2061),
-               ('%s %s' % (ls(32612), ls(32480)), 2062), ('%s %s' % (ls(32612), ls(32499)), 2063)]
+               (f'{ls(32612)} {ls(32543)}', 2060), (f'{ls(32612)} {ls(32470)}', 2061),
+               (f'{ls(32612)} {ls(32480)}', 2062), (f'{ls(32612)} {ls(32499)}', 2063)]
     list_items = [{'line1': i[0]} for i in choices]
     current_settings = extras_enabled_menus()
     try:
@@ -811,7 +804,7 @@ def set_language_filter_choice(params):
     fl = list(lang_choices.values())
     try:
         preselect = [fl.index(i) for i in get_setting(
-            'fenda.%s' % filter_setting).split(', ')]
+            f'fenda.{filter_setting}').split(', ')]
     except:
         preselect = []
     list_items = [{'line1': item} for item in dl]
@@ -851,7 +844,7 @@ def easynews_server_choice(params={}):
         list_items), 'heading': easy_serv_str, 'narrow_window': 'true'}
     port_choice = select_dialog(
         ports, **kwargs) or get_setting('fenda.easynews.port', '443')
-    server_name = '%s:%s' % (farm_choice['name'], port_choice)
+    server_name = f"{farm_choice['name']}:{port_choice}"
     manage_settings_reset()
     set_setting('easynews.server_name', server_name)
     set_setting('easynews.farm', farm_choice['server_name'])
@@ -875,7 +868,7 @@ def enable_scrapers_choice(params={}):
         return
     manage_settings_reset()
     for i in scrapers:
-        set_setting('provider.%s' % i, ('true' if i in choice else 'false'))
+        set_setting(f'provider.{i}', ('true' if i in choice else 'false'))
         if i in cloud_scrapers and i in choice:
             set_setting(cloud_scrapers[i], 'true')
     manage_settings_reset(True)
@@ -928,10 +921,10 @@ def folder_scraper_manager_choice(params):
 
 
 def results_sorting_choice(params={}):
-    choices = [('%s, %s, %s' % (quality_str, provider_str, size_str), '0'), ('%s, %s, %s' % (quality_str, size_str, provider_str), '1'),
-               ('%s, %s, %s' % (provider_str, quality_str, size_str),
-                '2'), ('%s, %s, %s' % (provider_str, size_str, quality_str), '3'),
-               ('%s, %s, %s' % (size_str, quality_str, provider_str), '4'), ('%s, %s, %s' % (size_str, provider_str, quality_str), '5')]
+    choices = [(f'{quality_str}, {provider_str}, {size_str}', '0'), (f'{quality_str}, {size_str}, {provider_str}', '1'),
+               (f'{provider_str}, {quality_str}, {size_str}',
+                '2'), (f'{provider_str}, {size_str}, {quality_str}', '3'),
+               (f'{size_str}, {quality_str}, {provider_str}', '4'), (f'{size_str}, {provider_str}, {quality_str}', '5')]
     list_items = [{'line1': item[0]} for item in choices]
     kwargs = {'items': json.dumps(list_items), 'narrow_window': 'true'}
     choice = select_dialog(choices, **kwargs)
@@ -969,8 +962,8 @@ def set_subtitle_choice():
 
 
 def clear_favorites_choice(params={}):
-    fl = [('%s %s' % (ls(32028), favorites_str), 'movie'),
-          ('%s %s' % (ls(32029), favorites_str), 'tvshow')]
+    fl = [(f'{ls(32028)} {favorites_str}', 'movie'),
+          (f'{ls(32029)} {favorites_str}', 'tvshow')]
     list_items = [{'line1': item[0]} for item in fl]
     kwargs = {'items': json.dumps(list_items), 'narrow_window': 'true'}
     media_type = select_dialog([item[1] for item in fl], **kwargs)
@@ -989,11 +982,9 @@ def favorites_choice(params):
     from caches.favorites_cache import favorites
     current_favorites = favorites.get_favorites(media_type)
     if any(i['tmdb_id'] == tmdb_id for i in current_favorites):
-        function, text, refresh = favorites.delete_favourite, '%s %s?' % (
-            ls(32603), ls(32453)), 'true'
+        function, text, refresh = favorites.delete_favourite, f'{ls(32603)} {ls(32453)}?', 'true'
     else:
-        function, text, refresh = favorites.set_favourite, '%s %s?' % (
-            ls(32602), ls(32453)), 'false'
+        function, text, refresh = favorites.set_favourite, f'{ls(32602)} {ls(32453)}?', 'false'
     if not confirm_dialog(heading=title, text=text):
         return
     success = function(media_type, tmdb_id, title)
@@ -1008,13 +999,13 @@ def favorites_choice(params):
 
 def scraper_quality_color_choice(params):
     setting = params.get('setting')
-    current_setting = get_setting('fenda.%s' % setting)
+    current_setting = get_setting(f'fenda.{setting}')
     chosen_color = color_choice({'current_setting': current_setting})
     if chosen_color:
         manage_settings_reset()
         set_setting(setting, chosen_color)
-        set_setting('%s_name' % setting,
-                    '[COLOR=%s]%s[/COLOR]' % (chosen_color, chosen_color))
+        set_setting(f'{setting}_name',
+                    f'[COLOR={chosen_color}]{chosen_color}[/COLOR]')
         manage_settings_reset(True)
 
 
@@ -1032,13 +1023,13 @@ def scraper_color_choice(params):
                ('scraper_flag', 'scraper_flag_identify_colour'),
                ('scraper_result', 'scraper_result_identify_colour')]
     setting = [i[1] for i in choices if i[0] == setting][0]
-    current_setting = get_setting('fenda.%s' % setting)
+    current_setting = get_setting(f'fenda.{setting}')
     chosen_color = color_choice({'current_setting': current_setting})
     if chosen_color:
         manage_settings_reset()
         set_setting(setting, chosen_color)
-        set_setting('%s_name' % setting,
-                    '[COLOR=%s]%s[/COLOR]' % (chosen_color, chosen_color))
+        set_setting(f'{setting}_name',
+                    f'[COLOR={chosen_color}]{chosen_color}[/COLOR]')
         manage_settings_reset(True)
 
 
@@ -1049,7 +1040,7 @@ def highlight_color_choice(params={}):
         manage_settings_reset()
         set_setting('main_highlight', chosen_color)
         set_setting('main_highlight_name',
-                    '[COLOR=%s]%s[/COLOR]' % (chosen_color, chosen_color))
+                    f'[COLOR={chosen_color}]{chosen_color}[/COLOR]')
         manage_settings_reset(True)
 
 
@@ -1136,13 +1127,11 @@ def options_menu_choice(params, meta=None):
                 if menu_type == 'movie':
                     listing_append((strip_bold(ls(32174)), '', 'playback'))
                 else:
-                    listing_append((ls(32838), '%s %s' %
-                                   (ls(32838), title), 'browse'))
+                    listing_append((ls(32838), f'{ls(32838)} {title}', 'browse'))
             else:
                 listing_append(
                     (strip_bold(ls(32645)).replace('...', ''), '', 'extras'))
-            listing_append((ls(32187), '%s %s' %
-                           (ls(32533), ls(32841)), 'playback_choice'))
+            listing_append((ls(32187), f'{ls(32533)} {ls(32841)}', 'playback_choice'))
             if menu_type == 'movie':
                 if playcount:
                     watched_action, watchedstr = 'mark_as_unwatched', strip_bold(
@@ -1175,8 +1164,7 @@ def options_menu_choice(params, meta=None):
                     listing_append((strip_bold(ls(32643)).replace(
                         ' %s', ''), '', 'mark_unwatched_season'))
             else:
-                listing_append((ls(32187), '%s %s' %
-                               (ls(32533), ls(32841)), 'playback_choice'))
+                listing_append((ls(32187), f'{ls(32533)} {ls(32841)}', 'playback_choice'))
                 if playcount:
                     watched_action, watchedstr = 'mark_as_unwatched', strip_bold(
                         ls(32643)).replace(' %s', '')
@@ -1191,10 +1179,9 @@ def options_menu_choice(params, meta=None):
             listing_append((ls(32611), '', 'refresh_widgets'))
     if menu_type in ('movie', 'episode') or menu_type in single_ep_list:
         if menu_type == 'movie' and from_extras:
-            listing_append((ls(32187), '%s %s' %
-                           (ls(32533), ls(32841)), 'playback_choice'))
+            listing_append((ls(32187), f'{ls(32533)} {ls(32841)}', 'playback_choice'))
         if menu_type in single_ep_list:
-            listing_append((ls(32838), '%s %s' % (ls(32838), title), 'browse'))
+            listing_append((ls(32838), f'{ls(32838)} {title}', 'browse'))
             listing_append((ls(32544).replace(' %s', ''), ls(
                 32544) % (title, season), 'browse_season'))
     if menu_type in ('movie', 'tvshow'):
@@ -1208,15 +1195,15 @@ def options_menu_choice(params, meta=None):
         base_str1, base_str2, on_str, off_str = '%s%s', '%s: [B]%s[/B]' % (
             ls(32598), '%s'), ls(32090), ls(32027)
         if auto_play(content):
-            autoplay_status, autoplay_toggle, quality_setting = on_str, 'false', 'autoplay_quality_%s' % content
+            autoplay_status, autoplay_toggle, quality_setting = on_str, 'false', f'autoplay_quality_{content}'
         else:
-            autoplay_status, autoplay_toggle, quality_setting = off_str, 'true', 'results_quality_%s' % content
+            autoplay_status, autoplay_toggle, quality_setting = off_str, 'true', f'results_quality_{content}'
         active_int_scrapers = [i.replace('_', '')
                                for i in active_internal_scrapers()]
         current_scrapers_status = ', '.join([i for i in active_int_scrapers]) if len(
             active_int_scrapers) > 0 else 'N/A'
         current_quality_status = ', '.join(quality_filter(quality_setting))
-        listing_append((base_str1 % (ls(32175), ' (%s)' % content),
+        listing_append((base_str1 % (ls(32175), f' ({content})'),
                        base_str2 % autoplay_status, 'toggle_autoplay'))
         if menu_type == 'episode' or menu_type in single_ep_list:
             if autoplay_status == on_str:
@@ -1229,9 +1216,9 @@ def options_menu_choice(params, meta=None):
                     on_str, 'false') if autoscrape_next_episode() else (off_str, 'true')
                 listing_append((base_str1 % (ls(33086), ''), base_str2 %
                                autoscrape_next_status, 'toggle_autoscrape_next'))
-        listing_append((base_str1 % (ls(32105), ' (%s)' % content),
+        listing_append((base_str1 % (ls(32105), f' ({content})'),
                        base_str2 % current_quality_status, 'set_quality'))
-        listing_append((base_str1 % ('', '%s %s' % (ls(32055), ls(32533))),
+        listing_append((base_str1 % ('', f'{ls(32055)} {ls(32533)}'),
                        base_str2 % current_scrapers_status, 'enable_scrapers'))
     if menu_type in ('movie', 'tvshow') and not from_extras:
         listing_append((ls(32604) % (ls(32028) if menu_type == 'movie' else ls(
@@ -1242,8 +1229,8 @@ def options_menu_choice(params, meta=None):
     if in_progress_menu:
         listing_append((ls(32599), '', 'nextep_manager'))
     if not from_extras:
-        listing_append(('%s %s' % (ls(32641), ls(32456)), '', 'open_tools'))
-    listing_append(('%s %s' % (ls(32641), ls(32247)), '', 'open_settings'))
+        listing_append((f'{ls(32641)} {ls(32456)}', '', 'open_tools'))
+    listing_append((f'{ls(32641)} {ls(32247)}', '', 'open_settings'))
     list_items = list(_builder())
     heading = rootname or strip_bold(ls(32646))
     kwargs = {'items': json.dumps(
@@ -1308,14 +1295,14 @@ def options_menu_choice(params, meta=None):
     elif choice == 'exit_menu':
         return run_plugin({'mode': 'navigator.exit_media_menu'})
     elif choice == 'toggle_autoplay':
-        set_setting('auto_play_%s' % content, autoplay_toggle)
+        set_setting(f'auto_play_{content}', autoplay_toggle)
     elif choice == 'toggle_autoplay_next':
         set_setting('autoplay_next_episode', autoplay_next_toggle)
     elif choice == 'toggle_autoscrape_next':
         set_setting('autoscrape_next_episode', autoscrape_next_toggle)
     elif choice == 'set_quality':
-        set_quality_choice({'quality_setting': 'autoplay_quality_%s' % content if autoplay_status ==
-                           on_str else 'results_quality_%s' % content, 'icon': poster})
+        set_quality_choice({'quality_setting': f'autoplay_quality_{content}' if autoplay_status ==
+                           on_str else f'results_quality_{content}', 'icon': poster})
     elif choice == 'enable_scrapers':
         enable_scrapers_choice({'icon': poster})
     sleep(250)
@@ -1349,49 +1336,42 @@ def media_extra_info_choice(params):
         if media_type == 'movie':
             def _process_budget_revenue(info):
                 if isinstance(info, int):
-                    info = '${:,}'.format(info)
+                    info = f'${info:,}'
                 return info
             if meta['tagline']:
-                append('[B]%s:[/B] %s' % (tagline_str, meta['tagline']))
+                append(f"[B]{tagline_str}:[/B] {meta['tagline']}")
             aliases = get_aliases_titles(make_alias_dict(meta, meta['title']))
             if aliases:
-                append('[B]%s:[/B] %s' % (aliases_str, ', '.join(aliases)))
-            append('[B]%s:[/B] %s' % (status_str, extra_info['status']))
-            append('[B]%s:[/B] %s' % (premiered_str, meta['premiered']))
-            append('[B]%s:[/B] %s (%s %s)' % (rating_str,
-                   str(round(meta['rating'], 1)), meta['votes'], votes_str))
-            append('[B]%s:[/B] %s mins' %
-                   (runtime_str, int(float(meta['duration'])/60)))
-            append('[B]%s:[/B] %s' % (genres_str, meta['genre']))
-            append('[B]%s:[/B] %s' %
-                   (budget_str, _process_budget_revenue(extra_info['budget'])))
-            append('[B]%s:[/B] %s' % (revenue_str,
-                   _process_budget_revenue(extra_info['revenue'])))
-            append('[B]%s:[/B] %s' % (director_str, meta['director']))
-            append('[B]%s:[/B] %s' % (writer_str, meta['writer'] or 'N/A'))
-            append('[B]%s:[/B] %s' % (studio_str, meta['studio'] or 'N/A'))
+                append(f"[B]{aliases_str}:[/B] {', '.join(aliases)}")
+            append(f"[B]{status_str}:[/B] {extra_info['status']}")
+            append(f"[B]{premiered_str}:[/B] {meta['premiered']}")
+            append(f"[B]{rating_str}:[/B] {str(round(meta['rating'], 1))} ({meta['votes']} {votes_str})")
+            append(f"[B]{runtime_str}:[/B] {int(float(meta['duration']) / 60)} mins")
+            append(f"[B]{genres_str}:[/B] {meta['genre']}")
+            append(f"[B]{budget_str}:[/B] {_process_budget_revenue(extra_info['budget'])}")
+            append(f"[B]{revenue_str}:[/B] {_process_budget_revenue(extra_info['revenue'])}")
+            append(f"[B]{director_str}:[/B] {meta['director']}")
+            append(f"[B]{writer_str}:[/B] {meta['writer'] or 'N/A'}")
+            append(f"[B]{studio_str}:[/B] {meta['studio'] or 'N/A'}")
             if extra_info['collection_name']:
-                append('[B]%s:[/B] %s' %
-                       (collection_str, extra_info['collection_name']))
-            append('[B]%s:[/B] %s' % (homepage_str, extra_info['homepage']))
+                append(f"[B]{collection_str}:[/B] {extra_info['collection_name']}")
+            append(f"[B]{homepage_str}:[/B] {extra_info['homepage']}")
         else:
-            append('[B]%s:[/B] %s' % (type_str, extra_info['type']))
+            append(f"[B]{type_str}:[/B] {extra_info['type']}")
             if meta['tagline']:
-                append('[B]%s:[/B] %s' % (tagline_str, meta['tagline']))
+                append(f"[B]{tagline_str}:[/B] {meta['tagline']}")
             aliases = get_aliases_titles(make_alias_dict(meta, meta['title']))
             if aliases:
-                append('[B]%s:[/B] %s' % (aliases_str, ', '.join(aliases)))
-            append('[B]%s:[/B] %s' % (status_str, extra_info['status']))
-            append('[B]%s:[/B] %s' % (premiered_str, meta['premiered']))
-            append('[B]%s:[/B] %s (%s %s)' % (rating_str,
-                   str(round(meta['rating'], 1)), meta['votes'], votes_str))
+                append(f"[B]{aliases_str}:[/B] {', '.join(aliases)}")
+            append(f"[B]{status_str}:[/B] {extra_info['status']}")
+            append(f"[B]{premiered_str}:[/B] {meta['premiered']}")
+            append(f"[B]{rating_str}:[/B] {str(round(meta['rating'], 1))} ({meta['votes']} {votes_str})")
             append('[B]%s:[/B] %d mins' %
                    (runtime_str, int(float(meta['duration'])/60)))
-            append('[B]%s:[/B] %s' % (classification_str, meta['mpaa']))
-            append('[B]%s:[/B] %s' % (genres_str, meta['genre']))
-            append('[B]%s:[/B] %s' % (network_str, meta['studio']))
-            append('[B]%s:[/B] %s' %
-                   (created_by_str, extra_info['created_by']))
+            append(f"[B]{classification_str}:[/B] {meta['mpaa']}")
+            append(f"[B]{genres_str}:[/B] {meta['genre']}")
+            append(f"[B]{network_str}:[/B] {meta['studio']}")
+            append(f"[B]{created_by_str}:[/B] {extra_info['created_by']}")
             try:
                 last_ep = extra_info['last_episode_to_air']
                 append('[B]%s:[/B] %s - [B]S%.2dE%.2d[/B] - %s'
@@ -1406,9 +1386,9 @@ def media_extra_info_choice(params):
                            next_ep['season_number'], next_ep['episode_number'], next_ep['name']))
             except:
                 pass
-            append('[B]%s:[/B] %s' % (seasons_str, meta['total_seasons']))
-            append('[B]%s:[/B] %s' % (episodes_str, meta['total_aired_eps']))
-            append('[B]%s:[/B] %s' % (homepage_str, extra_info['homepage']))
+            append(f"[B]{seasons_str}:[/B] {meta['total_seasons']}")
+            append(f"[B]{episodes_str}:[/B] {meta['total_aired_eps']}")
+            append(f"[B]{homepage_str}:[/B] {extra_info['homepage']}")
     except:
         return notification(32574, 2000)
     return '[CR][CR]'.join(listings)

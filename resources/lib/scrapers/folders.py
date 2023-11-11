@@ -56,7 +56,7 @@ class source:
                             size = self._get_size(file_dl)
                         video_quality, details = get_file_info(
                             name_info=release_info_format(file_name))
-                        source_item = {'name': file_name, 'display_name': display_name, 'quality': video_quality, 'size': size, 'size_label': '%.2f GB' % size,
+                        source_item = {'name': file_name, 'display_name': display_name, 'quality': video_quality, 'size': size, 'size_label': f'{size:.2f} GB',
                                        'extraInfo': details, 'url_dl': file_dl, 'id': file_dl, self.scrape_provider: True, 'direct': True, 'source': self.scraper_name,
                                        'scrape_provider': 'folders'}
                         yield source_item
@@ -71,7 +71,7 @@ class source:
 
     def _gather_assigned_content(self):
         pre_assigned_content = gather_assigned_content(
-            "'Fenda_FOLDERS_%s" % self.scrape_provider + "_%'")
+            f"'Fenda_FOLDERS_{self.scrape_provider}" + "_%'")
         return [i for i in pre_assigned_content if i[1].get('media_type') == self.media_type and self.tmdb_id == i[1].get('tmdb_id')]
 
     def _make_dirs(self, folder_info):
@@ -110,8 +110,7 @@ class source:
         folder_results = []
         scrape_results_append = self.scrape_results.append
         folder_results_append = folder_results.append
-        string = 'fenda_FOLDERSCRAPER_%s_%s' % (
-            self.scrape_provider, folder_name)
+        string = f'fenda_FOLDERSCRAPER_{self.scrape_provider}_{folder_name}'
         folder_files = cache_object(
             self._make_dirs, string, (folder_name, assigned_content), json=False, expiration=4)
         folder_threads = list(make_thread_list(_process, folder_files))
@@ -140,4 +139,4 @@ class source:
         return (str(self.year), str(self.year+1), str(self.year-1))
 
     def _season_query_list(self):
-        return ('season%02d' % int(self.season), 'season%s' % self.season)
+        return ('season%02d' % int(self.season), f'season{self.season}')

@@ -13,7 +13,7 @@ default_rd_icon, fanart = kodi_utils.get_icon(
     'realdebrid'), kodi_utils.addon_fanart
 ls, sys, make_listitem, build_url = kodi_utils.local_string, kodi_utils.sys, kodi_utils.make_listitem, kodi_utils.build_url
 folder_str, file_str, down_str = ls(32742).upper(), ls(
-    32743).upper(), '[B]%s[/B]' % ls(32747)
+    32743).upper(), f'[B]{ls(32747)}[/B]'
 linked_str, addlink_str, clearlink_str = ls(
     33074).upper(), ls(33078), ls(33079)
 extensions = supported_video_extensions()
@@ -30,7 +30,7 @@ def rd_torrent_cloud():
                 clean_folder_name = clean_file_name(
                     normalize(folder_name)).upper()
                 linked_folder = test_assigned_content(
-                    'Fenda_RD_%s' % folder_id, assigned_content)
+                    f'Fenda_RD_{folder_id}', assigned_content)
                 if linked_folder:
                     display = '%02d | [B]%s | [COLOR limegreen]%s | %s[/B][/COLOR] | [I]%s[/I]' % (
                         count, folder_str, linked_str, linked_folder, clean_folder_name)
@@ -44,10 +44,8 @@ def rd_torrent_cloud():
                 link_folders_remove = {'mode': 'link_folders_choice',
                                        'service': 'RD', 'folder_id': folder_id, 'action': 'remove'}
                 url = build_url(url_params)
-                cm_append((addlink_str, 'RunPlugin(%s)' %
-                          build_url(link_folders_add)))
-                cm_append((clearlink_str, 'RunPlugin(%s)' %
-                          build_url(link_folders_remove)))
+                cm_append((addlink_str, f'RunPlugin({build_url(link_folders_add)})'))
+                cm_append((clearlink_str, f'RunPlugin({build_url(link_folders_remove)})'))
                 listitem = make_listitem()
                 listitem.setLabel(display)
                 listitem.addContextMenuItems(cm)
@@ -93,8 +91,7 @@ def rd_downloads():
                               'url': url_link, 'obj': 'video'}
                 down_file_params = {'mode': 'downloader', 'name': name, 'url': url_link,
                                     'action': 'cloud.realdebrid_direct', 'image': default_rd_icon}
-                cm_append((down_str, 'RunPlugin(%s)' %
-                          build_url(down_file_params)))
+                cm_append((down_str, f'RunPlugin({build_url(down_file_params)})'))
                 url = build_url(url_params)
                 listitem = make_listitem()
                 listitem.setLabel(display)
@@ -140,8 +137,7 @@ def browse_rd_cloud(folder_id):
                 url = build_url(url_params)
                 down_file_params = {'mode': 'downloader', 'name': name, 'url': url_link,
                                     'action': 'cloud.realdebrid', 'image': default_rd_icon}
-                cm.append((down_str, 'RunPlugin(%s)' %
-                          build_url(down_file_params)))
+                cm.append((down_str, f'RunPlugin({build_url(down_file_params)})'))
                 listitem = make_listitem()
                 listitem.setLabel(display)
                 listitem.addContextMenuItems(cm)

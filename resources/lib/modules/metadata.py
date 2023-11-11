@@ -165,7 +165,7 @@ def movie_meta(id_type, media_id, user_info, current_date, current_time=None):
             genre = ', '.join([i['name'] for i in data_get('genres')])
         except:
             genre == []
-        rootname = '%s (%s)' % (title, year)
+        rootname = f'{title} ({year})'
         companies = data_get('production_companies')
         if companies:
             if len(companies) == 1:
@@ -232,11 +232,11 @@ def movie_meta(id_type, media_id, user_info, current_date, current_time=None):
         else:
             ei_collection_name, ei_collection_id = None, None
         try:
-            ei_budget = '${:,}'.format(data_get('budget'))
+            ei_budget = f"${data_get('budget'):,}"
         except:
             ei_budget = '$0'
         try:
-            ei_revenue = '${:,}'.format(data_get('revenue'))
+            ei_revenue = f"${data_get('revenue'):,}"
         except:
             ei_revenue = '$0'
         if fanart_data:
@@ -413,7 +413,7 @@ def tvshow_meta(id_type, media_id, user_info, current_date, current_time=None):
             genre = ', '.join([i['name'] for i in data_get('genres')])
         except:
             genre = []
-        rootname = '%s (%s)' % (title, year)
+        rootname = f'{title} ({year})'
         networks = data_get('networks', None)
         if networks:
             if len(networks) == 1:
@@ -615,7 +615,7 @@ def episodes_meta(season, meta, user_info):
             yield {'writer': writer, 'director': director, 'guest_stars': guest_stars, 'mediatype': 'episode', 'title': title, 'plot': plot, 'duration': duration,
                    'premiered': premiered, 'season': season, 'episode': episode, 'rating': rating, 'votes': votes, 'thumb': thumb}
     media_id, data = meta['tmdb_id'], None
-    prop_string = '%s_%s' % (media_id, season)
+    prop_string = f'{media_id}_{season}'
     data = metacache_get_season(prop_string)
     if data:
         return data

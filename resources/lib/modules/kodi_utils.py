@@ -128,7 +128,7 @@ def local_string(string):
 
 
 def build_url(url_params):
-    return 'plugin://plugin.video.fenda/?%s' % urlencode(url_params)
+    return f'plugin://plugin.video.fenda/?{urlencode(url_params)}'
 
 
 def remove_keys(dict_item, dict_removals):
@@ -181,7 +181,7 @@ def set_view_mode(view_type, content='files', is_external=None):
         is_external = external()
     if is_external:
         return
-    setting_query = 'fenda.%s' % view_type
+    setting_query = f'fenda.{view_type}'
     view_id = get_setting(setting_query) or None
     try:
         hold = 0
@@ -193,7 +193,7 @@ def set_view_mode(view_type, content='files', is_external=None):
             else:
                 return
         if view_id:
-            execute_builtin('Container.SetViewMode(%s)' % view_id)
+            execute_builtin(f'Container.SetViewMode({view_id})')
     except:
         return
 
@@ -203,7 +203,7 @@ def append_path(_path):
 
 
 def logger(heading, function):
-    log('###%s###: %s' % (heading, function), 1)
+    log(f'###{heading}###: {function}', 1)
 
 
 def get_property(prop):
@@ -223,11 +223,11 @@ def addon(addon_id='plugin.video.fenda'):
 
 
 def addon_installed(addon_id):
-    return get_visibility('System.HasAddon(%s)' % addon_id)
+    return get_visibility(f'System.HasAddon({addon_id})')
 
 
 def addon_enabled(addon_id):
-    return get_visibility('System.AddonIsEnabled(%s)' % addon_id)
+    return get_visibility(f'System.AddonIsEnabled({addon_id})')
 
 
 def container_content():
@@ -317,7 +317,7 @@ def kodi_version():
 
 
 def get_video_database_path():
-    return translate_path('special://profile/Database/MyVideos%s.db' % myvideos_db_paths[kodi_version()])
+    return translate_path(f'special://profile/Database/MyVideos{myvideos_db_paths[kodi_version()]}.db')
 
 
 def show_busy_dialog():
@@ -330,7 +330,7 @@ def hide_busy_dialog():
 
 
 def close_dialog(dialog, block=False):
-    execute_builtin('Dialog.Close(%s,true)' % dialog, block)
+    execute_builtin(f'Dialog.Close({dialog},true)', block)
 
 
 def close_all_dialog():
@@ -338,7 +338,7 @@ def close_all_dialog():
 
 
 def run_addon(addon='plugin.video.fenda', block=False):
-    return execute_builtin('RunAddon(%s)' % addon, block)
+    return execute_builtin(f'RunAddon({addon})', block)
 
 
 def external():
@@ -368,19 +368,19 @@ def kodi_refresh():
 def run_plugin(params, block=False):
     if isinstance(params, dict):
         params = build_url(params)
-    return execute_builtin('RunPlugin(%s)' % params, block)
+    return execute_builtin(f'RunPlugin({params})', block)
 
 
 def container_update(params, block=False):
     if isinstance(params, dict):
         params = build_url(params)
-    return execute_builtin('Container.Update(%s)' % params, block)
+    return execute_builtin(f'Container.Update({params})', block)
 
 
 def activate_window(params, block=False):
     if isinstance(params, dict):
         params = build_url(params)
-    return execute_builtin('ActivateWindow(Videos,%s,return)' % params, block)
+    return execute_builtin(f'ActivateWindow(Videos,{params},return)', block)
 
 
 def container_refresh():
@@ -390,13 +390,13 @@ def container_refresh():
 def container_refresh_input(params, block=False):
     if isinstance(params, dict):
         params = build_url(params)
-    return execute_builtin('Container.Refresh(%s)' % params, block)
+    return execute_builtin(f'Container.Refresh({params})', block)
 
 
 def replace_window(params, block=False):
     if isinstance(params, dict):
         params = build_url(params)
-    return execute_builtin('ReplaceWindow(Videos,%s)' % params, block)
+    return execute_builtin(f'ReplaceWindow(Videos,{params})', block)
 
 
 def disable_enable_addon(addon_name='plugin.video.fenda'):
@@ -546,7 +546,7 @@ def choose_view(view_type, content):
 def set_view(view_type):
     view_id = str(current_window_object().getFocusId())
     set_setting(view_type, view_id)
-    set_property('fenda.%s' % view_type, view_id)
+    set_property(f'fenda.{view_type}', view_id)
     notification(get_infolabel('Container.Viewmode').upper(), time=500)
 
 
@@ -568,7 +568,7 @@ def timeIt(func):
     def wrap(*args, **kwargs):
         started_at = time.time()
         result = func(*args, **kwargs)
-        logger('%s.%s' % (__name__, fnc_name), (time.time() - started_at))
+        logger(f'{__name__}.{fnc_name}', (time.time() - started_at))
         return result
     return wrap
 
@@ -655,23 +655,23 @@ def upload_logfile(params):
         return
     show_busy_dialog()
     url = 'https://paste.kodi.tv/'
-    log_file = translate_path('special://logpath/%s' % log_file)
+    log_file = translate_path(f'special://logpath/{log_file}')
     if not path_exists(log_file):
         return ok_dialog(text=33039)
     try:
         with open_file(log_file) as f:
             text = f.read()
-        UserAgent = 'Fenda %s' % addon_object.getAddonInfo('version')
-        response = requests.post('%s%s' % (url, 'documents'), data=text.encode(
+        UserAgent = f"Fenda {addon_object.getAddonInfo('version')}"
+        response = requests.post(f'{url}documents', data=text.encode(
             'utf-8', errors='ignore'), headers={'User-Agent': UserAgent}).json()
         user_code = response['key']
         if 'key' in response:
             try:
                 from modules.utils import copy2clip
-                copy2clip('%s%s' % (url, user_code))
+                copy2clip(f'{url}{user_code}')
             except:
                 pass
-            ok_dialog(text='%s%s' % (url, user_code))
+            ok_dialog(text=f'{url}{user_code}')
         else:
             ok_dialog(text=33039)
     except:
@@ -685,13 +685,13 @@ def open_settings(query, addon='plugin.video.fenda'):
         try:
             button, control = 100, 80
             menu, function = query.split('.')
-            execute_builtin('Addon.OpenSettings(%s)' % addon)
+            execute_builtin(f'Addon.OpenSettings({addon})')
             execute_builtin('SetFocus(%i)' % (int(menu) - button))
             execute_builtin('SetFocus(%i)' % (int(function) - control))
         except:
-            execute_builtin('Addon.OpenSettings(%s)' % addon)
+            execute_builtin(f'Addon.OpenSettings({addon})')
     else:
-        execute_builtin('Addon.OpenSettings(%s)' % addon)
+        execute_builtin(f'Addon.OpenSettings({addon})')
 
 
 def set_setting(setting_id, value):
@@ -723,7 +723,7 @@ def make_settings_props():
         if not path_exists(userdata_path):
             make_directories(userdata_path)
         for item in all_settings():
-            set_property('fenda.%s' % item[0], item[1])
+            set_property(f'fenda.{item[0]}', item[1])
     except Exception as e:
         logger('error in make_settings_props', str(e))
     clear_property(sett_addoninfo_active_prop)

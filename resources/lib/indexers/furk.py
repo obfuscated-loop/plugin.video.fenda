@@ -11,7 +11,7 @@ ls, sys, build_url, make_listitem = kodi_utils.local_string, kodi_utils.sys, kod
 furk_icon, fanart = kodi_utils.get_icon('furk'), kodi_utils.addon_fanart
 remove_str, prot_str, unprot_str, speed_str, files_str = ls(
     32766), ls(32767), ls(32768), ls(32775), ls(32493).upper()
-down_str, add_str = '[B]%s[/B]' % ls(32747), '[B]%s[/B]' % ls(32769)
+down_str, add_str = f'[B]{ls(32747)}[/B]', f'[B]{ls(32769)}[/B]'
 Furk = FurkAPI()
 
 
@@ -73,11 +73,11 @@ def furk_folder_browser(files, display_mode, handle):
                     {'mode': 'furk.remove_from_files', 'item_id': item_id})
                 url = build_url({'mode': 'furk.furk_t_file_browser',
                                 'name': name, 'url': url_dl, 'item_id': item_id})
-                cm_append((down_str, 'RunPlugin(%s)' % download_archive))
+                cm_append((down_str, f'RunPlugin({download_archive})'))
                 if display_mode == 'search':
-                    cm_append((add_str, 'RunPlugin(%s)' % add_to_files))
+                    cm_append((add_str, f'RunPlugin({add_to_files})'))
                 else:
-                    cm_append((remove_str, 'RunPlugin(%s)' % remove_files))
+                    cm_append((remove_str, f'RunPlugin({remove_files})'))
                 if is_protected == '0':
                     cm_append((prot_str, 'RunPlugin(%s)' % build_url(
                         {'mode': 'furk.myfiles_protect_unprotect', 'action': 'protect', 'name': name, 'item_id': item_id})))
@@ -124,8 +124,7 @@ def furk_t_file_browser(params):
                 listitem.setLabel(display_name)
                 down_file_params = {
                     'mode': 'downloader', 'name': item['name'], 'url': item['url_dl'], 'action': 'cloud.furk_direct', 'image': furk_icon}
-                cm.append((down_str, 'RunPlugin(%s)' %
-                          build_url(down_file_params)))
+                cm.append((down_str, f'RunPlugin({build_url(down_file_params)})'))
                 listitem.addContextMenuItems(cm)
                 listitem.setArt({'icon': furk_icon, 'poster': furk_icon,
                                 'thumb': furk_icon, 'fanart': fanart, 'banner': furk_icon})
@@ -241,18 +240,18 @@ def account_info(params):
         append(ls(32758) % account_type.upper())
         append(ls(32770) % str(round(bw_limit_month, 0)))
         append(ls(32771))
-        append('        - %s' % ls(32751) % str(round(month_time_left, 2)))
-        append('        - %s GB' % ls(32761) % str(round(bw_used_month, 2)))
-        append('        - %s GB' % ls(32762) %
+        append(f'        - {ls(32751)}' % str(round(month_time_left, 2)))
+        append(f'        - {ls(32761)} GB' % str(round(bw_used_month, 2)))
+        append(f'        - {ls(32762)} GB' %
                str(round(rem_bw_limit_month, 2)))
         if not account_type == 'LIFETIME':
             append(ls(32772))
-            append('[B]        - %s' % ls(32751) %
+            append(f'[B]        - {ls(32751)}' %
                    str(round(total_time_left, 0)))
             if is_not_last_month == '1':
-                append('        - %s' % ls(32773) % renewal_date)
+                append(f'        - {ls(32773)}' % renewal_date)
             else:
-                append('        - %s' % ls(32774) % renewal_date)
+                append(f'        - {ls(32774)}' % renewal_date)
         hide_busy_dialog()
         return show_text(heading, '\n\n'.join(body), font_size='large')
     except:

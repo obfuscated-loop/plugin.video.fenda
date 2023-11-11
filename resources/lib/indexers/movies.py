@@ -19,9 +19,9 @@ max_threads, widget_hide_next_page, include_year_in_title, paginate = settings.m
 fenda_str, trakt_str, watched_str, unwatched_str, extras_str, options_str = ls(
     32036), ls(32037), ls(32642), ls(32643), ls(32645), ls(32646)
 hide_str, exit_str, clearprog_str, nextpage_str, jump2_str, play_str = ls(
-    32648), ls(32649), ls(32651), ls(32799), ls(32964), '[B]%s...[/B]' % ls(32174)
+    32648), ls(32649), ls(32651), ls(32799), ls(32964), f'[B]{ls(32174)}...[/B]'
 addmenu_str, addshortcut_str, add_coll_str, refr_widg_str, play_options_str = ls(
-    32730), ls(32731), ls(33081), '[B]%s[/B]' % ls(32611), '[B]%s...[/B]' % ls(32187)
+    32730), ls(32731), ls(33081), f'[B]{ls(32611)}[/B]', f'[B]{ls(32187)}...[/B]'
 run_plugin = 'RunPlugin(%s)'
 tmdb_main = ('tmdb_movies_popular', 'tmdb_movies_popular_today', 'tmdb_movies_blockbusters', 'tmdb_movies_in_theaters',
              'tmdb_movies_upcoming', 'tmdb_movies_latest_releases', 'tmdb_movies_premieres')
@@ -67,8 +67,7 @@ class Movies:
             if self.action in personal:
                 var_module, import_function = personal[self.action]
             else:
-                var_module, import_function = 'apis.%s_api' % self.action.split('_')[
-                    0], self.action
+                var_module, import_function = f"apis.{self.action.split('_')[0]}_api", self.action
             try:
                 function = manual_function_import(var_module, import_function)
             except:

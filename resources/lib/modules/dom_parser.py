@@ -30,8 +30,8 @@ def __get_dom_content(html, name, match):
         tag = re.match(r'<([^\s/>]+)', match)
         if tag:
             name = tag.group(1)
-        start_str = '<%s' % name
-        end_str = '</%s' % name
+        start_str = f'<{name}'
+        end_str = f'</{name}'
         start = html.find(match)
         end = html.find(end_str, start)
         pos = html.find(start_str, start + 1)

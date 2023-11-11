@@ -48,7 +48,7 @@ class source:
                             float(int(item['size']))/1073741824, 2)
                         video_quality, details = get_file_info(
                             name_info=release_info_format(file_name))
-                        source_item = {'name': file_name, 'display_name': display_name, 'quality': video_quality, 'size': size, 'size_label': '%.2f GB' % size,
+                        source_item = {'name': file_name, 'display_name': display_name, 'quality': video_quality, 'size': size, 'size_label': f'{size:.2f} GB',
                                        'extraInfo': details, 'url_dl': file_dl, 'id': file_dl, 'downloads': False, 'direct': True, 'source': self.scrape_provider,
                                        'scrape_provider': self.scrape_provider}
                         yield source_item
@@ -80,7 +80,7 @@ class source:
             for item in my_cloud_files:
                 normalized = normalize(item['filename'])
                 folder_name = clean_title(normalized)
-                if test_assigned_content('Fenda_AD_%s' % item['id'], self.pre_assigned_content):
+                if test_assigned_content(f"Fenda_AD_{item['id']}", self.pre_assigned_content):
                     results_append((item, True))
                 elif not folder_name:
                     results_append((item, False))
