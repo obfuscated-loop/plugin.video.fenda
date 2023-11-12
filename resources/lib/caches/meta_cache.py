@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import time
-from datetime import datetime, timedelta
 from modules.kodi_utils import get_property, set_property, clear_property, _init_db, metacache_db
 # from modules.kodi_utils import logger
 

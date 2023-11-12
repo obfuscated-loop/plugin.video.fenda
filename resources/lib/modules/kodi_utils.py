@@ -12,8 +12,8 @@ import _strptime
 import sqlite3 as database
 from os import path as osPath
 from xml.dom.minidom import parse as mdParse
-from threading import Thread, activeCount
-from urllib.parse import unquote, unquote_plus, urlencode, quote, parse_qsl, urlparse
+from threading import Thread
+from urllib.parse import urlencode
 
 addon_object = xbmcaddon.Addon('plugin.video.fenda')
 getLocalizedString = addon_object.getLocalizedString

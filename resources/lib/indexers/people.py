@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import os
 from apis.tmdb_api import tmdb_people_info
 from windows.base_window import open_window
 from indexers.images import Images

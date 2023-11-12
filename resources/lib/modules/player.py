@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
 import os
-import time
 from apis.opensubtitles_api import OpenSubtitlesAPI
 from apis.trakt_api import make_trakt_slug
 from modules import kodi_utils as ku, settings as st, watched_status as ws

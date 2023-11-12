@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import re
 from datetime import datetime, timedelta
 from windows.base_window import BaseDialog, window_manager, window_player
 from apis import tmdb_api, imdb_api, omdb_api, trakt_api
