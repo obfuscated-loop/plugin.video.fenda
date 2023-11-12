@@ -14,6 +14,15 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Clear existing
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USER }}
+          password: ${{ secrets.SFTP_PASS }}
+          port: ${{ secrets.SFTP_PORT }}
+          script: cd /var/www/html && rm -rf plugin.video.fenda/* && rm -rf zips/* && python3 _repo_xml_generator.py && python3 update-build.py
+
       - name: Transfer files to fenda.live via SFTP
         uses: pressidium/lftp-mirror-action@v1
         with:
@@ -34,4 +43,4 @@ jobs:
           username: ${{ secrets.SFTP_USER }}
           password: ${{ secrets.SFTP_PASS }}
           port: ${{ secrets.SFTP_PORT }}
-          script: cd /var/www/html && rm -rf plugin.video.fenda/* && rm -rf zips/* && python3 _repo_xml_generator.py && python3 update-build.py
+          script: cd /var/www/html && rm -rf zips/* && python3 _repo_xml_generator.py && python3 update-build.py
