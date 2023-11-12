@@ -182,10 +182,10 @@ class EasyNewsAPI:
         headers = {'Authorization': self.auth}
         try:
             response = self.session.get(
-                url, params=params, headers=headers, timeout=timeout).text
+                url, params=params, headers=headers, timeout=self.timeout).text
         except:
             response = self.session.get(
-                url, params=params, headers=headers, verify=False, timeout=timeout).text
+                url, params=params, headers=headers, verify=False, timeout=self.timeout).text
         try:
             return json.loads(response)
         except:
@@ -195,10 +195,10 @@ class EasyNewsAPI:
         headers = {'Authorization': self.auth}
         try:
             response = self.session.get(
-                url, params=params, headers=headers, timeout=timeout).content
+                url, params=params, headers=headers, timeout=self.timeout).content
         except:
             response = self.session.get(
-                url, params=params, headers=headers, verify=False, timeout=timeout).content
+                url, params=params, headers=headers, verify=False, timeout=self.timeout).content
         response = re.compile(self.regex, re.DOTALL).findall(response)
         response = response + '}'
         try:
@@ -213,7 +213,7 @@ class EasyNewsAPI:
         try:
             headers = {'Authorization': self.auth}
             resolved_link = self.session.get(
-                url_dl, headers=headers, stream=True, timeout=timeout).url
+                url_dl, headers=headers, stream=True, timeout=self.timeout).url
         except:
             resolved_link = url_dl
         return resolved_link
@@ -221,7 +221,7 @@ class EasyNewsAPI:
     def resolver_v3(self, url_dl):
         headers = {'Authorization': self.auth}
         response = self.session.get(url_dl, headers=headers,
-                               stream=True, timeout=timeout)
+                               stream=True, timeout=self.timeout)
         stream_url = response.url
         resolved_link = stream_url + f'|Authorization={self.auth_quoted}'
         return resolved_link
