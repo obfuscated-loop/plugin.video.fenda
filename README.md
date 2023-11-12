@@ -38,4 +38,3 @@ The aim of Fenda is to be a high-speed Kodi addon for most devices used in the s
 
 ## Contributing
 I will be accepting PRs and will strongly consider suggestions if they are to come my way, so feel free to open Issues/PRs (no stupid ones please).
- 
